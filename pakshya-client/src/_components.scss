@@ -1,0 +1,64 @@
+.avatar {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  margin-right: 1rem;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+  padding-bottom: 1rem;
+  background: #fff;
+  box-shadow: var(--shadow-light);
+  margin-bottom: 1rem;
+  border-radius: 4px;
+  transition: all .2s;
+
+  &:hover {
+    --shadow-light : 0 1.1rem 3rem rgba(0,0,0, .14);
+  }
+
+  &__header {
+    display: flex;
+    align-items: center;
+    margin-bottom: .5rem;
+  }
+  &__headline {
+    font-size: 1.2rem;
+    line-height: 1.1;
+    font-weight: 500;
+    color: var(--color-grey-dark-1);
+    margin-bottom: .5rem;
+    
+  }
+  &__image{
+    display: block;
+    height: 17rem;
+    width: 100%;
+    margin-bottom: .5rem;
+  }
+
+  &__description {
+    font-size: .9rem;
+    margin-bottom: 1rem;
+    line-height: 1.4;
+    color: var(--color-grey-dark-2);
+  }
+
+  &__footer {
+    display: flex;
+    & > * {
+      margin-right: 10rem;
+    }
+  }
+}
+
+.mat-chip {
+  font-weight: 400;
+  color: var(--color-grey-dark-1);
+}
+.mat-icon-button {
+  width: 85px !important;
+}

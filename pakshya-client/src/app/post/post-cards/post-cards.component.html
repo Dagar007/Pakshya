@@ -1,0 +1,66 @@
+<div class="cards">
+  <div class="card" *ngFor="let post of posts">
+    <div class="card__header">
+        <img src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="UserName" class="avatar">
+        <div class="user-info-box">
+          UserName
+          <span>{{post.date}}</span>
+        </div>
+        <mat-chip-list aria-label="category" *ngIf="post.category">
+          <mat-chip>{{post.category}}</mat-chip>
+        </mat-chip-list>
+    </div>
+  
+      <h1 class="card__headline"> {{post.heading}} </h1>
+
+    <img *ngIf="post.url" src={{post.url}} alt="Dog" class="card__image">
+    <div class="card__description">
+      <p>
+          {{post.description}}
+      </p>
+      
+    </div>
+    <div class="card__footer">
+          <button mat-button aria-label="thumb_up icon" class="card__footer--icon">
+            <mat-icon>thumb_up</mat-icon>
+            For
+          </button>
+          <button mat-button aria-label="thumb_down icon" class="card__footer--icon">
+              <mat-icon>thumb_down</mat-icon>
+              Against
+          </button>
+          <button mat-button aria-label="thumb_up icon" class="card__footer--icon">
+              <mat-icon>question_answer</mat-icon>
+              Discuss
+          </button>
+        
+    </div>
+    
+  </div>
+
+  <!-- second card -->
+  <!-- <div class="card">
+    <div class="card__header">
+        <img src="https://material.angular.io/assets/img/examples/shiba1.jpg" alt="UserName" class="avatar">
+        <div class="user-info-box">
+          UserName
+          <span>23rd May 2015</span>
+        </div>
+    </div>
+  
+      <h1 class="card__headline"> Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dicta dolorem veritatis, pariatur accusantium doloremque eaque nemo? Sit neque autem necessitatibus. </h1>
+
+    <img src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Dog" class="card__image">
+    <div class="card__description">
+      <p>
+          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Incidunt cumque ex esse asperiores autem atque. Quod vel mollitia itaque autem odio, pariatur quae explicabo vero dignissimos maxime earum. Architecto saepe ipsa ipsam corrupti laboriosam dolor quaerat pariatur cum quis aperiam id, beatae possimus, consectetur praesentium maxime tempora fugiat nobis. Iusto.
+      </p>
+      
+    </div>
+    <div class="card__footer">
+        <button mat-button>LIKE</button>
+        <button mat-button>SHARE</button>
+    </div>
+    
+  </div>
+</div> -->

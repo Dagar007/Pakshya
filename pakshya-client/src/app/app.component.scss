@@ -3,9 +3,10 @@ mat-toolbar {
   left:0;
   top:0;
   z-index: 20;
-  box-shadow:  0 .1rem .6rem rgba(0,0,0, .3);;
+  box-shadow:  0 .1rem .6rem rgba(0,0,0, .3);
 }
 .navbar{
+  display: flex;
   &__logo-button{
     font-size: inherit;
   }

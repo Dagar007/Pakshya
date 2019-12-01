@@ -1,0 +1,23 @@
+<div class="card create-form">
+  <form  class="form" *ngIf="post$ | async as post">
+    <h1 class="card__headline mb-medium">Create Post</h1>
+  
+  <mat-form-field class="form__input">
+    <input matInput placeholder="Heading" [(ngModel)] = post.heading name="heading">
+  </mat-form-field>
+  <mat-form-field class="form__textbox">
+    <textarea matInput placeholder="Description(Optional)" [(ngModel)] = post.description name="description"></textarea>
+  </mat-form-field>
+  <mat-form-field class="form__input">
+    <input matInput placeholder="Category (Optional)" [(ngModel)] = post.category name="category">
+  </mat-form-field>
+  <mat-form-field class="form__input">
+    <input matInput placeholder="URL (Optional)"  name="url">
+  </mat-form-field>
+
+  <div class="form__action--wrapper">
+    <button mat-raised-button color="primary" class="form__action--left">Create</button>
+    <button mat-raised-button [routerLink]="['/post' , post.id]" >Cancel</button>
+  </div>
+</form>
+</div>

@@ -1,0 +1,41 @@
+.create-form {
+  display: grid;
+  grid-template-columns: 2fr 5fr 2 fr;
+  width: 100%;
+}
+
+.form {
+  grid-column : 2 / 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 90%;
+  font-size: .9rem;
+  line-height: 1.4;
+
+  &__input {
+    width: 100%;
+    color: var(--color-grey-dark-3);
+    font-weight: 400;
+    border-bottom: var(--color-grey-dark-3)
+  }
+  &__textbox {
+    width: 100%;
+    color: var(--color-grey-dark-3);
+    font-weight: 400;
+    border-bottom: var(--color-grey-dark-3)
+  }
+
+  &__action {
+    &--wrapper {
+      display: flex;
+      width: 100%;
+      justify-content: flex-start;
+    }
+
+    &--left {
+      margin-right: 1rem;
+    }
+  }
+}

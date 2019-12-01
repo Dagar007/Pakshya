@@ -6,11 +6,14 @@ import { IPost } from '../_models/post';
   providedIn: 'root'
 })
 export class PostService {
-  baseUrl = 'http://localhost:5000/api/posts';
+  baseUrl = 'http://localhost:5000/api/posts/';
 
   constructor(private http: HttpClient) { }
 
   getPosts() {
     return this.http.get<IPost[]>(this.baseUrl);
+  }
+  getPost(id: string) {
+    return this.http.get<IPost>(this.baseUrl + id);
   }
 }

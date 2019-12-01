@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -13,6 +14,9 @@ import { PostComponent } from './post/post.component';
 import { SidebarComponent } from './post/sidebar/sidebar.component';
 import { RightSidebarComponent } from './post/right-sidebar/right-sidebar.component';
 import { PostCardsComponent } from './post/post-cards/post-cards.component';
+import { CreateComponent } from './post/create/create.component';
+import { PostDetailsComponent } from './post/post-details/post-details.component';
+
 
 
 @NgModule({
@@ -22,14 +26,17 @@ import { PostCardsComponent } from './post/post-cards/post-cards.component';
     PostComponent,
     SidebarComponent,
     RightSidebarComponent,
-    PostCardsComponent
+    PostCardsComponent,
+    CreateComponent,
+    PostDetailsComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     MaterialModule,
     HttpClientModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

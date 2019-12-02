@@ -9,13 +9,15 @@ interface IProps {
   post: IPost | null;
   createPost: (post: IPost) => void;
   editPost: (post: IPost) => void;
+  submitting: boolean;
 }
 
 const PostForm: React.FC<IProps> = ({
   setEditMode,
   post: initialFormState,
   createPost,
-  editPost
+  editPost,
+  submitting
 }) => {
   const initialiseForm = () => {
     if (initialFormState) {
@@ -40,13 +42,15 @@ const PostForm: React.FC<IProps> = ({
       let newPost = {
         ...post,
         id: uuid(),
-        date : new Date().getFullYear()+'-'+(new Date().getMonth()+1)+'-'+new Date().getDate()
+        date : '2019-04-24T18:51:03.7828548'
       }
       createPost(newPost);
     } else {
       let editedPost = {
         ...post,
-        date : new Date().getFullYear()+'-'+(new Date().getMonth()+1)+'-'+new Date().getDate()
+        date : '2019-04-24T18:51:03.7828548'
+         //date : new Date().getFullYear()+'-'+(new Date().getMonth()+1)+'-'+new Date().getDate()
+        // +' '+ new Date().getHours()+':'+ new Date().getMinutes()+':'+ new Date().getSeconds()
         //date: new Date().toString()
       }
       editPost(editedPost)
@@ -89,6 +93,7 @@ const PostForm: React.FC<IProps> = ({
         />
         <Button
           style={{ marginTop: 10 }}
+          loading = {submitting}
           floated='right'
           positive
           type='submit'

@@ -15,7 +15,7 @@ const PostDetails: React.FC<IProps> = ({
 }) => {
   return (
     <Card fluid>
-      <Image src='/assests/placeholder.png' wrapped ui={false} />
+      <Image src='/assests/placeholder.png'  />
       <Card.Content>
         <Card.Header>{post.heading}</Card.Header>
         <Card.Meta>
@@ -24,7 +24,7 @@ const PostDetails: React.FC<IProps> = ({
         </Card.Meta>
         <Card.Description>{post.description}</Card.Description>
       </Card.Content>
-      <Button.Group extra>
+      <Button.Group>
         <Button.Group widths={2}>
           <Button
             onClick={() => setEditMode(true)}

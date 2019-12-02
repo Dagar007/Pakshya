@@ -1,4 +1,4 @@
-import React from "react";
+import React, { SyntheticEvent } from "react";
 import { Grid } from "semantic-ui-react";
 import { IPost } from "../../../app/models/post";
 import PostList from "./PostList";
@@ -14,7 +14,9 @@ interface IProps {
   setSelectedPost: (post: IPost | null) => void;
   createPost: (post: IPost) => void;
   editPost: (post: IPost) => void;
-  deletePost: (id: string) => void;
+  deletePost: (e:SyntheticEvent<HTMLButtonElement>, id: string) => void;
+  submitting: boolean;
+  target: string
 }
 
 const PostDashboard: React.FC<IProps> = ({
@@ -26,12 +28,20 @@ const PostDashboard: React.FC<IProps> = ({
   setSelectedPost,
   createPost,
   editPost,
-  deletePost
+  deletePost,
+  submitting,
+  target
 }) => {
   return (
     <Grid>
       <Grid.Column width={10}>
-        <PostList posts={posts} selectPost={selectPost} deletePost ={deletePost}/>
+        <PostList
+          posts={posts}
+          selectPost={selectPost}
+          deletePost={deletePost}
+          submitting={submitting}
+          target = {target}
+        />
       </Grid.Column>
       <Grid.Column width={6}>
         {selectedPost && !editMode && (
@@ -43,11 +53,12 @@ const PostDashboard: React.FC<IProps> = ({
         )}
         {editMode && (
           <PostForm
-          key={selectedPost && selectedPost.id || 0}
+            key={(selectedPost && selectedPost.id) || 0}
             setEditMode={setEditMode}
             post={selectedPost}
             createPost={createPost}
             editPost={editPost}
+            submitting = {submitting}
           />
         )}
       </Grid.Column>

@@ -1,26 +1,17 @@
-import React, { SyntheticEvent } from "react";
+import React, { useContext } from "react";
 import { Item, Button, Label, Segment } from "semantic-ui-react";
-import { IPost } from "../../../app/models/post";
+import { observer } from "mobx-react-lite";
+import PostStore from "../../../app/stores/postStore";
 
-interface IProps {
-  posts: IPost[];
-  selectPost: (id: string) => void;
-  deletePost: (event: SyntheticEvent<HTMLButtonElement>, id: string) => void;
-  submitting: boolean;
-  target: string;
-}
 
-const PostList: React.FC<IProps> = ({
-  posts,
-  selectPost,
-  deletePost,
-  submitting,
-  target
-}) => {
+const PostList: React.FC = () => {
+  const postStore = useContext(PostStore);
+  const {postByDate, selectPost, deletePost, submitting, target} = postStore;
+
   return (
     <Segment clearing>
       <Item.Group divided>
-        {posts.map(post => (
+        {postByDate.map(post => (
           <Item key={post.id}>
             <Item.Image
               src='https://material.angular.io/assets/img/examples/shiba2.jpg'
@@ -61,4 +52,4 @@ const PostList: React.FC<IProps> = ({
   );
 };
 
-export default PostList;
+export default observer(PostList);

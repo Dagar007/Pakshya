@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Menu, Container, Button } from "semantic-ui-react";
+import { observer } from "mobx-react-lite";
+import PostStore from "../../app/stores/postStore";
 
-interface IProps {
-  openCreateForm: () => void;
-}
-
-const NavBar: React.FC<IProps> = ({openCreateForm}) => {
+const NavBar: React.FC = () => {
+  const postStore = useContext(PostStore);
+ 
   return (
     <Menu fixed='top' inverted>
       <Container>
@@ -15,11 +15,11 @@ const NavBar: React.FC<IProps> = ({openCreateForm}) => {
           </Menu.Item>
         <Menu.Item name='Posts' />
         <Menu.Item >
-          <Button onClick={openCreateForm} positive content='Create Post'/>
+          <Button onClick={postStore.openCreateForm} positive content='Create Post'/>
         </Menu.Item>
       </Container>
     </Menu>
   );
 };
 
-export default NavBar;
+export default observer(NavBar);

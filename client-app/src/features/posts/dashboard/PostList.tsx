@@ -2,11 +2,12 @@ import React, { useContext } from "react";
 import { Item, Button, Label, Segment } from "semantic-ui-react";
 import { observer } from "mobx-react-lite";
 import PostStore from "../../../app/stores/postStore";
+import { Link } from "react-router-dom";
 
 
 const PostList: React.FC = () => {
   const postStore = useContext(PostStore);
-  const {postByDate, selectPost, deletePost, submitting, target} = postStore;
+  const {postByDate, deletePost, submitting, target} = postStore;
 
   return (
     <Segment clearing>
@@ -29,7 +30,7 @@ const PostList: React.FC = () => {
               </Item.Description>
               <Item.Extra>
                 <Button
-                  onClick={() => selectPost(post.id)}
+                  as={Link} to={`/posts/${post.id}`}
                   floated={"right"}
                   content='View'
                   color='blue'

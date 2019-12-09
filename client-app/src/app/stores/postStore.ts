@@ -13,9 +13,18 @@ export class PostStore {
   @observable target = "";
 
   @computed get postByDate() {
-    return Array.from(this.postRegistry.values()).sort(
+    return this.groupPostsByDate(Array.from(this.postRegistry.values()))
+  }
+
+  groupPostsByDate(posts: IPost[]) {
+    const sortedPost = posts.sort(
       (a, b) => Date.parse(a.date) - Date.parse(b.date)
-    );
+    )
+    return Object.entries(sortedPost.reduce((posts, post) => {
+      const date = post.date.split('T')[0];
+      posts[date] = posts[date] ? [...posts[date], post] : [post]
+      return posts;
+    }, {} as {[key: string]: IPost[]}))
   }
 
   @action loadPosts = async () => {

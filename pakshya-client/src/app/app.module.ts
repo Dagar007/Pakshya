@@ -11,11 +11,14 @@ import { AppComponent } from './app.component';
 import { ValueComponent } from './value/value.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PostComponent } from './post/post.component';
-import { SidebarComponent } from './post/sidebar/sidebar.component';
-import { RightSidebarComponent } from './post/right-sidebar/right-sidebar.component';
+import { SidebarComponent } from './sidebar/sidebar.component';
+import { RightSidebarComponent } from './right-sidebar/right-sidebar.component';
 import { PostCardsComponent } from './post/post-cards/post-cards.component';
 import { CreateComponent } from './post/create/create.component';
 import { PostDetailsComponent } from './post/post-details/post-details.component';
+import { PostCardComponent } from './post/post-cards/post-card/post-card.component';
+import { PostDelailsHeaderComponent } from './post/post-details/post-delails-header/post-delails-header.component';
+import { PostDelailsCommentsComponent } from './post/post-details/post-delails-comments/post-delails-comments.component';
 
 
 
@@ -28,7 +31,10 @@ import { PostDetailsComponent } from './post/post-details/post-details.component
     RightSidebarComponent,
     PostCardsComponent,
     CreateComponent,
-    PostDetailsComponent
+    PostDetailsComponent,
+    PostCardComponent,
+    PostDelailsHeaderComponent,
+    PostDelailsCommentsComponent
   ],
   imports: [
     BrowserModule,

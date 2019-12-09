@@ -9,7 +9,6 @@ import { IPost } from 'src/app/_models/post';
 })
 export class PostCardsComponent implements OnInit {
   posts: IPost[];
-  rippleDisabled = true;
   constructor(private postService: PostService) { }
 
   ngOnInit() {

@@ -22,4 +22,9 @@ export class PostCardsComponent implements OnInit {
       console.log(err);
     });
   }
+  postDeleted(deletedPost: IPost) {
+    this.posts = this.posts.filter((c) => {
+      return c.id !== deletedPost.id;
+    })
+  }
 }

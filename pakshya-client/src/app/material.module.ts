@@ -6,7 +6,9 @@ import {
   MatRippleModule,
   MatIconModule,
   MatInputModule,
-  MatTooltipModule
+  MatTooltipModule,
+  MatListModule,
+  MatDividerModule
 } from '@angular/material';
 import { NgModule } from '@angular/core';
 
@@ -19,7 +21,9 @@ import { NgModule } from '@angular/core';
     MatIconModule,
     MatRippleModule,
     MatInputModule,
-  MatTooltipModule
+  MatTooltipModule,
+  MatListModule,
+  MatDividerModule
   ],
   exports: [
     MatToolbarModule,
@@ -29,7 +33,9 @@ import { NgModule } from '@angular/core';
     MatIconModule,
     MatRippleModule,
     MatInputModule,
-  MatTooltipModule
+  MatTooltipModule,
+  MatListModule,
+  MatDividerModule
   ]
 })
 export class MaterialModule {}

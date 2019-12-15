@@ -1,41 +1,28 @@
 <div class="form-wrapper">
   <div class="card create-form">
-    <form class="form" *ngIf="post$ | async as post">
-      <h1 class="card__headline mb-medium">Create Post</h1>
+    <form class="form">
+      <h1 class="card__headline mb-medium">{{page}} Post</h1>
 
       <mat-form-field class="form__input">
-        <input
-          matInput
-          placeholder="Heading"
-          [(ngModel)]="post.heading"
-          name="heading"
-        />
+        <input matInput placeholder="Heading" [(ngModel)]="post.heading" name="heading" value="post.heading" />
       </mat-form-field>
       <mat-form-field class="form__textbox">
-        <textarea
-          matInput
-          placeholder="Description(Optional)"
-          [(ngModel)]="post.description"
-          name="description"
-        ></textarea>
+        <textarea matInput placeholder="Description(Optional)" [(ngModel)]="post.description" name="description"
+          value="post.description"></textarea>
       </mat-form-field>
       <mat-form-field class="form__input">
-        <input
-          matInput
-          placeholder="Category (Optional)"
-          [(ngModel)]="post.category"
-          name="category"
-        />
+        <input matInput placeholder="Category (Optional)" [(ngModel)]="post.category" name="category"
+          value="post.description" />
       </mat-form-field>
       <mat-form-field class="form__input">
-        <input matInput placeholder="URL (Optional)" name="url" />
+        <input matInput placeholder="URL (Optional)" name="url" [(ngModel)]="post.url" value="post.url" />
       </mat-form-field>
 
       <div class="form__action--wrapper">
-        <button mat-raised-button color="primary" class="form__action--left">
-          Create
+        <button mat-raised-button color="primary" class="form__action--left" (click)="onSubmit()">
+          Submit
         </button>
-        <button mat-raised-button [routerLink]="['/post', post.id]">
+        <button type="button" mat-raised-button (click) = "onCancelCreateEditForm()">
           Cancel
         </button>
       </div>

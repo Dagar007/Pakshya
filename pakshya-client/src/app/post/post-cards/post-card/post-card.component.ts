@@ -1,5 +1,7 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { IPost } from 'src/app/_models/post';
+import { Router } from '@angular/router';
+import { PostService } from 'src/app/_services/post.service';
 
 @Component({
   selector: 'app-post-card',
@@ -8,9 +10,15 @@ import { IPost } from 'src/app/_models/post';
 })
 export class PostCardComponent implements OnInit {
 
-  constructor() { }
+  constructor(private router: Router, private postService: PostService) { }
   @Input() post: IPost;
+  @Output() postDeleted = new EventEmitter<IPost>();
   ngOnInit() {
+  }
+  onPostDelete() {
+    this.postService.deletePost(this.post.id).subscribe(() => {
+      this.postDeleted.emit(this.post);
+    })
   }
 
 }

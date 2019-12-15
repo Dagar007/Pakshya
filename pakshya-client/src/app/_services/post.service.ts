@@ -16,4 +16,13 @@ export class PostService {
   getPost(id: string) {
     return this.http.get<IPost>(this.baseUrl + id);
   }
+  updatePost(post: IPost) {
+    return this.http.put(this.baseUrl + post.id, post)
+  }
+  createPost(post: IPost) {
+    return this.http.post(this.baseUrl, post);
+  }
+  deletePost(id: string) {
+    return this.http.delete(this.baseUrl + id);
+  }
 }

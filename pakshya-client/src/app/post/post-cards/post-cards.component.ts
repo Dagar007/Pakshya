@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PostService } from 'src/app/_services/post.service';
 import { IPost } from 'src/app/_models/post';
+import { AlertifyService } from 'src/app/_services/alertify.service';
 
 @Component({
   selector: 'app-post-cards',
@@ -9,7 +10,7 @@ import { IPost } from 'src/app/_models/post';
 })
 export class PostCardsComponent implements OnInit {
   posts: IPost[];
-  constructor(private postService: PostService) { }
+  constructor(private postService: PostService, private alertify: AlertifyService) { }
 
   ngOnInit() {
     this.getPosts();
@@ -19,7 +20,7 @@ export class PostCardsComponent implements OnInit {
     this.postService.getPosts().subscribe((posts: IPost[]) => {
       this.posts = posts;
     }, err => {
-      console.log(err);
+      this.alertify.error(err);
     });
   }
   postDeleted(deletedPost: IPost) {

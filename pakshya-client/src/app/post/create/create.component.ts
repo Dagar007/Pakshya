@@ -5,6 +5,7 @@ import { ActivatedRoute, Router, ParamMap, Params } from '@angular/router';
 import { PostService } from 'src/app/_services/post.service';
 import { switchMap } from 'rxjs/operators';
 import { v4 as uuid } from "uuid";
+import { AlertifyService } from 'src/app/_services/alertify.service';
 
 @Component({
   selector: 'app-create',
@@ -26,7 +27,9 @@ export class CreateComponent implements OnInit {
   }
   id: string = '';
   page: string = 'Create'
-  constructor(private route: ActivatedRoute, private router: Router, private postService: PostService) { }
+  constructor(private route: ActivatedRoute, 
+    private router: Router, 
+    private postService: PostService, private alertify: AlertifyService) { }
 
   ngOnInit() {
     //const id = this.route.snapshot.params['id'];
@@ -43,6 +46,8 @@ export class CreateComponent implements OnInit {
       this.post$.subscribe((post: IPost) => {
         this.post = post;
         this.page = 'Edit'
+      },(err) => {
+        this.alertify.error(err);
       });
     } else {
       this.page = 'Create'
@@ -50,7 +55,6 @@ export class CreateComponent implements OnInit {
   }
   onCancelCreateEditForm() {
     if (this.id) {
-      console.log(this.id);
       this.router.navigate(['/posts', this.id])
     } else {
       this.router.navigate(['/posts'])
@@ -59,17 +63,19 @@ export class CreateComponent implements OnInit {
   onSubmit() {
     if(this.id) {
       this.post.date= new Date()
-      console.log(this.post)
       this.postService.updatePost(this.post).subscribe(()=> {
         this.router.navigate(['/posts', this.post.id]);
+      }, (err) => {
+        this.alertify.error(err);
       })
       
     }else {
       this.post.id = uuid();
       this.post.date= new Date()
-      console.log(this.post)
       this.postService.createPost(this.post).subscribe(()=> {
         this.router.navigate(['/posts', this.post.id]);
+      }, (err) => {
+        this.alertify.error(err);
       })
     }
   }

@@ -1,5 +1,8 @@
+@import '../node_modules/alertifyjs/build/css/alertify.min.css';
+@import '../node_modules/alertifyjs/build/css/themes/bootstrap.min.css';
 @import "utility";
 @import "components";
+
 
 :root {
   --color-grey-light-1: #faf9f9;

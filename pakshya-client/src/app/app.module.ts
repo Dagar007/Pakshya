@@ -19,6 +19,7 @@ import { PostDetailsComponent } from './post/post-details/post-details.component
 import { PostCardComponent } from './post/post-cards/post-card/post-card.component';
 import { PostDelailsHeaderComponent } from './post/post-details/post-delails-header/post-delails-header.component';
 import { PostDelailsCommentsComponent } from './post/post-details/post-delails-comments/post-delails-comments.component';
+import { ErrorInterceptorProvider } from './_services/error.interceptor';
 
 
 
@@ -44,7 +45,7 @@ import { PostDelailsCommentsComponent } from './post/post-details/post-delails-c
     BrowserAnimationsModule,
     FormsModule
   ],
-  providers: [],
+  providers: [ErrorInterceptorProvider],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

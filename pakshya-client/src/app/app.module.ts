@@ -20,6 +20,10 @@ import { PostCardComponent } from './post/post-cards/post-card/post-card.compone
 import { PostDelailsHeaderComponent } from './post/post-details/post-delails-header/post-delails-header.component';
 import { PostDelailsCommentsComponent } from './post/post-details/post-delails-comments/post-delails-comments.component';
 import { ErrorInterceptorProvider } from './_services/error.interceptor';
+import { HomeComponent } from './home/home.component';
+import { LoginComponent } from './auth/login/login.component';
+import { RegisterComponent } from './auth/register/register.component';
+import { NavComponent } from './nav/nav.component';
 
 
 
@@ -35,7 +39,11 @@ import { ErrorInterceptorProvider } from './_services/error.interceptor';
     PostDetailsComponent,
     PostCardComponent,
     PostDelailsHeaderComponent,
-    PostDelailsCommentsComponent
+    PostDelailsCommentsComponent,
+    HomeComponent,
+    LoginComponent,
+    RegisterComponent,
+    NavComponent
   ],
   imports: [
     BrowserModule,

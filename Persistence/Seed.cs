@@ -19,19 +19,25 @@ namespace Persistence
                     {
                         DisplayName = "Bob",
                         UserName = "bob",
-                        Email = "bob@test.com"
+                        Email = "bob@test.com",
+                        Birthday = DateTime.Now.AddYears(-18),
+                        Gender = "male"
                     },
                     new AppUser
                     {
                         DisplayName = "Tom",
                         UserName = "tom",
-                        Email = "tom@test.com"
+                        Email = "tom@test.com",
+                        Birthday = DateTime.Now.AddYears(-20),
+                        Gender = "male"
                     },
                     new AppUser
                     {
                         DisplayName = "Jane",
                         UserName = "jane",
-                        Email = "jane@test.com"
+                        Email = "jane@test.com",
+                         Birthday = DateTime.Now.AddYears(-22),
+                        Gender = "female"
                     },
 
                 };

@@ -1,36 +1,4 @@
-mat-toolbar {
-  position: fixed;
-  left:0;
-  top:0;
-  z-index: 20;
-  box-shadow:  0 .1rem .6rem rgba(0,0,0, .3);
-}
-.navbar{
-  display: flex;
-  &__logo-button{
-    font-size: inherit;
-  }
-  &__logo-button--wrapper {
-    display: flex;
-    align-items: center;
-  }
-  &__logo {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    width: 1rem;
-    height: 1rem;
-    padding: .65rem .7rem;
-    margin-right: .5rem;
-    font-size: 1.6rem;
-    font-family: sans-serif;
-    font-weight: 600;
-    background-color: #fff;
-    color: #673ab7;
-    border-radius: 4px;
-    box-sizing: content-box;
-  }
-}
+
+
 
 

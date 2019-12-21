@@ -1,0 +1,60 @@
+<mat-toolbar color="primary">
+  <div class="navbar">
+    <div class="nav-left">
+      <button mat-button class="navbar__logo-button" routerLink="/login">
+        <div class="navbar__logo-button--wrapper">
+          <span class="navbar__logo">P</span> Pakshya
+        </div>
+      </button>
+      <button mat-button routerLink="/create-post" *ngIf="loggedIn()">
+        <i class="material-icons" style="margin-right: 5px;">
+          create
+        </i>
+        Create new post
+      </button>
+    </div>
+    <div class="nav-right">
+      <!-- <img src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="UserName" class="avatar">
+      Deepak -->
+
+      <!-- <button mat-button >
+       Welcome, Deepak
+        <img src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="UserName" class="avatar" >
+        
+        <mat-icon aria-hidden="true" role="img" class="mat-icon notranslate material-icons mat-icon-no-color">arrow_drop_down</mat-icon>
+      </button> -->
+
+      <button mat-button [matMenuTriggerFor]="menu" *ngIf="loggedIn()"> {{ getUserName() | titlecase}}
+        <mat-icon aria-hidden="true" role="img" class="mat-icon notranslate material-icons mat-icon-no-color">arrow_drop_down</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item>
+          <div class="select-wrapper">
+            <i class="material-icons">
+              brush
+              </i>
+              <span>Profile</span>
+          </div>
+          
+          </button>
+        <button mat-menu-item (click) = "logout()">
+          <div class="select-wrapper">
+            <i class="material-icons">
+              power_settings_new
+              </i>
+              <span>Logout</span>
+          </div>
+          
+          </button>
+      </mat-menu>
+      
+      <button mat-button routerLink="/login" *ngIf="!loggedIn()">
+        Login
+      </button>
+      <button mat-button routerLink="/signup" *ngIf="!loggedIn()">
+        Signup
+      </button>
+
+    </div>
+  </div>
+</mat-toolbar>

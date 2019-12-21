@@ -23,6 +23,9 @@ namespace Application.User
             public string Username { get; set; }
             public string Email { get; set; }
             public string Password { get; set; }
+            public DateTime Birthday { get; set; }
+            public string Gender { get; set; }  
+
         }
 
         public class CommandValidator : AbstractValidator<Command>
@@ -33,6 +36,8 @@ namespace Application.User
                 RuleFor(x => x.Username).NotEmpty();
                 RuleFor(x => x.Email).NotEmpty().EmailAddress();
                 RuleFor(x => x.Password).Password();
+                RuleFor(x => x.Birthday.Year).LessThan(DateTime.Now.Year - 17);
+                RuleFor(x => x.Gender).NotEmpty();
 
             }
         }
@@ -67,7 +72,9 @@ namespace Application.User
                 {
                     DisplayName= request.DisplayName,
                     Email = request.Email,
-                    UserName = request.Username
+                    UserName = request.Username,
+                    Gender = request.Gender,
+                    Birthday = request.Birthday
                 };
 
                 var result = await _userManager.CreateAsync(user, request.Password);

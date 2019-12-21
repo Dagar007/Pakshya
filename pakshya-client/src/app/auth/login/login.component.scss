@@ -1,0 +1,68 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  font-size: 0.9rem;
+  padding: 1rem;
+
+  &__input {
+    width: 100%;
+    color: var(--color-grey-dark-3);
+    font-weight: 400;
+    border-bottom: var(--color-grey-dark-3);
+  }
+  &__textbox {
+    width: 100%;
+    color: var(--color-grey-dark-3);
+    font-weight: 400;
+    border-bottom: var(--color-grey-dark-3);
+  }
+
+  &__action {
+    &--wrapper {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      justify-content: flex-start;
+      margin-bottom: 1rem;
+    }
+
+    &--left {
+      margin-right: 1rem;
+    }
+  }
+}
+.link {
+  margin-top: 1rem;
+  color: var(--color-grey-dark-3);
+  font-size: .8rem;
+  font-weight: 400;
+  a {
+    color: #673ab7;
+    font-size: .8rem;
+    text-decoration: none;
+  }
+}
+
+.facebook{
+    margin: 1rem 0;
+}
+.divder{
+    font-size: 1.2rem;
+    line-height: 1.3rem;
+    font-weight: 500;
+    letter-spacing: .4px;
+    color: var(--color-grey-dark-1);
+
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between;
+    text-align: center;
+    &__line{
+        width: 100%;
+    }
+    
+}

@@ -1,0 +1,57 @@
+<div class="login__conatiner card">
+  <form class="form" #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)">
+    <h1 class="card__headline mb-medium">Login</h1>
+
+    <mat-form-field class="form__input">
+      <input matInput placeholder="Email" name="email"   [(ngModel)] = "loginFormValues.email" required />
+      <mat-error>Email is required.</mat-error>
+    </mat-form-field>
+    <mat-form-field class="form__input">
+      <input
+        matInput
+        placeholder="Password"
+        name="password"
+        type="password"
+        [(ngModel)] = "loginFormValues.password"
+        required
+        #passwordLength="ngModel"
+      />
+      <mat-error *ngIf="passwordLength.hasError('required')"
+        >Password is required.</mat-error
+      >
+    </mat-form-field>
+
+    <div class="form__action--wrapper">
+      <button
+        mat-raised-button
+        color="primary"
+        class="form__action--left"
+        type="submit"
+        [disabled]="loginForm.invalid"
+      >
+        Login
+      </button>
+
+      <div class="link">
+        <a [routerLink]="['/signup']">Forget Password?</a>
+      </div>
+
+      <div class="link">
+        Don't have an account? Please create one
+        <a [routerLink]="['/signup']">Signup</a>
+      </div>
+    </div>
+  </form>
+  <div class="divder">
+    <hr class="divder__line" />
+    <span>Or</span>
+    <hr class="divder__line" />
+  </div>
+
+  <button mat-raised-button color="primary" class="facebook">
+    Login via facebook
+  </button>
+  <button color="primary" mat-raised-button class="google">
+    Login via Google
+  </button>
+</div>

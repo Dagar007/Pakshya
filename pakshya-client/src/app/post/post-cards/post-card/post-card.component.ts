@@ -14,7 +14,10 @@ export class PostCardComponent implements OnInit {
   constructor(private router: Router, private postService: PostService, private alertify: AlertifyService) { }
   @Input() post: IPost;
   @Output() postDeleted = new EventEmitter<IPost>();
+  color: string
+  isAuthor: boolean
   ngOnInit() {
+    this.isPostLiked();
   }
   onPostDelete() {
     this.postService.deletePost(this.post.id).subscribe(() => {
@@ -22,6 +25,19 @@ export class PostCardComponent implements OnInit {
     },(err) => {
       this.alertify.error(err);
     })
+  }
+  onLikeClick() {
+    
+  }
+
+  isPostLiked(){
+    var currentUserName = localStorage.getItem('username');
+    if(this.post.engagers.some(e => e.username == currentUserName)) {
+      this.color = "primary";
+    }
+    if(this.post.engagers.some(e => (e.username == currentUserName) && (e.isAuthor == true))) {
+      this.isAuthor = true;
+    }
   }
 
 }

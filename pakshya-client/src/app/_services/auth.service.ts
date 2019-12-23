@@ -26,8 +26,7 @@ export class AuthService {
           localStorage.setItem('token', user.token);
           this.decodedToken = this.jwtHelper.decodeToken(user.token);
           localStorage.setItem('display', user.displayName)
-          console.log(user);
-          console.log(this.decodedToken);
+          localStorage.setItem('username',user.username);
           
         }
       })
@@ -45,7 +44,8 @@ export class AuthService {
         if(user)
         {
           localStorage.setItem('token', user.token);
-          localStorage.setItem('display', user.displayName)
+          localStorage.setItem('display', user.displayName);
+          localStorage.setItem('username',user.username);
         }
       })
     )

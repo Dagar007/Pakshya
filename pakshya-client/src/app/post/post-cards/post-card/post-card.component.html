@@ -1,41 +1,73 @@
 <div class="card__header">
-  <img src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="UserName" class="avatar">
+  <img
+    src="https://material.angular.io/assets/img/examples/shiba2.jpg"
+    alt="UserName"
+    class="avatar"
+  />
   <div class="user-info-box">
     Deepak
-    <span>{{post.date}}</span>
+    <span>{{ post.date }}</span>
   </div>
   <mat-chip-list aria-label="category" *ngIf="post.category">
-    <mat-chip>{{post.category}}</mat-chip>
+    <mat-chip>{{ post.category }}</mat-chip>
   </mat-chip-list>
 </div>
 
-<h1 class="card__headline"> {{post.heading}} 
-  <button mat-button aria-label="icon-button with edit icon" class="card__headline--btn" [routerLink]="['/create-post', post.id]" >
-    <mat-icon class="card__headline--icon" matTooltip="Edit Post">edit</mat-icon>
+<h1 class="card__headline">
+  {{ post.heading }}
+  <button
+    mat-button
+    aria-label="icon-button with edit icon"
+    class="card__headline--btn"
+    [routerLink]="['/create-post', post.id]"
+    *ngIf="isAuthor"
+  >
+    <mat-icon class="card__headline--icon" matTooltip="Edit Post"
+      >edit</mat-icon
+    >
   </button>
-  <button mat-button aria-label="icon-button with delete icon" class="card__headline--btn" (click) = "onPostDelete()"  >
-    <mat-icon class="card__headline--icon" matTooltip="Delete Post">delete_forever</mat-icon>
+  <button
+    mat-button
+    aria-label="icon-button with delete icon"
+    class="card__headline--btn"
+    (click)="onPostDelete()"
+    *ngIf="isAuthor"
+  >
+    <mat-icon class="card__headline--icon" matTooltip="Delete Post"
+      >delete_forever</mat-icon
+    >
   </button>
 </h1>
 
-<img *ngIf="post.url" src={{post.url}} alt="Dog" class="card__image">
+<img *ngIf="post.url" src="{{ post.url }}" alt="Dog" class="card__image" />
 <div class="card__description">
-<p>
-    {{post.description}}
-</p>
-
+  <p>
+    {{ post.description }}
+  </p>
 </div>
 <div class="card__footer">
-    <button mat-button aria-label="thumb_up icon" class="card__footer--icon">
-      <mat-icon>thumb_up</mat-icon>
-      {{post.engagers.length}}
-    </button>
-    <!-- <button mat-button aria-label="thumb_down icon" class="card__footer--icon">
+  <button
+    mat-button
+    aria-label="thumb_up icon"
+    [color]="color"
+    class="card__footer--icon"
+    (click)="onLikeClick()"
+  >
+    <mat-icon>thumb_up</mat-icon>
+    {{ post.engagers.length }}
+  </button>
+  <!-- <button mat-button aria-label="thumb_down icon" class="card__footer--icon">
         <mat-icon color="primary">thumb_down</mat-icon>
         {{post.against}}
     </button> -->
-    <button mat-button aria-label="thumb_up icon" class="card__footer--icon" [routerLink]="['/posts', post.id]">
-        <mat-icon>question_answer</mat-icon>
-        Discuss
-    </button> 
+  <button
+    mat-button
+    aria-label="thumb_up icon"
+    class="card__footer--icon"
+    [routerLink]="['/posts', post.id]"
+  >
+    <mat-icon>question_answer</mat-icon>
+    Discuss
+  </button>
   <router-outlet></router-outlet>
+</div>

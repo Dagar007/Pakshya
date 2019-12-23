@@ -25,4 +25,10 @@ export class PostService {
   deletePost(id: string) {
     return this.http.delete(this.baseUrl + id);
   }
+  likePost(id: string) {
+    return this.http.post(this.baseUrl + id +'/like',{});
+  }
+  unlikePost(id: string) {
+    return this.http.delete(this.baseUrl + id +'/like');
+  }
 }

@@ -9,5 +9,12 @@ export interface IPost {
   url?: string;
   for: number;
   against: number;
-  engagers:IUser[]
+  engagers:IEngagers[]
+}
+
+export interface IEngagers {
+  username: string
+  displayName: string,
+  image: string,
+  isAuthor: boolean
 }

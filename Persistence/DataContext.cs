@@ -12,6 +12,7 @@ namespace Persistence
 
     public DbSet<Value> Values { get; set; }
     public DbSet<Post> Posts { get; set; }
+    public DbSet<UserPost> UserPosts { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -21,6 +22,16 @@ namespace Persistence
         new Value { Id = 2, Name = "Value 102" },
         new Value { Id = 3, Name = "Value 103" }
       );
+      builder.Entity<UserPost>(x => x.HasKey(ua => new {ua.AppUserId,ua.PostId}));
+      builder.Entity<UserPost>()
+              .HasOne(u => u.AppUser)
+              .WithMany(p => p.UserPosts)
+              .HasForeignKey(u => u.AppUserId);
+
+      builder.Entity<UserPost>()
+              .HasOne(p => p.Post)
+              .WithMany(u => u.UserPosts)
+              .HasForeignKey(a => a.PostId);
     }
   }
 }

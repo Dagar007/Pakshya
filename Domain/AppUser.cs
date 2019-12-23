@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Identity;
 
 namespace Domain 
@@ -8,5 +9,6 @@ namespace Domain
         public string DisplayName { get; set; }
         public string Gender { get; set; }
         public DateTime Birthday { get; set; }
+        public virtual ICollection<UserPost> UserPosts { get; set; }
     }
 }

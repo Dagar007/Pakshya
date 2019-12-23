@@ -1,10 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
-namespace Domain
+namespace Application.Posts
 {
-    public class Post
+    public class PostDto
     {
+        
         public Guid Id { get; set; }
         public string Heading { get; set; }
         public string  Description  { get; set; }
@@ -14,6 +16,7 @@ namespace Domain
         public int For { get; set; }
         public int Against { get; set; }
 
-        public virtual ICollection<UserPost> UserPosts { get; set; }
+        [JsonPropertyName("engagers")]
+        public ICollection<LikeDto> UserPosts { get; set; }
     }
 }

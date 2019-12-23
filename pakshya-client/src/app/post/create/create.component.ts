@@ -23,7 +23,8 @@ export class CreateComponent implements OnInit {
     url: null,
     category: null,
     for: 0,
-    against: 0
+    against: 0,
+    engagers:[]
   }
   id: string = '';
   page: string = 'Create'

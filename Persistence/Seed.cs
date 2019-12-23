@@ -17,6 +17,7 @@ namespace Persistence
                 {
                     new AppUser
                     {
+                        Id = "a",
                         DisplayName = "Bob",
                         UserName = "bob",
                         Email = "bob@test.com",
@@ -25,6 +26,7 @@ namespace Persistence
                     },
                     new AppUser
                     {
+                        Id = "b",
                         DisplayName = "Tom",
                         UserName = "tom",
                         Email = "tom@test.com",
@@ -33,6 +35,7 @@ namespace Persistence
                     },
                     new AppUser
                     {
+                        Id="c",
                         DisplayName = "Jane",
                         UserName = "jane",
                         Email = "jane@test.com",
@@ -60,6 +63,16 @@ namespace Persistence
                             Url = null,
                             For = 3,
                             Against = 10,
+                            UserPosts = new List<UserPost>
+                            {
+                                new UserPost 
+                                {
+                                    AppUserId = "a",
+                                    IsAuthor = true,
+                                    DateLiked = DateTime.Now.AddMonths(-2)
+                                }
+                            }
+                            
                         },
                     new Post
                     {
@@ -70,6 +83,21 @@ namespace Persistence
                         Url = "https://dummyimage.com/640x4:3",
                         For = 13,
                     Against = 2,
+                      UserPosts = new List<UserPost>
+                            {
+                                new UserPost 
+                                {
+                                    AppUserId = "b",
+                                    IsAuthor = true,
+                                    DateLiked = DateTime.Now.AddMonths(-2)
+                                },
+                                new UserPost 
+                                {
+                                    AppUserId = "c",
+                                    IsAuthor = false,
+                                    DateLiked = DateTime.Now.AddMonths(-2)
+                                },
+                            }
                     },
                     new Post
                     {
@@ -80,6 +108,21 @@ namespace Persistence
                         Url = "https://dummyimage.com/640x4:3",
                         For = 1400,
                     Against = 10,
+                     UserPosts = new List<UserPost>
+                            {
+                                new UserPost 
+                                {
+                                    AppUserId = "a",
+                                    IsAuthor = true,
+                                    DateLiked = DateTime.Now.AddMonths(-2)
+                                },
+                                new UserPost 
+                                {
+                                    AppUserId = "c",
+                                    IsAuthor = false,
+                                    DateLiked = DateTime.Now.AddMonths(-2)
+                                },
+                            }
                     },
                     new Post
                     {
@@ -90,6 +133,21 @@ namespace Persistence
                         Url = "https://dummyimage.com/200x200/000/fff",
                         For = 0,
                     Against = 1010,
+                     UserPosts = new List<UserPost>
+                            {
+                                new UserPost 
+                                {
+                                    AppUserId = "c",
+                                    IsAuthor = true,
+                                    DateLiked = DateTime.Now.AddMonths(-2)
+                                },
+                                new UserPost 
+                                {
+                                    AppUserId = "a",
+                                    IsAuthor = false,
+                                    DateLiked = DateTime.Now.AddMonths(-2)
+                                },
+                            }
                     },
                     new Post
                     {
@@ -100,6 +158,21 @@ namespace Persistence
                         Url = null,
                         For = 30,
                     Against = 31,
+                     UserPosts = new List<UserPost>
+                            {
+                                new UserPost 
+                                {
+                                    AppUserId = "b",
+                                    IsAuthor = true,
+                                    DateLiked = DateTime.Now.AddMonths(-2)
+                                },
+                                new UserPost 
+                                {
+                                    AppUserId = "c",
+                                    IsAuthor = false,
+                                    DateLiked = DateTime.Now.AddMonths(-2)
+                                },
+                            }
                     },
                     new Post
                     {
@@ -110,6 +183,21 @@ namespace Persistence
                         Url = "https://dummyimage.com/200x200/000/fff",
                         For = 3,
                     Against = 10,
+                     UserPosts = new List<UserPost>
+                            {
+                                new UserPost 
+                                {
+                                    AppUserId = "b",
+                                    IsAuthor = true,
+                                    DateLiked = DateTime.Now.AddMonths(-2)
+                                },
+                                new UserPost 
+                                {
+                                    AppUserId = "c",
+                                    IsAuthor = false,
+                                    DateLiked = DateTime.Now.AddMonths(-2)
+                                },
+                            }
                     },
                     new Post
                     {
@@ -120,6 +208,21 @@ namespace Persistence
                         Url = "https://dummyimage.com/200x200/000/fff",
                         For = 113,
                     Against = 10,
+                     UserPosts = new List<UserPost>
+                            {
+                                new UserPost 
+                                {
+                                    AppUserId = "a",
+                                    IsAuthor = true,
+                                    DateLiked = DateTime.Now.AddMonths(-2)
+                                },
+                                new UserPost 
+                                {
+                                    AppUserId = "b",
+                                    IsAuthor = false,
+                                    DateLiked = DateTime.Now.AddMonths(-2)
+                                },
+                            }
                     },
                     new Post
                     {
@@ -130,6 +233,16 @@ namespace Persistence
                         Url = "https://dummyimage.com/200x200/000/fff",
                         For = 37,
                     Against = 13,
+                     UserPosts = new List<UserPost>
+                            {
+                                new UserPost 
+                                {
+                                    AppUserId = "a",
+                                    IsAuthor = true,
+                                    DateLiked = DateTime.Now.AddMonths(-2)
+                                },
+                               
+                            }
                     }
 
 

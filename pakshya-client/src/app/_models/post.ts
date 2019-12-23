@@ -1,3 +1,5 @@
+import { IUser } from './user';
+
 export interface IPost {
   id: string;
   heading: string;
@@ -7,4 +9,5 @@ export interface IPost {
   url?: string;
   for: number;
   against: number;
+  engagers:IUser[]
 }

@@ -157,6 +157,16 @@ export class PersonalAboutComponent implements OnInit {
     const formData = new FormData();
     formData.append("file", this.uploadForm.get("profile").value);
     this.profileService.uploadPhoto(formData).subscribe((res: IPhoto) => {
+      if(this.profile.photos.length == 0)
+      {
+        res.isMain = true;
+        this.authService.changeMainPhoto(res.url);
+        this.authService.currentUser1.image = res.url;
+        localStorage.setItem(
+          "user",
+          JSON.stringify(this.authService.currentUser1)
+        );
+      }
       this.profile.photos.push(res);
       this.alertify.success("Photo Uploaded Successfully.");
     });

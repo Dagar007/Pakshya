@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { BehaviorSubject } from 'rxjs'
 import { map } from 'rxjs/operators';
 import { IUser, IUserLoginFormValues, IUserRegisterFormValues } from '../_models/user';
-import { Observable } from 'rxjs';
+
 
 import {JwtHelperService} from '@auth0/angular-jwt';
 
@@ -12,22 +13,28 @@ import {JwtHelperService} from '@auth0/angular-jwt';
 export class AuthService {
   baseUrl = 'http://localhost:5000/api/user/';
   jwtHelper = new JwtHelperService(); 
+  currentUser1: IUser;
   decodedToken: any;
+  photoUrl = new BehaviorSubject<string>('../../assets/user.png');
+  currentPhotoUrl = this.photoUrl.asObservable();
+
+  changeMainPhoto(photoUrl: string){
+    this.photoUrl.next(photoUrl);
+  }
 
   constructor(private http: HttpClient) { }
 
   login(loginFormValues : IUserLoginFormValues){
-    console.log(loginFormValues);
     return this.http.post<IUser>(this.baseUrl+'login', loginFormValues).pipe(
       map((res: IUser) => {
         const user = res;
         if(user)
         {
           localStorage.setItem('token', user.token);
+          localStorage.setItem('user', JSON.stringify(user))
           this.decodedToken = this.jwtHelper.decodeToken(user.token);
-          localStorage.setItem('display', user.displayName)
-          localStorage.setItem('username',user.username);
-          
+          this.currentUser1 = user;
+          this.changeMainPhoto(this.currentUser1.image);
         }
       })
     );
@@ -44,8 +51,9 @@ export class AuthService {
         if(user)
         {
           localStorage.setItem('token', user.token);
-          localStorage.setItem('display', user.displayName);
-          localStorage.setItem('username',user.username);
+          localStorage.setItem('user', JSON.stringify(user))
+          this.decodedToken = this.jwtHelper.decodeToken(user.token);
+          this.currentUser1 = user;
         }
       })
     )

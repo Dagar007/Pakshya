@@ -7,6 +7,7 @@ import { HomeComponent } from "./home/home.component";
 import { LoginComponent } from "./auth/login/login.component";
 import { RegisterComponent } from "./auth/register/register.component";
 import { AuthGuard } from "./_guards/auth.guard";
+import { ProfileComponent } from './profile/profile.component';
 
 const routes: Routes = [
   { path: "", component: PostComponent },
@@ -26,7 +27,7 @@ const routes: Routes = [
       { path: "posts/:id", component: PostDetailsComponent },
       { path: "create-post", component: CreateComponent },
       { path: "create-post/:id", component: CreateComponent },
-      { path: "manage-post", component: CreateComponent }
+      { path: "profile/:username", component: ProfileComponent }
     ]
   },
   { path: "posts", component: PostComponent },

@@ -1,0 +1,35 @@
+.example-chip-list {
+    width: 50%;
+  }
+  .user-photos {
+    margin-bottom: 0.3rem;
+    width: 10rem;
+    height: 10rem;
+  }
+  .user-about-details-img {
+   display: flex;
+    //margin: 1rem;
+    padding: 1rem;
+  }
+  .img-wrapper {
+    margin: 1rem;
+    width: 10rem;
+    display: flex;
+
+    flex-direction: column;
+  }
+  .button-wrapper {
+    display: flex;
+    text-align: center;
+    
+    button:not(:last-child) {
+      margin-right: 0.2rem;
+    }
+  }
+
+  .photos-wrapper {
+    display: flex;
+    margin-top: 1rem;
+    flex-direction: column;
+    align-items: flex-start;
+  }

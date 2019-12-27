@@ -1,7 +1,10 @@
 <div class="card__header">
-  <img src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="UserName" class="avatar" />
+  <img 
+  [src]="host?.image ? host?.image : '../assets/user.png'"
+  alt="UserName" 
+  class="avatar" />
   <div class="user-info-box">
-    Deepak
+    {{host?.displayName}}
     <span>{{ post.date }}</span>
   </div>
   <mat-chip-list aria-label="category" *ngIf="post.category">
@@ -11,13 +14,13 @@
 
 <h1 class="card__headline">
   {{ post.heading }}
-  <button mat-button aria-label="icon-button with edit icon" class="card__headline--btn"
+  <!-- <button mat-button aria-label="icon-button with edit icon" class="card__headline--btn"
     [routerLink]="['/create-post', post.id]">
     <mat-icon class="card__headline--icon" matTooltip="Edit Post">edit</mat-icon>
   </button>
   <button mat-button aria-label="icon-button with delete icon" class="card__headline--btn">
     <mat-icon class="card__headline--icon" matTooltip="Edit Post">delete_forever</mat-icon>
-  </button>
+  </button> -->
 </h1>
 
 <img *ngIf="post.url" src="{{ post.url }}" alt="Dog" class="card__image" />
@@ -29,10 +32,10 @@
 <div class="card__footer">
   <button mat-button aria-label="thumb_up icon" class="card__footer--icon" color="primary">
     <mat-icon>thumb_up</mat-icon>
-    {{ post.for }}
+    {{ post.engagers.length }}
   </button>
-  <button mat-button aria-label="thumb_down icon" class="card__footer--icon">
+  <!-- <button mat-button aria-label="thumb_down icon" class="card__footer--icon">
     <mat-icon>thumb_down</mat-icon>
     {{ post.against }}
-  </button>
+  </button> -->
 </div>

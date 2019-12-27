@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
+import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import { JwtModule } from '@auth0/angular-jwt';
 
 
@@ -25,6 +25,10 @@ import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
 import { NavComponent } from './nav/nav.component';
+import { ProfileComponent } from './profile/profile.component';
+import { ProfileHeaderComponent } from './profile/profile-header/profile-header.component';
+import { PersonalAboutComponent } from './profile/personal-about/personal-about.component';
+import { PakshyaStatsComponent } from './profile/pakshya-stats/pakshya-stats.component';
 
 
 export function tokenGetter() {
@@ -48,7 +52,11 @@ export function tokenGetter() {
     HomeComponent,
     LoginComponent,
     RegisterComponent,
-    NavComponent
+    NavComponent,
+    ProfileComponent,
+    ProfileHeaderComponent,
+    PersonalAboutComponent,
+    PakshyaStatsComponent
   ],
   imports: [
     BrowserModule,
@@ -57,6 +65,7 @@ export function tokenGetter() {
     HttpClientModule,
     BrowserAnimationsModule,
     FormsModule,
+    ReactiveFormsModule,
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,

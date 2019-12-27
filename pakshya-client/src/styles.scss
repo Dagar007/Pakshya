@@ -80,3 +80,36 @@ body {
     }
   }
 }
+.section-heading {
+  font-size: 1.6rem;
+  font-weight: 500;
+  color: var(--color-grey-dark-1);
+  line-height: 1.2rem;
+  margin-bottom: .5rem;
+}
+.section-sub-heading {
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: var(--color-grey-dark-1);
+  line-height: 1.2rem;
+  margin-bottom: .5rem;
+}
+.sub-heading-para{
+    font-size: .9rem;
+    line-height: 1.6rem;
+    margin: 2rem;
+    font-weight: 400;
+    color: var(--color-grey-dark-2);
+}
+.sub-heading-list{  
+    line-height: 1.6rem;
+    font-weight: 400 !important;
+}
+.profile-section-content {
+  margin: 2rem;
+}
+
+.mat-list-base .mat-list-item {
+  color: var(--color-grey-dark-2) !important;
+  font-size: .9rem !important;
+}

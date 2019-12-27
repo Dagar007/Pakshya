@@ -1,11 +1,11 @@
 <div class="card__header">
   <img
-    src="https://material.angular.io/assets/img/examples/shiba2.jpg"
+    [src]="host?.image ? host?.image : '../assets/user.png'"
     alt="UserName"
     class="avatar"
   />
   <div class="user-info-box">
-    Deepak
+    <a class="user-info-box--link"  [routerLink]="['/profile', host?.username]">{{ host?.displayName }}</a>
     <span>{{ post.date }}</span>
   </div>
   <mat-chip-list aria-label="category" *ngIf="post.category">
@@ -20,18 +20,18 @@
     aria-label="icon-button with edit icon"
     class="card__headline--btn"
     [routerLink]="['/create-post', post.id]"
-    *ngIf="isAuthor"
+    *ngIf="isAuthor1"
   >
-    <mat-icon class="card__headline--icon" matTooltip="Edit Post"
-      >edit</mat-icon
-    >
+    <mat-icon class="card__headline--icon" matTooltip="Edit Post">
+      edit
+    </mat-icon>
   </button>
   <button
     mat-button
     aria-label="icon-button with delete icon"
     class="card__headline--btn"
     (click)="onPostDelete()"
-    *ngIf="isAuthor"
+    *ngIf="isAuthor1"
   >
     <mat-icon class="card__headline--icon" matTooltip="Delete Post"
       >delete_forever</mat-icon
@@ -46,6 +46,7 @@
   </p>
 </div>
 <div class="card__footer">
+  <!-- <div>Liked by {{ post.engagers.length }} people</div> -->
   <button
     mat-button
     aria-label="thumb_up icon"

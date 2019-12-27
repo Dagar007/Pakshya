@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { IPost } from 'src/app/_models/post';
+import { IPost, IEngagers } from 'src/app/_models/post';
 
 @Component({
   selector: 'app-post-delails-header',
@@ -9,9 +9,11 @@ import { IPost } from 'src/app/_models/post';
 export class PostDelailsHeaderComponent implements OnInit {
 
   @Input() post: IPost;
+  host: IEngagers;
   constructor() { }
 
   ngOnInit() {
+    this.host = this.post.engagers.filter(x => x.isAuthor)[0];
   }
 
 }

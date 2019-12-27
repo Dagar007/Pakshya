@@ -17,21 +17,15 @@
       </button>
     </div>
     <div class="nav-right">
-      <!-- <img src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="UserName" class="avatar">
-      Deepak -->
-
-      <!-- <button mat-button >
-       Welcome, Deepak
-        <img src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="UserName" class="avatar" >
-        
-        <mat-icon aria-hidden="true" role="img" class="mat-icon notranslate material-icons mat-icon-no-color">arrow_drop_down</mat-icon>
-      </button> -->
-
-      <button mat-button [matMenuTriggerFor]="menu" *ngIf="loggedIn()"> {{ getUserName() | titlecase}}
+      <button mat-button [matMenuTriggerFor]="menu" *ngIf="loggedIn()"> 
+        <!-- <img [src]="authService.currentUser1?.image? authService.currentUser1?.image : '../assets/user.png'" onerror="this.src ='../assets/user.png'" [alt]="authService.currentUser1?.username" class="avatar"> -->
+        <img src={{photoUrl}} onerror="this.src ='../assets/user.png'" [alt]="authService.currentUser1?.username" class="avatar">
+        {{ authService.currentUser1?.username | titlecase}}
+       
         <mat-icon aria-hidden="true" role="img" class="mat-icon notranslate material-icons mat-icon-no-color">arrow_drop_down</mat-icon>
       </button>
-      <mat-menu #menu="matMenu">
-        <button mat-menu-item>
+      <mat-menu #menu="matMenu" >
+        <button mat-menu-item [routerLink]="['/profile', authService.currentUser1?.username]">
           <div class="select-wrapper">
             <i class="material-icons">
               brush

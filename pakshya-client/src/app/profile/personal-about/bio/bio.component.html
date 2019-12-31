@@ -1,0 +1,74 @@
+<div class="about-topic-wrapper">
+  <button
+    *ngIf="edit"
+    mat-raised-button
+    color="primary"
+    (click)="bioEdit = !bioEdit"
+  >
+    <i class="material-icons">
+      description
+    </i>
+    {{ profile?.bio == null ? "Add" : "Edit" }} Bio
+  </button>
+  <ng-container *ngIf="!bioEdit">
+    <div class="bio-edit-para">
+    <h3 class="section-sub-heading">Display Name</h3>
+    <p *ngIf="profile?.displayName" class="sub-heading-para">
+      {{ profile?.displayName }}
+    </p>
+    <h3 class="section-sub-heading">Bio</h3>
+    <p *ngIf="profile?.bio" class="sub-heading-para">
+      {{ profile?.bio }}
+    </p>
+    <p *ngIf="!profile?.bio" class="sub-heading-para">
+      Bio not added.
+    </p>
+  </div>
+  </ng-container>
+  <div *ngIf="bioEdit" class="bio-edit-form">
+    <form class="form">
+      <mat-form-field class="form__input">
+        <input
+          matInput
+          placeholder="Display Name"
+          [(ngModel)]="profile.displayName"
+          name="displayName"
+          value="profile.displayName"
+        />
+      </mat-form-field>
+      <mat-form-field
+        class="form__textbox"
+        style="width: 100%;"
+        hintLabel="Not more than 1000 words."
+      >
+        
+        <textarea
+          matInput
+          placeholder="Bio"
+          [(ngModel)]="profile.bio"
+          name="bio"
+          value="profile.bio"
+          maxlength="1000"
+          #bio="ngModel"
+        ></textarea>
+        <mat-error *ngIf="bio.hasError('maxlength')"
+          >Password should be at least 6 character.</mat-error
+        >
+        <mat-hint align="end">{{ bio.value?.length }} / 1000</mat-hint>
+      </mat-form-field>
+      <div class="form__action--wrapper">
+        <button
+          mat-raised-button
+          color="primary"
+          class="form__action--left"
+          (click)="onSubmit()"
+        >
+          Submit
+        </button>
+        <button type="button" mat-raised-button (click)="bioEdit = false">
+          Cancel
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

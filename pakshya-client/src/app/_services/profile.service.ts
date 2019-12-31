@@ -13,6 +13,9 @@ export class ProfileService {
   get(username: string) {
     return this.httpService.get<IProfile>(this.baseUrl+ username);
   }
+
+  //photos related
+
   uploadPhoto(file: any) {
     return this.httpService.post<IPhoto>(this.baseUrlPhotos, file);
   }
@@ -21,5 +24,11 @@ export class ProfileService {
   }
   deletePhoto(id: string) {
     return this.httpService.delete(this.baseUrlPhotos + id);
+  }
+
+  // Bio related
+
+  updateBio(profile: IProfile) {
+    return this.httpService.put(this.baseUrl, profile);
   }
 }

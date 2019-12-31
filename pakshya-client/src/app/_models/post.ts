@@ -1,5 +1,3 @@
-import { IUser } from './user';
-
 export interface IPost {
   id: string;
   heading: string;
@@ -9,12 +7,24 @@ export interface IPost {
   url?: string;
   for: number;
   against: number;
-  engagers:IEngagers[]
+  engagers: IEngagers[];
+  comments: IComment[];
 }
 
 export interface IEngagers {
-  username: string
-  displayName: string,
-  image: string,
-  isAuthor: boolean
+  username: string;
+  displayName: string;
+  image: string;
+  isAuthor: boolean;
+}
+export interface IComment {
+  postId: string;
+  body: string;
+  for: boolean;
+  against: boolean;
+  liked: number;
+  date: Date;
+  username: string;
+  displayName: string;
+  image: string;
 }

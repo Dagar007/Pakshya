@@ -24,7 +24,8 @@ export class CreateComponent implements OnInit {
     category: null,
     for: 0,
     against: 0,
-    engagers:[]
+    engagers:[],
+    comments:[]
   }
   id: string = '';
   page: string = 'Create'
@@ -73,6 +74,7 @@ export class CreateComponent implements OnInit {
     }else {
       this.post.id = uuid();
       this.post.date= new Date()
+      this.post.comments = [];
       this.postService.createPost(this.post).subscribe(()=> {
         this.router.navigate(['/posts', this.post.id]);
       }, (err) => {

@@ -5,7 +5,7 @@
   class="avatar" />
   <div class="user-info-box">
     {{host?.displayName}}
-    <span>{{ post.date }}</span>
+    <span>{{ post.date | timeAgo}}</span>
   </div>
   <mat-chip-list aria-label="category" *ngIf="post.category">
     <mat-chip>{{ post.category }}</mat-chip>
@@ -14,13 +14,6 @@
 
 <h1 class="card__headline">
   {{ post.heading }}
-  <!-- <button mat-button aria-label="icon-button with edit icon" class="card__headline--btn"
-    [routerLink]="['/create-post', post.id]">
-    <mat-icon class="card__headline--icon" matTooltip="Edit Post">edit</mat-icon>
-  </button>
-  <button mat-button aria-label="icon-button with delete icon" class="card__headline--btn">
-    <mat-icon class="card__headline--icon" matTooltip="Edit Post">delete_forever</mat-icon>
-  </button> -->
 </h1>
 
 <img *ngIf="post.url" src="{{ post.url }}" alt="Dog" class="card__image" />
@@ -34,8 +27,4 @@
     <mat-icon>thumb_up</mat-icon>
     {{ post.engagers.length }}
   </button>
-  <!-- <button mat-button aria-label="thumb_down icon" class="card__footer--icon">
-    <mat-icon>thumb_down</mat-icon>
-    {{ post.against }}
-  </button> -->
 </div>

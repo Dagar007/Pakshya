@@ -77,3 +77,18 @@
     font-weight: 400;
   }
 }
+.commentbox {
+  display: flex;
+  width: 70%;
+  margin: 1rem auto;
+  .form{
+    width: 100%;
+
+    &__action--wrapper {
+      margin-top: 1rem;
+    }
+  }
+}
+mat-hint{
+  margin-bottom: 1rem;
+}

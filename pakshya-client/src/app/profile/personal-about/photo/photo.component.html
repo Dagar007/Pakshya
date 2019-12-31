@@ -1,0 +1,44 @@
+<div class="about-topic-wrapper">
+  <button
+    *ngIf="edit"
+    mat-raised-button
+    color="primary"
+    (click)="fileinput.click()"
+  >
+    <i class="material-icons">
+      add_a_photo
+    </i>
+    Add Photo
+  </button>
+  <input
+    type="file"
+    hidden
+    #fileinput
+    (change)="onFileChange($event)"
+  />
+  <div class="user-about-details-img">
+    <div class="img-wrapper" *ngFor="let photo of profile?.photos">
+      <img class="user-photos" [src]="photo.url" alt="" />
+      <div class="button-wrapper" *ngIf="edit">
+        <button
+          mat-flat-button
+          color="primary"
+          [disabled]="photo.isMain"
+          (click)="setMainPhoto(photo)"
+        >
+          Set Main
+        </button>
+        <button
+          mat-stroked-button
+          color="warn"
+          [disabled]="photo.isMain"
+          (click)="deletePhoto(photo.id)"
+        >
+          <i class="material-icons">
+            delete_forever
+          </i>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

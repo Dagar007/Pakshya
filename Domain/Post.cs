@@ -15,5 +15,7 @@ namespace Domain
         public int Against { get; set; }
 
         public virtual ICollection<UserPost> UserPosts { get; set; }
+
+        public virtual ICollection<Comment> Comments { get; set; }
     }
 }

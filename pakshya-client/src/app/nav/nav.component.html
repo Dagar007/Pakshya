@@ -20,7 +20,7 @@
       <button mat-button [matMenuTriggerFor]="menu" *ngIf="loggedIn()"> 
         <!-- <img [src]="authService.currentUser1?.image? authService.currentUser1?.image : '../assets/user.png'" onerror="this.src ='../assets/user.png'" [alt]="authService.currentUser1?.username" class="avatar"> -->
         <img src={{photoUrl}} onerror="this.src ='../assets/user.png'" [alt]="authService.currentUser1?.username" class="avatar">
-        {{ authService.currentUser1?.username | titlecase}}
+        {{ authService.currentUser1?.displayName | titlecase}}
        
         <mat-icon aria-hidden="true" role="img" class="mat-icon notranslate material-icons mat-icon-no-color">arrow_drop_down</mat-icon>
       </button>

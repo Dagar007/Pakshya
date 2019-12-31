@@ -1,20 +1,21 @@
 <div class="card comments">
-  <div class="comments__for mb-medium">
-    <div class="comments__user">
+  <div class=" mb-medium"  *ngFor="let comment of post?.comments"
+  [ngClass] ="(comment.for)?'comments__for':'comments__against'">
+
+    <!-- User Placement for For Comment -->
+    <div class="comments__user" *ngIf="comment?.for">
       <img
-        src="https://material.angular.io/assets/img/examples/shiba2.jpg"
+        [src]="comment?.image"
         alt="UserName"
         class="avatar"
       />
-      <h2 class="comments__user--name">Deepak</h2>
+      <h2 class="comments__user--name">{{comment?.displayName}}</h2>
     </div>
-    <div class="comments__for--text">
-      <h3 class="comments__user--datetime">posted 2 min ago</h3>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis
-      laborum est exercitationem quibusdam. Quisquam exercitationem dicta
-      consequuntur omnis natus qui. Adipisci veniam aliquid cupiditate
-      deleniti quam dignissimos enim nihil doloribus sint accusamus neque
-      tenetur, excepturi ad saepe facilis quae incidunt!
+
+    <!-- Comment Text depending on for or against -->
+    <div  [ngClass] ="(comment.for) ?'comments__for--text':'comments__against--text'">
+      <h3 class="comments__user--datetime">{{comment.date | timeAgo}}</h3>
+      {{comment.body}}
     
     <div class="comment__footer">
       <button
@@ -25,180 +26,56 @@
         <mat-icon>favorite</mat-icon>
         121
       </button>
-      <button mat-button aria-label="reply icon" class="card__footer--icon">
-        <mat-icon>reply</mat-icon>
-        Reply
-      </button>
-    </div>
-  </div>
-</div>
-
-  <div class="comments__against mb-medium">
-    <div class="comments__against--text">
-      <h3 class="comments__user--datetime">posted 2 min ago</h3>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis
-      laborum est exercitationem quibusdam. Quisquam exercitationem dicta
-      consequuntur omnis natus qui. Adipisci veniam aliquid cupiditate
-      deleniti quam dignissimos enim nihil doloribus sint accusamus neque
-      tenetur, excepturi ad saepe facilis quae incidunt!
-
-      <div class="comment__footer">
-        <button
-          mat-button
-          aria-label="heart icon"
-          class="card__footer--icon fav_comment"
-        >
-          <mat-icon>favorite</mat-icon>
-          0
-        </button>
-        <button mat-button aria-label="reply icon" class="card__footer--icon">
-          <mat-icon>reply</mat-icon>
-          Reply
-        </button>
-      </div>
-    </div>
-    <div class="comments__user">
-      <img
-        src="https://material.angular.io/assets/img/examples/shiba2.jpg"
-        alt="UserName"
-        class="avatar"
-      />
-      <h2 class="comments__user--name">Deepak</h2>
-    </div>
-  </div>
-
-  <div class="comments__against mb-medium">
-    <div class="comments__against--text">
-      <h3 class="comments__user--datetime">posted 2 min ago</h3>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis
-      laborum est exercitationem quibusdam. Quisquam exercitationem dicta
-      consequuntur omnis natus qui. Adipisci veniam aliquid cupiditate
-      deleniti quam dignissimos enim nihil doloribus sint accusamus neque
-      tenetur, excepturi ad saepe facilis quae incidunt!
-
-      <div class="comment__footer">
-        <button
-          mat-button
-          aria-label="heart icon"
-          class="card__footer--icon fav_comment"
-        >
-          <mat-icon>favorite</mat-icon>
-          0
-        </button>
-        <button mat-button aria-label="reply icon" class="card__footer--icon">
-          <mat-icon>reply</mat-icon>
-          Reply
-        </button>
-      </div>
-    </div>
-    <div class="comments__user">
-      <img
-        src="https://material.angular.io/assets/img/examples/shiba2.jpg"
-        alt="UserName"
-        class="avatar"
-      />
-      <h2 class="comments__user--name">Deepak</h2>
-    </div>
-  </div>
-
-  <div class="comments__against mb-medium">
-    <div class="comments__against--text">
-      <h3 class="comments__user--datetime">posted 2 min ago</h3>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis
-      laborum est exercitationem quibusdam. Quisquam exercitationem dicta
-      consequuntur omnis natus qui. Adipisci veniam aliquid cupiditate
-      deleniti quam dignissimos enim nihil doloribus sint accusamus neque
-      tenetur, excepturi ad saepe facilis quae incidunt!
-
-      <div class="comment__footer">
-        <button
-          mat-button
-          aria-label="heart icon"
-          class="card__footer--icon fav_comment"
-        >
-          <mat-icon>favorite</mat-icon>
-          0
-        </button>
-        <button mat-button aria-label="reply icon" class="card__footer--icon">
-          <mat-icon>reply</mat-icon>
-          Reply
-        </button>
-      </div>
-    </div>
-    <div class="comments__user">
-      <img
-        src="https://material.angular.io/assets/img/examples/shiba2.jpg"
-        alt="UserName"
-        class="avatar"
-      />
-      <h2 class="comments__user--name">Deepak</h2>
-    </div>
-  </div>
-
-  <div class="comments__against mb-medium">
-    <div class="comments__against--text">
-      <h3 class="comments__user--datetime">posted 2 min ago</h3>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis
-      laborum est exercitationem quibusdam. Quisquam exercitationem dicta
-      consequuntur omnis natus qui. Adipisci veniam aliquid cupiditate
-      deleniti quam dignissimos enim nihil doloribus sint accusamus neque
-      tenetur, excepturi ad saepe facilis quae incidunt!
-
-      <div class="comment__footer">
-        <button
-          mat-button
-          aria-label="heart icon"
-          class="card__footer--icon fav_comment"
-        >
-          <mat-icon>favorite</mat-icon>
-          0
-        </button>
-        <button mat-button aria-label="reply icon" class="card__footer--icon">
-          <mat-icon>reply</mat-icon>
-          Reply
-        </button>
-      </div>
-    </div>
-    <div class="comments__user">
-      <img
-        src="https://material.angular.io/assets/img/examples/shiba2.jpg"
-        alt="UserName"
-        class="avatar"
-      />
-      <h2 class="comments__user--name">Deepak</h2>
-    </div>
-  </div>
-
-  <div class="comments__for mb-medium">
-    <div class="comments__user">
-      <img
-        src="https://material.angular.io/assets/img/examples/shiba2.jpg"
-        alt="UserName"
-        class="avatar"
-      />
-      <h2 class="comments__user--name">Deepak</h2>
-    </div>
-    <div class="comments__for--text">
-      <h3 class="comments__user--datetime">posted 2 min ago</h3>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis
-      laborum est exercitationem quibusdam. Quisquam exercitationem dicta
-      consequuntur omnis natus qui. Adipisci veniam aliquid cupiditate
-      deleniti quam dignissimos enim nihil doloribus sint accusamus neque
-      tenetur, excepturi ad saepe facilis quae incidunt!
-    
-    <div class="comment__footer">
-      <button
-        mat-button
-        aria-label="heart icon"
-        class="card__footer--icon fav_comment"
+      <button mat-button aria-label="reply icon" class="card__footer--icon"
+        (click) = "onReply(comment?.displayName)"
       >
-        <mat-icon>favorite</mat-icon>
-        121
-      </button>
-      <button mat-button aria-label="reply icon" class="card__footer--icon">
         <mat-icon>reply</mat-icon>
         Reply
       </button>
     </div>
-  </div>
+    </div>
+
+    <!-- User info if Comment is against -->
+    <div class="comments__user" *ngIf="comment.against">
+      <img
+        [src]="comment?.image"
+        alt="UserName"
+        class="avatar"
+      />
+      <h2 class="comments__user--name">{{comment?.displayName}}</h2>
+    </div>
 </div>
+<div class="commentbox">
+  <form class="form">
+    <mat-form-field
+        class="form__textbox"
+        style="width: 100%;"
+        hintLabel="Not more than 1000 words.">
+        
+        <textarea
+          matInput
+          placeholder="Comment"
+          [(ngModel)]="comment"
+          name="comment"
+          value="comment"
+          maxlength="1000"
+          #commentValue="ngModel"></textarea>
+        <mat-error *ngIf="commentValue.hasError('maxlength')">Password should be at least 6 character.</mat-error>
+        <mat-hint align="end">{{ commentValue?.value?.length }} / 1000</mat-hint>
+      </mat-form-field>
+      <div class="form__action--wrapper">
+        <button
+          mat-raised-button
+          color="primary"
+          class="form__action--left"
+          (click)="addComment()"
+        >
+          Submit
+        </button>
+      </div>
+  </form>
+</div>
+
+</div>
+
+ 

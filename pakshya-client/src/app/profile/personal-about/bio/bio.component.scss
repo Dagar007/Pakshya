@@ -1,0 +1,33 @@
+.bio-edit-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;;
+    width: 85%;
+    margin: 1rem 3rem;
+    padding: 1rem;
+    font-size: 1rem;
+  }
+.bio-edit-para {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;;
+    width: 85%;
+    margin: 0.5rem 2rem;
+    padding: 1rem;
+    font-size: 1rem;
+  }
+  .form {
+    width: 100%;
+    &__action {
+      &--wrapper {
+        margin-top: 1rem;
+        display: flex;
+        width: 100%;
+        justify-content: flex-start;
+      }
+  
+      &--left {
+        margin-right: 1rem;
+      }
+    }
+  }

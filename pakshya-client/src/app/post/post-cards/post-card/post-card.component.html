@@ -6,7 +6,7 @@
   />
   <div class="user-info-box">
     <a class="user-info-box--link"  [routerLink]="['/profile', host?.username]">{{ host?.displayName }}</a>
-    <span>{{ post.date }}</span>
+    <span>{{ post.date | timeAgo}}</span>
   </div>
   <mat-chip-list aria-label="category" *ngIf="post.category">
     <mat-chip>{{ post.category }}</mat-chip>
@@ -39,7 +39,7 @@
   </button>
 </h1>
 
-<img *ngIf="post.url" src="{{ post.url }}" alt="Dog" class="card__image" />
+<img *ngIf="post.url" src="{{ post.url }}" alt="Dog" class="card__image--list" />
 <div class="card__description">
   <p>
     {{ post.description }}

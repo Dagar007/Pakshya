@@ -30,22 +30,29 @@ export class ProfileComponent implements OnInit {
       if (this.authService.currentUser1.username == params["username"]) {
         this.edit = true;
       }
+      this.profileService.get(params["username"]).subscribe((profile: IProfile) => {
+        this.profile = profile;
+      },
+      err => {
+        this.alertify.error(err);
+      })
     });
+  
 
-    this.route.paramMap
-      .pipe(
-        switchMap((params: ParamMap) =>
-          this.profileService.get(params.get("username"))
-        )
-      )
-      .subscribe(
-        (profile: IProfile) => {
-          this.profile = profile;
-        },
-        err => {
-          this.alertify.error(err);
-        }
-      );
+    // this.route.paramMap
+    //   .pipe(
+    //     switchMap((params: ParamMap) =>
+    //       this.profileService.get(params.get("username"))
+    //     )
+    //   )
+    //   .subscribe(
+    //     (profile: IProfile) => {
+    //       this.profile = profile;
+    //     },
+    //     err => {
+    //       this.alertify.error(err);
+    //     }
+    //   );
   }
 
 

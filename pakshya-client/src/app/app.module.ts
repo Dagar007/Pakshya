@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import { JwtModule } from '@auth0/angular-jwt';
+import { TimeAgoPipe } from 'time-ago-pipe';
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -29,6 +30,12 @@ import { ProfileComponent } from './profile/profile.component';
 import { ProfileHeaderComponent } from './profile/profile-header/profile-header.component';
 import { PersonalAboutComponent } from './profile/personal-about/personal-about.component';
 import { PakshyaStatsComponent } from './profile/pakshya-stats/pakshya-stats.component';
+import { PhotoComponent } from './profile/personal-about/photo/photo.component';
+import { InterestsComponent } from './profile/personal-about/interests/interests.component';
+import { BioComponent } from './profile/personal-about/bio/bio.component';
+import { EducationComponent } from './profile/personal-about/education/education.component';
+import { WorkComponent } from './profile/personal-about/work/work.component';
+import { LivingComponent } from './profile/personal-about/living/living.component';
 
 
 export function tokenGetter() {
@@ -56,7 +63,14 @@ export function tokenGetter() {
     ProfileComponent,
     ProfileHeaderComponent,
     PersonalAboutComponent,
-    PakshyaStatsComponent
+    PakshyaStatsComponent,
+    PhotoComponent,
+    InterestsComponent,
+    BioComponent,
+    EducationComponent,
+    WorkComponent,
+    LivingComponent,
+    TimeAgoPipe
   ],
   imports: [
     BrowserModule,

@@ -3,7 +3,7 @@
     <div class="card" *ngIf="post">
       <app-post-delails-header [post]="post"></app-post-delails-header>
     </div>
-    <app-post-delails-comments [post] = "post"></app-post-delails-comments>
+    <app-post-delails-comments *ngIf="post" [post] = "post"></app-post-delails-comments>
   </div>
   <div class="right-sidebar">
     <app-right-sidebar></app-right-sidebar>

@@ -5,6 +5,7 @@ import {
   HubConnectionBuilder,
   LogLevel
 } from "@microsoft/signalr";
+import { AlertifyService } from 'src/app/_services/alertify.service';
 
 
 @Component({
@@ -19,7 +20,7 @@ export class PostDelailsCommentsComponent implements OnInit, OnDestroy {
   comment: string;
   commentToPost: any;
   private _hubConnection: HubConnection;
-  constructor() { }
+  constructor(private alertify: AlertifyService) { }
 
   ngOnInit() {
     this.createHubConnection();
@@ -30,23 +31,27 @@ export class PostDelailsCommentsComponent implements OnInit, OnDestroy {
       .withUrl("http://localhost:5000/chat", {
         accessTokenFactory: () => localStorage.getItem("token")
       })
-      .configureLogging(LogLevel.Information)
       .build();
 
     this._hubConnection
       .start()
-      .then(() => console.log(this._hubConnection!.start))
-      .catch(err => console.log(err));
+      .then(() => {
+        if(this.post)
+          this._hubConnection!.invoke('AddToGroup', this.post.id)
+      })
+      .catch(err => this.alertify.error(err));
 
     this._hubConnection.on("ReceiveComment", (comment: IComment) => {
-      //comment.formatedDate = formatDistance(comment.date,new Date());
       this.post.comments.push(comment);
     });
   }
 
   stopHubConnection() {
-    if (this._hubConnection) 
-      this._hubConnection.stop();
+    if (this._hubConnection) {
+      this._hubConnection.invoke('RemoveFromGroup', this.post.id).then(() => {
+        this._hubConnection.stop();
+      })
+    }  
   }
 
   ngOnDestroy(): void {
@@ -68,6 +73,4 @@ export class PostDelailsCommentsComponent implements OnInit, OnDestroy {
     this.comment = '';
     this.comment = '@'+ displayName;
   }
-  
-
 }

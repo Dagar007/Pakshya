@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-import { IPost } from "../_models/post";
+import { IPost, IPostsEnvelope } from "../_models/post";
 
 
 @Injectable({
@@ -12,8 +12,9 @@ export class PostService {
 
   constructor(private http: HttpClient) {}
 
-  getPosts() {
-    return this.http.get<IPost[]>(this.baseUrl);
+  getPosts(limit?:number, page?:number) {
+    var offset = page? page * limit!: 0
+    return this.http.get<IPostsEnvelope>(this.baseUrl+'?limit='+limit+'&offset='+offset);
   }
   getPost(id: string) {
     return this.http.get<IPost>(this.baseUrl + id);

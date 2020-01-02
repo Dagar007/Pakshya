@@ -1,3 +1,8 @@
+export interface IPostsEnvelope {
+  posts: IPost[],
+  postCount: number
+}
+
 export interface IPost {
   id: string;
   heading: string;
@@ -16,6 +21,7 @@ export interface IEngagers {
   displayName: string;
   image: string;
   isAuthor: boolean;
+  // following: boolean
 }
 export interface IComment {
   postId: string;

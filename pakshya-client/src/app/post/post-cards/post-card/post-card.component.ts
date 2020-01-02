@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
+import { Component, OnInit, Input, Output, EventEmitter, SimpleChanges, OnChanges } from "@angular/core";
 import { IPost, IEngagers } from "src/app/_models/post";
 import { PostService } from "src/app/_services/post.service";
 import { AlertifyService } from "src/app/_services/alertify.service";
@@ -21,11 +21,17 @@ export class PostCardComponent implements OnInit {
   color: string;
   isAuthor1: boolean;
   host: IEngagers;
+  noOfLikes: number;
+  currentUserName: string;
+
+  like: boolean = false;
 
   ngOnInit() {
-    this.isPostLiked();
     this.host = this.post.engagers.filter(x => x.isAuthor)[0];
+    this.noOfLikes = this.post.engagers.length;
+    this.isPostLiked();
   }
+
   onPostDelete() {
     this.postService.deletePost(this.post.id).subscribe(
       () => {
@@ -36,20 +42,45 @@ export class PostCardComponent implements OnInit {
       }
     );
   }
-  onLikeClick() {
-    console.log("some");
-  }
-
   isPostLiked() {
     if (this.authService.currentUser1)
-      var currentUserName = this.authService.currentUser1.username;
-    if (this.post.engagers.some(e => e.username == currentUserName)) {
+      this.currentUserName = this.authService.currentUser1.username;
+    if (this.post.engagers.some(e => e.username == this.currentUserName)) {
       this.color = "primary";
+      this.like = true;
     }
     if (
-      this.post.engagers.some(e => e.username == currentUserName && e.isAuthor)
+      this.post.engagers.some(
+        e => e.username == this.currentUserName && e.isAuthor
+      )
     ) {
       this.isAuthor1 = true;
+    }
+  }
+
+  likePost() {
+    if (this.like) {
+      this.postService.unlikePost(this.post.id).subscribe(
+        () => {
+          this.like = !this.like;
+          this.color = "";
+          --this.noOfLikes;
+        },
+        err => {
+          this.alertify.error(err);
+        }
+      );
+    } else {
+      this.postService.likePost(this.post.id).subscribe(
+        () => {
+          this.like = !this.like;
+          this.color = "primary";
+          ++this.noOfLikes;
+        },
+        err => {
+          this.alertify.error(err);
+        }
+      );
     }
   }
 }

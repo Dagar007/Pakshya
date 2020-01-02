@@ -13,7 +13,7 @@ namespace Application.Posts
 {
     public class UnLike
     {
-          public class Command : IRequest
+        public class Command : IRequest
         {
             public Guid Id { get; set; }
         }
@@ -38,12 +38,13 @@ namespace Application.Posts
 
                 if (like == null)
                 {
-                   return Unit.Value;
+                    return Unit.Value;
                 }
-                else
-                {
-                    _context.UserPosts.Remove(like);
-                }
+                if (like.IsAuthor)
+                    throw new RestException(HttpStatusCode.BadRequest, new { Post = "You cann't unlike your own post"} );
+
+                _context.UserPosts.Remove(like);
+
                 var success = await _context.SaveChangesAsync() > 0;
                 if (success) return Unit.Value;
 

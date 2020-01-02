@@ -17,7 +17,7 @@
       //text-decoration: underline;
     }
   }
-   
+ 
   
 
   span{
@@ -29,4 +29,34 @@
     font-weight: 400;
     line-height: 1rem;
   }
+  
+}
+.engagers-info {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: space-between;
+
+  &--like {
+    //margin-left: 2rem;
+    font-size: 0.9rem;
+    color: var(--color-grey-dark-2);
+    font-weight: 500;
+    width: 100%;
+  }
+  &--comment {
+    display: flex;
+    justify-content: flex-end;
+    
+    //margin-left: 2rem;
+    font-size: 0.9rem;
+    color: var(--color-grey-dark-2);
+    font-weight: 500;
+    width: 100%;
+  }
+}
+.divder__line {
+  margin: 1rem auto;
+  margin-bottom: 0.5rem;
+  width: 100%;
 }

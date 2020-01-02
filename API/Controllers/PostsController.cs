@@ -7,6 +7,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
+
 namespace API.Controllers
 {
   //[AllowAnonymous]
@@ -14,9 +15,9 @@ namespace API.Controllers
   {
     [AllowAnonymous]
     [HttpGet]
-    public async Task<ActionResult<List<PostDto>>> List()
+    public async Task<ActionResult<List.PostsEnvelope>> List(int? limit, int? offset)
     {
-      return await Mediator.Send(new List.Query());
+      return await Mediator.Send(new List.Query(limit, offset));
     }
     [HttpGet("{id}")]
     public async Task<ActionResult<PostDto>> Details(Guid id)

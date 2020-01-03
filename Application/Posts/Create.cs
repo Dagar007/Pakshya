@@ -59,7 +59,7 @@ namespace Application.Posts
                     Heading = request.Heading,
                     Description = request.Description,
                     Category = category,
-                    Date = request.Date,
+                    Date = DateTime.Now,
                     Url = request.Url,
                     For = 0,
                     Against = 0

@@ -6,6 +6,8 @@ import {
   LogLevel
 } from "@microsoft/signalr";
 import { AlertifyService } from 'src/app/_services/alertify.service';
+import { AuthService } from 'src/app/_services/auth.service';
+import { CommentService } from 'src/app/_services/comment.service';
 
 
 @Component({
@@ -19,12 +21,15 @@ export class PostDelailsCommentsComponent implements OnInit, OnDestroy {
   formatedDate:string;
   comment: string;
   commentToPost: any;
+  currentUserName: string;
   private _hubConnection: HubConnection;
-  constructor(private alertify: AlertifyService) { }
+  constructor(private alertify: AlertifyService, private authService: AuthService, private commentService: CommentService) { }
 
   type:string = 'for'
 
   ngOnInit() {
+    if (this.authService.currentUser1)
+    this.currentUserName = this.authService.currentUser1.username;
     this.createHubConnection();
   }
 
@@ -80,5 +85,30 @@ export class PostDelailsCommentsComponent implements OnInit, OnDestroy {
   onReply(displayName: string ){
     this.comment = '';
     this.comment = '@'+ displayName;
+  }
+
+  commentDelete(comment: IComment) {
+    this.commentService.deleteComment(comment.id).subscribe(()=> {
+      var index = this.post.comments.indexOf(comment);
+      if(index > -1) {
+        this.post.comments.splice(index, 1);
+      }
+      this.alertify.success("comment deleted successfully");
+    }, err => {
+      this.alertify.error("error deleting comment.");
+    })
+  }
+  likeComment(comment: IComment) {
+    if(comment.isLikedByUser) {
+      this.commentService.unlikeComment(comment.id).subscribe(() => {
+        --comment.liked;
+        comment.isLikedByUser = false;
+      })
+    } else {
+      this.commentService.likeComment(comment.id).subscribe(() => {
+        ++comment.liked;
+        comment.isLikedByUser = true;
+      })
+    }
   }
 }

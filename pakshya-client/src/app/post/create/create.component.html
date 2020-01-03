@@ -15,7 +15,7 @@
           value="post.description" />
       </mat-form-field> -->
 
-      <mat-form-field>
+      <mat-form-field class="form__input">
         <mat-label>Category</mat-label>
         <mat-select [(value)]='selectedValue' >
           <mat-option *ngFor="let c of categories" [value]="c.id">

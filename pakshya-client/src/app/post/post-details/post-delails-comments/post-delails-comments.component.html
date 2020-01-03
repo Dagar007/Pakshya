@@ -1,7 +1,9 @@
 <div class="card comments">
-  <div class=" mb-medium"  *ngFor="let comment of post?.comments"
-  [ngClass] ="(comment.for)?'comments__for':'comments__against'">
-
+  <div
+    class=" mb-medium"
+    *ngFor="let comment of post?.comments"
+    [ngClass]="comment.for ? 'comments__for' : 'comments__against'"
+  >
     <!-- User Placement for For Comment -->
     <div class="comments__user" *ngIf="comment?.for">
       <img
@@ -9,49 +11,75 @@
         alt="UserName"
         class="avatar"
       />
-      <h2 class="comments__user--name">{{comment?.displayName}}</h2>
+      <h2 class="comments__user--name">{{ comment?.displayName }}</h2>
     </div>
 
     <!-- Comment Text depending on for or against -->
-    <div  [ngClass] ="(comment.for) ?'comments__for--text':'comments__against--text'">
-      <h3 class="comments__user--datetime">{{comment.date | timeAgo}}</h3>
-      {{comment.body}}
-    
-    <div class="comment__footer">
-      <button
-        mat-button
-        aria-label="heart icon"
-        class="card__footer--icon fav_comment"
-      >
-        <mat-icon>favorite</mat-icon>
-        121
-      </button>
-      <button mat-button aria-label="reply icon" class="card__footer--icon"
-        (click) = "onReply(comment?.displayName)"
-      >
-        <mat-icon>reply</mat-icon>
-        Reply
-      </button>
-    </div>
+    <div
+      [ngClass]="
+        comment.for ? 'comments__for--text' : 'comments__against--text'
+      "
+    >
+      <div class="comment-header">
+        <h3 class="comments__user--datetime">{{ comment.date | timeAgo }}</h3>
+        <div *ngIf="currentUserName == comment.username">
+          <button
+            mat-icon-button
+            [matMenuTriggerFor]="menu"
+            aria-label="Example icon-button with a menu"
+          >
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="commentDelete(comment)">
+              <mat-icon>delete</mat-icon>
+              <span>Delete</span>
+            </button>
+          </mat-menu>
+        </div>
+      </div>
+
+      {{ comment.body }}
+
+      <div class="comment__footer">
+        <button
+          mat-button
+          aria-label="heart icon"
+          class="card__footer--icon"
+          [ngClass]="{'fav_comment': comment.isLikedByUser}"
+          (click)="likeComment(comment)">
+          <mat-icon>favorite</mat-icon>
+          {{comment.liked}}
+        </button>
+        <button
+          mat-button
+          aria-label="reply icon"
+          class="card__footer--icon"
+          (click)="onReply(comment?.displayName)"
+        >
+          <mat-icon>reply</mat-icon>
+          Reply
+        </button>
+      </div>
     </div>
 
     <!-- User info if Comment is against -->
     <div class="comments__user" *ngIf="comment.against">
       <img
         [src]="comment?.image ? comment?.image : '../assets/user.png'"
-        alt="UserName"
+        alt="{{ comment?.displayName }}"
         class="avatar"
       />
-      <h2 class="comments__user--name">{{comment?.displayName}}</h2>
+      <h2 class="comments__user--name">{{ comment?.displayName }}</h2>
     </div>
-</div>
-<div class="commentbox">
-  <form class="form">
-    <mat-form-field
+  </div>
+  <div class="commentbox">
+    <form class="form">
+      <mat-form-field
         class="form__textbox"
         style="width: 100%;"
-        hintLabel="Not more than 1000 words.">
-        
+        hintLabel="Not more than 1000 words."
+      >
         <textarea
           matInput
           placeholder="Comment"
@@ -59,33 +87,36 @@
           name="comment"
           value="comment"
           maxlength="1000"
-          #commentValue="ngModel"></textarea>
-        <mat-error *ngIf="commentValue.hasError('maxlength')">Password should be at least 6 character.</mat-error>
-        <mat-hint align="end">{{ commentValue?.value?.length }} / 1000</mat-hint>
+          #commentValue="ngModel"
+        ></textarea>
+        <mat-error *ngIf="commentValue.hasError('maxlength')"
+          >Password should be at least 6 character.</mat-error
+        >
+        <mat-hint align="end"
+          >{{ commentValue?.value?.length }} / 1000</mat-hint
+        >
       </mat-form-field>
       <div class="form__action--wrapper">
         <div class="comment-buttons">
-          <mat-radio-group aria-label="Select an option" 
-          color="primary"
-          [(ngModel)] = "type" 
-          [ngModelOptions]="{standalone: true}">
+          <mat-radio-group
+            aria-label="Select an option"
+            color="primary"
+            [(ngModel)]="type"
+            [ngModelOptions]="{ standalone: true }"
+          >
             <mat-radio-button value="for">For</mat-radio-button>
             <mat-radio-button value="against">Against</mat-radio-button>
           </mat-radio-group>
           <button
-          mat-raised-button
-          color="primary"
-          class="form__action--left"
-          (click)="addComment()"
-        >
-          Submit
-        </button>
+            mat-raised-button
+            color="primary"
+            class="form__action--left"
+            (click)="addComment()"
+          >
+            Submit
+          </button>
         </div>
-       
       </div>
-  </form>
+    </form>
+  </div>
 </div>
-
-</div>
-
- 

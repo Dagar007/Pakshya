@@ -34,6 +34,7 @@ export interface IComment {
   for: boolean;
   against: boolean;
   liked: number;
+  isLikedByUser: boolean;
   date: Date;
   username: string;
   displayName: string;

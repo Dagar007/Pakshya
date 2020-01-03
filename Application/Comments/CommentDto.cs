@@ -11,6 +11,7 @@ namespace Application.Comments
         public bool For { get; set; }
         public bool Against { get; set; }
         public int Liked { get; set; }
+        public bool IsLikedByUser { get; set; }
         public DateTime Date { get; set; }
         public string Username { get; set; }
         public string DisplayName { get; set; }

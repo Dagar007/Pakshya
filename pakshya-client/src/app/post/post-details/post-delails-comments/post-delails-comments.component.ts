@@ -22,6 +22,8 @@ export class PostDelailsCommentsComponent implements OnInit, OnDestroy {
   private _hubConnection: HubConnection;
   constructor(private alertify: AlertifyService) { }
 
+  type:string = 'for'
+
   ngOnInit() {
     this.createHubConnection();
   }
@@ -59,14 +61,20 @@ export class PostDelailsCommentsComponent implements OnInit, OnDestroy {
   }
 
   addComment() {
-    this.commentToPost = {
-      postId: this.post.id,
-      body : this.comment,
-      for : false,
-      against: true,
+    if(this.comment== null || this.comment== ''){
+      this.alertify.error("Please enter your comment");
+    } else {
+      this.commentToPost = {
+        postId: this.post.id,
+        body : this.comment,
+        for : this.type=='for'? true: false,
+        against: this.type=='against'? true: false,
+      }
+      this._hubConnection.invoke('SendComment', this.commentToPost)
+      this.comment = '';
     }
-    this._hubConnection.invoke('SendComment', this.commentToPost)
-    this.comment = '';
+    
+    
   }
 
   onReply(displayName: string ){

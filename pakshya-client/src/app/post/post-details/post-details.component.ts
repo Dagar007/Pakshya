@@ -19,7 +19,6 @@ export class PostDetailsComponent implements OnInit{
   post: IPost;
   constructor(
     private route: ActivatedRoute,
-    private router: Router,
     private postService: PostService,
     private alertify: AlertifyService
   ) {}

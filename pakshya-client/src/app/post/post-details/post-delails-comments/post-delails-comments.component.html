@@ -5,7 +5,7 @@
     <!-- User Placement for For Comment -->
     <div class="comments__user" *ngIf="comment?.for">
       <img
-        [src]="comment?.image"
+        [src]="comment?.image ? comment?.image : '../assets/user.png'"
         alt="UserName"
         class="avatar"
       />
@@ -38,7 +38,7 @@
     <!-- User info if Comment is against -->
     <div class="comments__user" *ngIf="comment.against">
       <img
-        [src]="comment?.image"
+        [src]="comment?.image ? comment?.image : '../assets/user.png'"
         alt="UserName"
         class="avatar"
       />
@@ -64,7 +64,15 @@
         <mat-hint align="end">{{ commentValue?.value?.length }} / 1000</mat-hint>
       </mat-form-field>
       <div class="form__action--wrapper">
-        <button
+        <div class="comment-buttons">
+          <mat-radio-group aria-label="Select an option" 
+          color="primary"
+          [(ngModel)] = "type" 
+          [ngModelOptions]="{standalone: true}">
+            <mat-radio-button value="for">For</mat-radio-button>
+            <mat-radio-button value="against">Against</mat-radio-button>
+          </mat-radio-group>
+          <button
           mat-raised-button
           color="primary"
           class="form__action--left"
@@ -72,6 +80,8 @@
         >
           Submit
         </button>
+        </div>
+       
       </div>
   </form>
 </div>

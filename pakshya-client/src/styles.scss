@@ -74,6 +74,7 @@ body {
     color: var(--color-grey-dark-3);
 
     &--item {
+      cursor: pointer;
       margin-bottom: -0.2rem;
     }
   }

@@ -8,7 +8,7 @@
     <span>{{ post.date | timeAgo}}</span>
   </div>
   <mat-chip-list aria-label="category" *ngIf="post.category">
-    <mat-chip>{{ post.category }}</mat-chip>
+    <mat-chip>{{ post.category.value }}</mat-chip>
   </mat-chip-list>
 </div>
 
@@ -23,8 +23,40 @@
   </p>
 </div>
 <div class="card__footer">
-  <button mat-button aria-label="thumb_up icon" class="card__footer--icon" color="primary">
-    <mat-icon>thumb_up</mat-icon>
-    {{ post.engagers.length }}
-  </button>
+  <div class="engagers-info">
+    <!-- <div *ngFor="let f of post.engagers;">
+      <img
+      *ngIf="f.following"
+      [src]="f.image ? f.image : '../assets/user.png'"
+      alt="UserName"
+      class="avatar-following"
+      matTooltip="{{f.displayName}}"/>
+    </div> -->
+    <div class="engagers-info--like">
+      {{ noOfLikes < 2 ? "Like" : "Likes" }}
+      <span matTooltip="{{ noOfLikes }} like this.">
+        {{ noOfLikes }}
+      </span>
+    </div>
+    <span class="engagers-info--comment">
+      {{ post.comments.length < 2 ? "Comment" : "Comments" }}
+      {{ post.comments.length }}
+    </span>
+  </div>
+
+  <div class="card__footer--button">
+    <hr class="divder__line" />
+
+    <button
+      mat-button
+      aria-label="thumb_up icon"
+      [color]="color"
+      class="card__footer--icon"
+      (click)="likePost()"
+    >
+      <mat-icon>thumb_up</mat-icon>
+      Like
+    </button>
+  </div>
+  <router-outlet></router-outlet>
 </div>

@@ -7,7 +7,7 @@ export interface IPost {
   id: string;
   heading: string;
   description: string;
-  category: string;
+  category: ICategory;
   date: Date;
   url?: string;
   for: number;
@@ -16,6 +16,10 @@ export interface IPost {
   comments: IComment[];
 }
 
+export interface ICategory {
+  id: string;
+  value: string;
+}
 export interface IEngagers {
   username: string;
   displayName: string;
@@ -24,6 +28,7 @@ export interface IEngagers {
   // following: boolean
 }
 export interface IComment {
+  id: string;
   postId: string;
   body: string;
   for: boolean;
@@ -33,4 +38,12 @@ export interface IComment {
   username: string;
   displayName: string;
   image: string;
+  commentors: ICommentor[]
+}
+
+export interface ICommentor {
+  username: string,
+  displayName: string,
+  isAuthor: boolean,
+  noOfLikes: number
 }

@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-import { IPost, IPostsEnvelope } from "../_models/post";
+import { IPost, IPostsEnvelope, ICategory } from "../_models/post";
 
 
 @Injectable({
@@ -34,6 +34,7 @@ export class PostService {
   unlikePost(id: string) {
     return this.http.delete(this.baseUrl + id + "/like");
   }
-
-  
+  getCategories(){
+    return this.http.get<ICategory[]>(this.baseUrl + 'category');
+  }
 }

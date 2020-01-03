@@ -63,6 +63,15 @@ namespace Application.Comments
                 };
 
                 post.Comments.Add(comment);
+
+                 var isHost = new UserComment
+                {
+                    AppUser = user,
+                    Comment = comment,
+                    IsAuthor = true
+                };
+                _context.UserComments.Add(isHost);
+
                 var success = await _context.SaveChangesAsync() > 0;
                 if (success) return _mapper.Map<CommentDto>(comment);
 

@@ -10,10 +10,20 @@
         <textarea matInput placeholder="Description(Optional)" [(ngModel)]="post.description" name="description"
           value="post.description"></textarea>
       </mat-form-field>
-      <mat-form-field class="form__input">
+      <!-- <mat-form-field class="form__input">
         <input matInput placeholder="Category (Optional)" [(ngModel)]="post.category" name="category"
           value="post.description" />
+      </mat-form-field> -->
+
+      <mat-form-field>
+        <mat-label>Category</mat-label>
+        <mat-select [(value)]='selectedValue' >
+          <mat-option *ngFor="let c of categories" [value]="c.id">
+            {{c.value}}
+          </mat-option>
+        </mat-select>
       </mat-form-field>
+
       <mat-form-field class="form__input">
         <input matInput placeholder="URL (Optional)" name="url" [(ngModel)]="post.url" value="post.url" />
       </mat-form-field>

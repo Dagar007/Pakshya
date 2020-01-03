@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 using Application.Comments;
+using Domain;
 
 namespace Application.Posts
 {
@@ -11,7 +12,7 @@ namespace Application.Posts
         public Guid Id { get; set; }
         public string Heading { get; set; }
         public string  Description  { get; set; }
-        public string Category { get; set; }
+        public Category Category { get; set; }
         public DateTime Date { get; set; }
         public string Url { get; set; }
         public int For { get; set; }

@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace Application.Comments
 {
@@ -13,5 +15,7 @@ namespace Application.Comments
         public string Username { get; set; }
         public string DisplayName { get; set; }
         public string Image { get; set; }
+        [JsonPropertyName("commentors")]
+        public ICollection<LikeDto> UserComments { get; set; }
     }
 }

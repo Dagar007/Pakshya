@@ -92,6 +92,86 @@ namespace Persistence.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("Domain.Category", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("AppUserId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppUserId");
+
+                    b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "abc",
+                            Value = "Politics"
+                        },
+                        new
+                        {
+                            Id = "def",
+                            Value = "Economics"
+                        },
+                        new
+                        {
+                            Id = "ghi",
+                            Value = "India"
+                        },
+                        new
+                        {
+                            Id = "jkl",
+                            Value = "World"
+                        },
+                        new
+                        {
+                            Id = "mno",
+                            Value = "Sports"
+                        },
+                        new
+                        {
+                            Id = "pqr",
+                            Value = "Random"
+                        },
+                        new
+                        {
+                            Id = "stu",
+                            Value = "Entertainment"
+                        },
+                        new
+                        {
+                            Id = "vwx",
+                            Value = "Good Life"
+                        },
+                        new
+                        {
+                            Id = "yza",
+                            Value = "Fashion And Style"
+                        },
+                        new
+                        {
+                            Id = "bcd",
+                            Value = "Writing"
+                        },
+                        new
+                        {
+                            Id = "efg",
+                            Value = "Computers"
+                        },
+                        new
+                        {
+                            Id = "hij",
+                            Value = "Philosophy"
+                        });
+                });
+
             modelBuilder.Entity("Domain.Comment", b =>
                 {
                     b.Property<Guid>("Id")
@@ -158,7 +238,7 @@ namespace Persistence.Migrations
                     b.Property<int>("Against")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Category")
+                    b.Property<string>("CategoryId")
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("Date")
@@ -178,7 +258,30 @@ namespace Persistence.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CategoryId");
+
                     b.ToTable("Posts");
+                });
+
+            modelBuilder.Entity("Domain.UserComment", b =>
+                {
+                    b.Property<string>("AppUserId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("CommentId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("DateLiked")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsAuthor")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("AppUserId", "CommentId");
+
+                    b.HasIndex("CommentId");
+
+                    b.ToTable("UserComments");
                 });
 
             modelBuilder.Entity("Domain.UserFollowing", b =>
@@ -376,6 +479,13 @@ namespace Persistence.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("Domain.Category", b =>
+                {
+                    b.HasOne("Domain.AppUser", null)
+                        .WithMany("Interests")
+                        .HasForeignKey("AppUserId");
+                });
+
             modelBuilder.Entity("Domain.Comment", b =>
                 {
                     b.HasOne("Domain.AppUser", "Author")
@@ -392,6 +502,28 @@ namespace Persistence.Migrations
                     b.HasOne("Domain.AppUser", null)
                         .WithMany("Photos")
                         .HasForeignKey("AppUserId");
+                });
+
+            modelBuilder.Entity("Domain.Post", b =>
+                {
+                    b.HasOne("Domain.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId");
+                });
+
+            modelBuilder.Entity("Domain.UserComment", b =>
+                {
+                    b.HasOne("Domain.AppUser", "AppUser")
+                        .WithMany("UserComments")
+                        .HasForeignKey("AppUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Comment", "Comment")
+                        .WithMany("UserComments")
+                        .HasForeignKey("CommentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Domain.UserFollowing", b =>

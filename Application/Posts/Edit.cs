@@ -3,6 +3,7 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Errors;
+using Domain;
 using FluentValidation;
 using MediatR;
 using Persistence;
@@ -16,7 +17,7 @@ namespace Application.Posts
             public Guid Id { get; set; }
             public string Heading { get; set; }
             public string Description { get; set; }
-            public string Category { get; set; }
+            public Category Category { get; set; }
             public DateTime? Date { get; set; }
             public string Url { get; set; }
         }
@@ -46,10 +47,18 @@ namespace Application.Posts
                 var post = await _context.Posts.FindAsync(request.Id);
                 if (post == null)
                     throw new RestException(HttpStatusCode.NotFound, new { post = "Not found" });
+                if (request.Category != null)
+                {
+                    var category = await _context.Categories.FindAsync(request.Category.Id);
+                    if (category == null)
+                        throw new RestException(HttpStatusCode.NotFound, new { Category = "Not found" });
+                    post.Category = category;
+                }
+
                 post.Heading = request.Heading ?? post.Heading;
                 post.Description = request.Description ?? post.Description;
-                post.Category = request.Category ?? post.Category;
-                post.Date = request.Date ?? post.Date;
+                
+                post.Date = DateTime.Now;
                 post.Url = request.Url ?? post.Url;
 
 

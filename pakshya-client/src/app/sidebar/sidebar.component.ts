@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { PostService } from '../_services/post.service';
+import { ICategory } from '../_models/post';
 
 @Component({
   selector: 'app-sidebar',
@@ -6,10 +8,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./sidebar.component.scss']
 })
 export class SidebarComponent implements OnInit {
-
-  constructor() { }
+  categories: ICategory[];
+  constructor(private postService: PostService) { }
 
   ngOnInit() {
+    this.postService.getCategories().subscribe((categories: ICategory[]) => {
+      this.categories =categories
+    })
   }
 
 }

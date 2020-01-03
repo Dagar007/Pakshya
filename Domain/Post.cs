@@ -8,7 +8,7 @@ namespace Domain
         public Guid Id { get; set; }
         public string Heading { get; set; }
         public string  Description  { get; set; }
-        public string Category { get; set; }
+        public virtual Category Category {get; set;}
         public DateTime Date { get; set; }
         public string Url { get; set; }
         public int For { get; set; }
@@ -17,5 +17,6 @@ namespace Domain
         public virtual ICollection<UserPost> UserPosts { get; set; }
 
         public virtual ICollection<Comment> Comments { get; set; }
+       
     }
 }

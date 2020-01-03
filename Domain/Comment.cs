@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace Domain
 {
@@ -12,6 +13,7 @@ namespace Domain
         public int Liked { get; set; }
         public virtual Post Post { get; set; }
         public DateTime Date { get; set; }
+         public virtual ICollection<UserComment> UserComments { get; set; }
         
     }
 }

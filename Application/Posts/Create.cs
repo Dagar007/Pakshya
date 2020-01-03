@@ -1,6 +1,8 @@
 using System;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using Application.Errors;
 using Application.Interfaces;
 using Domain;
 using FluentValidation;
@@ -17,7 +19,7 @@ namespace Application.Posts
             public Guid Id { get; set; }
             public string Heading { get; set; }
             public string Description { get; set; }
-            public string Category { get; set; }
+            public Category Category { get; set; }
             public DateTime Date { get; set; }
             public string Url { get; set; }
             public int For { get; set; }
@@ -48,12 +50,15 @@ namespace Application.Posts
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
+                var category = await _context.Categories.FindAsync(request.Category.Id);
+                if (category == null)
+                    throw new RestException(HttpStatusCode.NotFound, new { Category = "Not found" });
                 var post = new Post
                 {
                     Id = request.Id,
                     Heading = request.Heading,
                     Description = request.Description,
-                    Category = request.Category,
+                    Category = category,
                     Date = request.Date,
                     Url = request.Url,
                     For = 0,
@@ -62,11 +67,11 @@ namespace Application.Posts
                 _context.Posts.Add(post);
                 var user = await _context.Users.SingleOrDefaultAsync(x => x.UserName == _userAccessor.GetUserName());
 
-                var isHost = new UserPost 
+                var isHost = new UserPost
                 {
-                  AppUser = user,
-                  Post = post,
-                  IsAuthor = true
+                    AppUser = user,
+                    Post = post,
+                    IsAuthor = true
                 };
                 _context.UserPosts.Add(isHost);
 

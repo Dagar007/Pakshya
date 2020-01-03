@@ -14,7 +14,7 @@
     <span>{{ post.date | timeAgo }}</span>
   </div>
   <mat-chip-list aria-label="category" *ngIf="post.category">
-    <mat-chip>{{ post.category }}</mat-chip>
+    <mat-chip>{{ post.category.value }}</mat-chip>
   </mat-chip-list>
 </div>
 

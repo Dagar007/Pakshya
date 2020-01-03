@@ -40,7 +40,7 @@ namespace Application.Posts
 
             public async Task<PostsEnvelope> Handle(Query request, CancellationToken cancellationToken)
             {
-                var queryable = _context.Posts.AsQueryable();
+                var queryable = _context.Posts.OrderByDescending(d => d.Date).AsQueryable();
                 var posts = await queryable
                     .Skip(request.Offset ?? 0)
                     .Take(request.Limit ?? 3).ToListAsync();

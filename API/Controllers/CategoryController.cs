@@ -14,5 +14,10 @@ namespace API.Controllers
         {
            return await Mediator.Send(new List.Query());
         }
+        [HttpGet("category/stats")]
+        public async Task<List<CategoryStatsDto>> Stats ()
+        {
+           return await Mediator.Send(new Stats.Query());
+        }
     }
 }

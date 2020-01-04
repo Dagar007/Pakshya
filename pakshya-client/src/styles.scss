@@ -119,6 +119,12 @@ body {
   color: var(--color-grey-dark-2) !important;
   font-size: 0.9rem !important;
 }
+.post-stats {
+  .mat-list-item-content{
+      padding: 0 !important;
+      font-size: 0.8rem !important;
+  }
+}
 
 // FORM RELATED
 

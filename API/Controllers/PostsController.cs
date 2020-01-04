@@ -56,5 +56,11 @@ namespace API.Controllers
     {
       return await Mediator.Send(new UnLike.Command{Id = id});
     }
+    [HttpGet("stats")]
+    public async Task<ActionResult<List<MostDisscussedPostDto>>> Stats()
+    {
+      return await Mediator.Send(new MostDiscussedPost.Query() );
+    }
+
   }
 }

@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { PostService } from '../_services/post.service';
+import { IPostStats, ICategoryStats } from '../_models/sidebarHelper';
+import { AlertifyService } from '../_services/alertify.service';
 
 @Component({
   selector: 'app-right-sidebar',
@@ -7,9 +10,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RightSidebarComponent implements OnInit {
 
-  constructor() { }
-
+  constructor(private postService: PostService, private alertify: AlertifyService) { }
+  postStats: IPostStats[]
+  categoryStats: ICategoryStats[]
   ngOnInit() {
+    this.postService.getPostStats().subscribe((postStats: IPostStats[])=> {
+      this.postStats = postStats;
+    }, err => {
+      this.alertify.error("Some error occured");
+    });
+    this.postService.getCategoryStats().subscribe((categoryStats: ICategoryStats[])=> {
+      this.categoryStats = categoryStats;
+    }, err => {
+      this.alertify.error("Some error occured");
+    });
   }
 
 }

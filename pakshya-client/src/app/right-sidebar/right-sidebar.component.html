@@ -4,14 +4,18 @@
             <i class="material-icons sidebar__header--icon">
                 trending_up
             </i>
-            Trends
+            Trending posts
         </p>
         <mat-list class="sidebar__list">
-            <mat-list-item class="sidebar__list--item">Item 1</mat-list-item>
-            <mat-divider></mat-divider>
-            <mat-list-item class="sidebar__list--item">Item 2</mat-list-item>
-            <mat-divider></mat-divider>
-            <mat-list-item class="sidebar__list--item">Item 3</mat-list-item>
+
+                <div *ngFor="let p of postStats" class="post-stats">
+    
+                    <mat-list-item class="sidebar__list--item">{{p.heading}} ({{p.noOfComments}})</mat-list-item>
+                    <mat-divider></mat-divider>
+                </div>
+
+           
+           
         </mat-list>
     </div>
 </div>
@@ -21,14 +25,15 @@
             <i class="material-icons sidebar__header--icon">
                 trending_up
             </i>
-            Trends
+            Trending Catgory
         </p>
         <mat-list class="sidebar__list">
-            <mat-list-item class="sidebar__list--item">Item 1</mat-list-item>
-            <mat-divider></mat-divider>
-            <mat-list-item class="sidebar__list--item">Item 2</mat-list-item>
-            <mat-divider></mat-divider>
-            <mat-list-item class="sidebar__list--item">Item 3</mat-list-item>
+            <div *ngFor="let c of categoryStats">
+                <mat-list-item class="sidebar__list--item">{{c.name}} ({{c.noOfPosts}})</mat-list-item>
+                <mat-divider></mat-divider>
+            </div>
+           
+            
         </mat-list>
     </div>
 </div>

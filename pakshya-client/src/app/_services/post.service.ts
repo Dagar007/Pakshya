@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { IPost, IPostsEnvelope, ICategory } from "../_models/post";
+import { IPostStats, ICategoryStats } from '../_models/sidebarHelper';
 
 
 @Injectable({
@@ -36,5 +37,11 @@ export class PostService {
   }
   getCategories(){
     return this.http.get<ICategory[]>(this.baseUrl + 'category');
+  }
+  getPostStats() {
+    return this.http.get<IPostStats[]>(this.baseUrl+'stats');
+  }
+  getCategoryStats() {
+    return this.http.get<ICategoryStats[]>(this.baseUrl+'category/stats');
   }
 }

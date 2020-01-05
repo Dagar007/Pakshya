@@ -7,6 +7,7 @@ import {
 } from "@angular/core";
 import { AuthService } from "src/app/_services/auth.service";
 import { IProfile } from "src/app/_models/profile";
+import { ProfileService } from 'src/app/_services/profile.service';
 
 @Component({
   selector: "app-profile-header",
@@ -19,7 +20,8 @@ export class ProfileHeaderComponent implements OnInit, OnChanges {
 
   photoUrl: string;
   constructor(
-    private authService: AuthService
+    private authService: AuthService,
+    private profileService: ProfileService
   ) {}
 
   ngOnInit() {}
@@ -34,5 +36,21 @@ export class ProfileHeaderComponent implements OnInit, OnChanges {
         this.photoUrl = changes.profile.currentValue.image;
       }
     }
+
   }
+
+  onFollow(following: boolean, username: string) {
+    if(following) {
+      this.profileService.unfollow(username).subscribe(() => {
+        this.profile.following = false;
+        --this.profile.followersCount;
+      })
+    } else {
+      this.profileService.follow(username).subscribe(() => {
+        this.profile.following = true;
+        ++this.profile.followersCount;
+      })
+    }
+  }
+
 }

@@ -10,8 +10,20 @@
         <h2 class="profile__header__userinfo--username">
           {{ profile?.displayName }}
         </h2>
-        <h3 class="profile__header__userinfo--joining">21st Dec, 2019</h3>
+        
+        <!-- <h3 class="profile__header__userinfo--joining">21st Dec, 2019</h3> -->
       </div>
+      <div class="follow-button"*ngIf="!edit">
+        <button mat-raised-button 
+        [ngClass] ="{
+          'button-primary': !profile?.following,
+          'button-secondary': profile?.following
+        }"
+        (click) ="onFollow(profile.following, profile.username)">
+          {{profile?.following? 'Unfollow': 'Follow'}}
+        </button>
+      </div>
+     
     </div>
     <div class="profile--right">
       <div class="profile__header--followers">

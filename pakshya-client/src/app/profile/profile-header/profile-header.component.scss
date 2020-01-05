@@ -55,3 +55,16 @@
         }
     }
 }
+.follow-button{
+    width: 100%;
+    button{
+        width: 100%  
+    }
+}
+.button-primary {
+    background-color: var(--color-primary);
+    color: #fff;
+}
+.button-secondary{
+    background-color: var(--color-grey-light-4);
+}

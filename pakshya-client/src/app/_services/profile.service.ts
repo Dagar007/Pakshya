@@ -14,6 +14,13 @@ export class ProfileService {
     return this.httpService.get<IProfile>(this.baseUrl+ username);
   }
 
+  follow(username: string) {
+    return this.httpService.post(this.baseUrl+ username + '/follow',{});
+  }
+  unfollow(username: string) {
+    return this.httpService.delete(this.baseUrl+ username + '/follow');
+  }
+
   //photos related
 
   uploadPhoto(file: any) {
@@ -31,4 +38,5 @@ export class ProfileService {
   updateBio(profile: IProfile) {
     return this.httpService.put(this.baseUrl, profile);
   }
+
 }

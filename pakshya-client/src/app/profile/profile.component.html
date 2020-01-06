@@ -3,7 +3,7 @@
     <app-profile-header *ngIf="profile" [profile] ="profile" [edit] = "edit"></app-profile-header>
   </div>
   <div class="personal-about-wrapper">
-    <app-personal-about [profile] ="profile" [edit] = "edit" ></app-personal-about>
+    <app-personal-about *ngIf="profile" [profile] ="profile" [edit] = "edit" ></app-personal-about>
   </div>
   <div class="paksya-stats-wrapper">
     <app-pakshya-stats></app-pakshya-stats>

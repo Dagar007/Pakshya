@@ -1,84 +1,44 @@
 import { COMMA, ENTER } from "@angular/cdk/keycodes";
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
-import { startWith, map } from 'rxjs/operators';
-import { MatChipInputEvent, MatAutocompleteSelectedEvent, MatAutocomplete } from '@angular/material';
-import { FormControl } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { Component, OnInit, Input } from "@angular/core";
+import { PostService } from "src/app/_services/post.service";
+import { ICategory } from "src/app/_models/post";
+import { FormBuilder, FormGroup, FormArray, FormControl } from "@angular/forms";
+import { ProfileService } from "src/app/_services/profile.service";
+import { IProfile } from "src/app/_models/profile";
+import { AlertifyService } from 'src/app/_services/alertify.service';
 
 @Component({
-  selector: 'app-interests',
-  templateUrl: './interests.component.html',
-  styleUrls: ['./interests.component.scss']
+  selector: "app-interests",
+  templateUrl: "./interests.component.html",
+  styleUrls: ["./interests.component.scss"]
 })
 export class InterestsComponent implements OnInit {
-
-  selectable = true;
-  removable = true;
-  addOnBlur = true;
-  separatorKeysCodes: number[] = [ENTER, COMMA];
-  fruitCtrl = new FormControl({ disabled: true });
-  filteredFruits: Observable<string[]>;
-  fruits: string[] = ["Lemon"];
-  allFruits: string[] = ["Apple", "Lemon", "Lime", "Orange", "Strawberry"];
-
-  @ViewChild("fruitInput", { static: false }) fruitInput: ElementRef<
-    HTMLInputElement
-  >;
-  @ViewChild("auto", { static: false }) matAutocomplete: MatAutocomplete;
+  @Input() profile: IProfile;
+  @Input() edit: boolean;
+  categories: ICategory[];
+  interestsOfUsers: ICategory[];
   
-  constructor() {
-    this.filteredFruits = this.fruitCtrl.valueChanges.pipe(
-      startWith(null),
-      map((fruit: string | null) =>
-        fruit ? this._filter(fruit) : this.allFruits.slice()
-      )
-    );
-   }
 
+  constructor(
+    private alertify: AlertifyService,
+    private profileService: ProfileService,
+  ) {
+
+  }
   ngOnInit() {
-  }
+    // this.postService.getCategories().subscribe((categories: ICategory[]) => {
+    //   this.categories = categories;
+    console.log(this.profile.interests)
+     
+    };
 
-  add(event: MatChipInputEvent): void {
-    // Add fruit only when MatAutocomplete is not open
-    // To make sure this does not conflict with OptionSelected Event
-    if (!this.matAutocomplete.isOpen) {
-      const input = event.input;
-      const value = event.value;
-
-      // Add our fruit
-      if ((value || "").trim()) {
-        this.fruits.push(value.trim());
-      }
-
-      // Reset the input value
-      if (input) {
-        input.value = "";
-      }
-
-      this.fruitCtrl.setValue(null);
-    }
-  }
-
-  remove(fruit: string): void {
-    const index = this.fruits.indexOf(fruit);
-
-    if (index >= 0) {
-      this.fruits.splice(index, 1);
-    }
-  }
-
-  selected(event: MatAutocompleteSelectedEvent): void {
-    this.fruits.push(event.option.viewValue);
-    this.fruitInput.nativeElement.value = "";
-    this.fruitCtrl.setValue(null);
-  }
-
-  private _filter(value: string): string[] {
-    const filterValue = value.toLowerCase();
-
-    return this.allFruits.filter(
-      fruit => fruit.toLowerCase().indexOf(filterValue) === 0
-    );
-  }
+  onSubmit(){
+    //console.log(this.profile.interests);
+    this.profileService.updateBio(this.profile).subscribe(()=> {
+      this.alertify.success("Interests updated successfully.")
+    }, err =>{
+      this.alertify.error("error updating interests");
+    });
+  };
 
 }

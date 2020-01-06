@@ -1,9 +1,12 @@
 using System;
+using System.Collections.Generic;
 using System.Net;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Errors;
 using Application.Interfaces;
+using Domain;
 using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -17,6 +20,10 @@ namespace Application.Profiles
         {
             public string DisplayName { get; set; }
             public string Bio { get; set; }
+            public string Address { get; set; }
+            public string Education { get; set; }
+            public string Work { get; set; }
+            public List<InterestDTO> Interests { get; set; }
         }
 
         public class CommandValidator : AbstractValidator<Command>
@@ -24,7 +31,6 @@ namespace Application.Profiles
             public CommandValidator()
             {
                 RuleFor(x => x.DisplayName).NotEmpty();
-                RuleFor(x => x.Bio.Length).GreaterThan(10);
             }
         }
 
@@ -41,16 +47,29 @@ namespace Application.Profiles
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
                 var user = await _context.Users.FirstOrDefaultAsync(u => u.UserName == _userAccessor.GetUserName());
+
+                StringBuilder sb = new StringBuilder();
+                foreach (var i in request.Interests)
+                {
+                    if(i.DoesUser)
+                    {
+                       if(sb.Length == 0)
+                       {
+                           sb.Append(i.Id);
+                       }
+                       else {
+                           sb.Append(',').Append(i.Id);
+                       }
+                    }
+                }
                 user.Bio = request.Bio ?? user.Bio;
                 user.DisplayName = request.DisplayName ?? user.DisplayName;
-                // var post = await _context.Posts.FindAsync(request.Id);
-                // if (post == null)
-                //     throw new RestException(HttpStatusCode.NotFound, new { post = "Not found" });
-                // post.Heading = request.Heading ?? post.Heading;
-                // post.Description = request.Description ?? post.Description;
-                // post.Category = request.Category ?? post.Category;
-                // post.Date = request.Date ?? post.Date;
-                // post.Url = request.Url ?? post.Url;
+                user.Address = request.Address ?? user.Address;
+                user.Education = request.Education ?? user.Education;
+                user.Work = request.Work ?? user.Work;
+                user.Interests = sb.ToString();
+
+
 
 
                 var success = await _context.SaveChangesAsync() > 0;

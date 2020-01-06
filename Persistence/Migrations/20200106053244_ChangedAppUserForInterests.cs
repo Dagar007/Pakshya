@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Persistence.Migrations
 {
-    public partial class AddedCatgoryEntity : Migration
+    public partial class ChangedAppUserForInterests : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -43,11 +43,27 @@ namespace Persistence.Migrations
                     DisplayName = table.Column<string>(nullable: true),
                     Gender = table.Column<string>(nullable: true),
                     Birthday = table.Column<DateTime>(nullable: false),
-                    Bio = table.Column<string>(nullable: true)
+                    Bio = table.Column<string>(nullable: true),
+                    Education = table.Column<string>(nullable: true),
+                    Work = table.Column<string>(nullable: true),
+                    Address = table.Column<string>(nullable: true),
+                    Interests = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Categories",
+                columns: table => new
+                {
+                    Id = table.Column<string>(nullable: false),
+                    Value = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Categories", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -167,25 +183,6 @@ namespace Persistence.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Categories",
-                columns: table => new
-                {
-                    Id = table.Column<string>(nullable: false),
-                    Value = table.Column<string>(nullable: true),
-                    AppUserId = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Categories", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Categories_AspNetUsers_AppUserId",
-                        column: x => x.AppUserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -312,65 +309,91 @@ namespace Persistence.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.InsertData(
-                table: "Categories",
-                columns: new[] { "Id", "AppUserId", "Value" },
-                values: new object[] { "abc", null, "Politics" });
+            migrationBuilder.CreateTable(
+                name: "UserComments",
+                columns: table => new
+                {
+                    AppUserId = table.Column<string>(nullable: false),
+                    CommentId = table.Column<Guid>(nullable: false),
+                    DateLiked = table.Column<DateTime>(nullable: false),
+                    IsAuthor = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserComments", x => new { x.AppUserId, x.CommentId });
+                    table.ForeignKey(
+                        name: "FK_UserComments_AspNetUsers_AppUserId",
+                        column: x => x.AppUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserComments_Comments_CommentId",
+                        column: x => x.CommentId,
+                        principalTable: "Comments",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
 
             migrationBuilder.InsertData(
                 table: "Categories",
-                columns: new[] { "Id", "AppUserId", "Value" },
-                values: new object[] { "def", null, "Economics" });
+                columns: new[] { "Id", "Value" },
+                values: new object[] { "abc", "Politics" });
 
             migrationBuilder.InsertData(
                 table: "Categories",
-                columns: new[] { "Id", "AppUserId", "Value" },
-                values: new object[] { "ghi", null, "India" });
+                columns: new[] { "Id", "Value" },
+                values: new object[] { "def", "Economics" });
 
             migrationBuilder.InsertData(
                 table: "Categories",
-                columns: new[] { "Id", "AppUserId", "Value" },
-                values: new object[] { "jkl", null, "World" });
+                columns: new[] { "Id", "Value" },
+                values: new object[] { "ghi", "India" });
 
             migrationBuilder.InsertData(
                 table: "Categories",
-                columns: new[] { "Id", "AppUserId", "Value" },
-                values: new object[] { "mno", null, "Sports" });
+                columns: new[] { "Id", "Value" },
+                values: new object[] { "jkl", "World" });
 
             migrationBuilder.InsertData(
                 table: "Categories",
-                columns: new[] { "Id", "AppUserId", "Value" },
-                values: new object[] { "pqr", null, "Random" });
+                columns: new[] { "Id", "Value" },
+                values: new object[] { "mno", "Sports" });
 
             migrationBuilder.InsertData(
                 table: "Categories",
-                columns: new[] { "Id", "AppUserId", "Value" },
-                values: new object[] { "stu", null, "Entertainment" });
+                columns: new[] { "Id", "Value" },
+                values: new object[] { "pqr", "Random" });
 
             migrationBuilder.InsertData(
                 table: "Categories",
-                columns: new[] { "Id", "AppUserId", "Value" },
-                values: new object[] { "vwx", null, "Good Life" });
+                columns: new[] { "Id", "Value" },
+                values: new object[] { "stu", "Entertainment" });
 
             migrationBuilder.InsertData(
                 table: "Categories",
-                columns: new[] { "Id", "AppUserId", "Value" },
-                values: new object[] { "yza", null, "Fashion And Style" });
+                columns: new[] { "Id", "Value" },
+                values: new object[] { "vwx", "Good Life" });
 
             migrationBuilder.InsertData(
                 table: "Categories",
-                columns: new[] { "Id", "AppUserId", "Value" },
-                values: new object[] { "bcd", null, "Writing" });
+                columns: new[] { "Id", "Value" },
+                values: new object[] { "yza", "Fashion And Style" });
 
             migrationBuilder.InsertData(
                 table: "Categories",
-                columns: new[] { "Id", "AppUserId", "Value" },
-                values: new object[] { "efg", null, "Computers" });
+                columns: new[] { "Id", "Value" },
+                values: new object[] { "bcd", "Writing" });
 
             migrationBuilder.InsertData(
                 table: "Categories",
-                columns: new[] { "Id", "AppUserId", "Value" },
-                values: new object[] { "hij", null, "Philosophy" });
+                columns: new[] { "Id", "Value" },
+                values: new object[] { "efg", "Computers" });
+
+            migrationBuilder.InsertData(
+                table: "Categories",
+                columns: new[] { "Id", "Value" },
+                values: new object[] { "hij", "Philosophy" });
 
             migrationBuilder.InsertData(
                 table: "Values",
@@ -425,11 +448,6 @@ namespace Persistence.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Categories_AppUserId",
-                table: "Categories",
-                column: "AppUserId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Comments_AuthorId",
                 table: "Comments",
                 column: "AuthorId");
@@ -455,6 +473,11 @@ namespace Persistence.Migrations
                 column: "CategoryId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_UserComments_CommentId",
+                table: "UserComments",
+                column: "CommentId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_UserPosts_PostId",
                 table: "UserPosts",
                 column: "PostId");
@@ -478,13 +501,13 @@ namespace Persistence.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Comments");
-
-            migrationBuilder.DropTable(
                 name: "Followings");
 
             migrationBuilder.DropTable(
                 name: "Photos");
+
+            migrationBuilder.DropTable(
+                name: "UserComments");
 
             migrationBuilder.DropTable(
                 name: "UserPosts");
@@ -496,13 +519,16 @@ namespace Persistence.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
+                name: "Comments");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
                 name: "Posts");
 
             migrationBuilder.DropTable(
                 name: "Categories");
-
-            migrationBuilder.DropTable(
-                name: "AspNetUsers");
         }
     }
 }

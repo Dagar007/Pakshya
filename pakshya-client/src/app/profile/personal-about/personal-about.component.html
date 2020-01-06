@@ -6,23 +6,18 @@
       </i>
   </h2>
   <mat-tab-group>
-    <mat-tab label="Bio">
+    
+    <mat-tab label="Personal Info">
       <app-bio [profile] ="profile" [edit] = "edit"></app-bio>
     </mat-tab>
+
     <mat-tab label="Photos">
       <app-photo [profile] ="profile" [edit] = "edit"></app-photo>
     </mat-tab>
-    <mat-tab label="Education">
-      <p class="sub-heading-para">IPU Univeristy</p>
-    </mat-tab>
-    <mat-tab label="Worked At">
-      <p class="sub-heading-para">Infosys Limited</p>
-    </mat-tab>
+
     <mat-tab label="Interests/ Followed Topic">
-      <app-interests></app-interests>
+      <app-interests *ngIf="profile" [profile] ="profile" [edit] = "edit"></app-interests>
     </mat-tab>
-    <mat-tab label="Lives At">
-      <p class="sub-heading-para">New Delhi, India</p>
-    </mat-tab>
+
   </mat-tab-group>
 </div>

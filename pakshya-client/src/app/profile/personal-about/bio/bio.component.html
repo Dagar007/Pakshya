@@ -8,14 +8,40 @@
     <i class="material-icons">
       description
     </i>
-    {{ profile?.bio == null ? "Add" : "Edit" }} Bio
+      Add/Edit
   </button>
   <ng-container *ngIf="!bioEdit">
     <div class="bio-edit-para">
+
     <h3 class="section-sub-heading">Display Name</h3>
     <p *ngIf="profile?.displayName" class="sub-heading-para">
       {{ profile?.displayName }}
     </p>
+
+    <h3 class="section-sub-heading">Education</h3>
+    <p *ngIf="profile?.education" class="sub-heading-para">
+      {{ profile?.education }}
+    </p>
+    <p *ngIf="!profile?.education" class="sub-heading-para">
+      Education not added.
+    </p>
+
+    <h3 class="section-sub-heading">Work</h3>
+    <p *ngIf="profile?.work" class="sub-heading-para">
+      {{ profile?.work }}
+    </p>
+    <p *ngIf="!profile?.work" class="sub-heading-para">
+      Work not added.
+    </p>
+
+    <h3 class="section-sub-heading">Address</h3>
+    <p *ngIf="profile?.address" class="sub-heading-para">
+      {{ profile?.address }}
+    </p>
+    <p *ngIf="!profile?.address" class="sub-heading-para">
+      Address not added.
+    </p>
+
     <h3 class="section-sub-heading">Bio</h3>
     <p *ngIf="profile?.bio" class="sub-heading-para">
       {{ profile?.bio }}
@@ -23,6 +49,8 @@
     <p *ngIf="!profile?.bio" class="sub-heading-para">
       Bio not added.
     </p>
+
+
   </div>
   </ng-container>
   <div *ngIf="bioEdit" class="bio-edit-form">
@@ -33,7 +61,38 @@
           placeholder="Display Name"
           [(ngModel)]="profile.displayName"
           name="displayName"
+          required
           value="profile.displayName"
+        />
+      </mat-form-field>
+      <mat-form-field class="form__input">
+        <input
+          matInput
+          placeholder="Education"
+          [(ngModel)]="profile.education"
+          name="education"
+          required
+          value="profile.education"
+        />
+      </mat-form-field>
+      <mat-form-field class="form__input">
+        <input
+          matInput
+          placeholder="Work"
+          [(ngModel)]="profile.work"
+          name="work"
+          required
+          value="profile.work"
+        />
+      </mat-form-field>
+      <mat-form-field class="form__input">
+        <input
+          matInput
+          placeholder="Address(City,State,Country)"
+          [(ngModel)]="profile.address"
+          name="address"
+          required
+          value="profile.address"
         />
       </mat-form-field>
       <mat-form-field

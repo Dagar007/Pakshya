@@ -10,12 +10,15 @@ namespace Application.Profiles
         public string Username { get; set; }
         public string Image { get; set; }
         public string Bio { get; set; }
+        public string Education { get; set; }
+        public string Address { get; set; }
+        public string Work { get; set; }
         [JsonPropertyName("following")]
         public bool IsFollowed { get; set; }
         public int FollowersCount { get; set; }
         public int FollowingCount { get; set; }
         public ICollection<Photo> Photos { get; set; }
 
-        public ICollection<Category> Interests { get; set; }
+        public ICollection<InterestDTO> Interests { get; set; }
     }
 }

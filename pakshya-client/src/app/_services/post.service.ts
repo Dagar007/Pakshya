@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { Injectable, EventEmitter } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { IPost, IPostsEnvelope, ICategory } from "../_models/post";
 import { IPostStats, ICategoryStats } from '../_models/sidebarHelper';
@@ -10,12 +10,12 @@ import { IPostStats, ICategoryStats } from '../_models/sidebarHelper';
 export class PostService {
   private baseUrl = "http://localhost:5000/api/posts/";
 
-
+  catgorySelectedEmitter = new EventEmitter<string>();
   constructor(private http: HttpClient) {}
 
-  getPosts(limit?:number, page?:number) {
+  getPosts(limit?:number, page?:number, username?: string, category?:string) {
     var offset = page? page * limit!: 0
-    return this.http.get<IPostsEnvelope>(this.baseUrl+'?limit='+limit+'&offset='+offset);
+    return this.http.get<IPostsEnvelope>(this.baseUrl+'?limit='+limit+'&offset='+offset+'&username='+username+'&categories='+category );
   }
   getPost(id: string) {
     return this.http.get<IPost>(this.baseUrl + id);

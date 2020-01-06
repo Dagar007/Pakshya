@@ -2,7 +2,9 @@
     <p class="sidebar__header">Categories</p>
     <mat-list class="sidebar__list">
       <div *ngFor="let category of categories">
-        <mat-list-item class="sidebar__list--item">{{category.value}}</mat-list-item>
+        <mat-list-item class="sidebar__list--item"
+        (click)="catgorySelected(category.id)"
+        >{{category.value}}</mat-list-item>
         <mat-divider></mat-divider>
       </div>
       </mat-list>

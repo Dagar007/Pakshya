@@ -15,9 +15,9 @@ namespace API.Controllers
   {
     [AllowAnonymous]
     [HttpGet]
-    public async Task<ActionResult<List.PostsEnvelope>> List(int? limit, int? offset)
+    public async Task<ActionResult<List.PostsEnvelope>> List(int? limit, int? offset,string categories , string username )
     {
-      return await Mediator.Send(new List.Query(limit, offset));
+      return await Mediator.Send(new List.Query(limit, offset,categories,username));
     }
     [HttpGet("{id}")]
     public async Task<ActionResult<PostDto>> Details(Guid id)

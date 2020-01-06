@@ -153,6 +153,8 @@ namespace API
             app.UseCors("CorsPolicy");
             app.UseAuthentication();
             app.UseAuthorization();
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

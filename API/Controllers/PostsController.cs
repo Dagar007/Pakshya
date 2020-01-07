@@ -56,6 +56,7 @@ namespace API.Controllers
     {
       return await Mediator.Send(new UnLike.Command{Id = id});
     }
+    [AllowAnonymous]
     [HttpGet("stats")]
     public async Task<ActionResult<List<MostDisscussedPostDto>>> Stats()
     {

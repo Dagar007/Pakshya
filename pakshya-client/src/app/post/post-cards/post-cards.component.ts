@@ -1,13 +1,9 @@
 import {
   Component,
-  OnInit,
-  IterableDiffer,
-  KeyValueDiffer,
-  IterableDiffers,
-  KeyValueDiffers
+  OnInit
 } from "@angular/core";
 import { PostService } from "src/app/_services/post.service";
-import { IPost, IPostsEnvelope } from "src/app/_models/post";
+import { IPost, IPostsEnvelope, IPostConcise } from "src/app/_models/post";
 import { AlertifyService } from "src/app/_services/alertify.service";
 
 @Component({
@@ -16,7 +12,7 @@ import { AlertifyService } from "src/app/_services/alertify.service";
   styleUrls: ["./post-cards.component.scss"]
 })
 export class PostCardsComponent implements OnInit {
-  posts: IPost[];
+  posts: IPostConcise[];
   LIMIT = 2;
   postCount = 0;
   page = 0;
@@ -69,7 +65,7 @@ export class PostCardsComponent implements OnInit {
         }
       );
   }
-  postDeleted(deletedPost: IPost) {
+  postDeleted(deletedPost: IPostConcise) {
     this.posts = this.posts.filter(c => {
       return c.id !== deletedPost.id;
     });

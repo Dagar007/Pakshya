@@ -1,15 +1,14 @@
 <div class="card__header">
   <img
-    [src]="host?.image ? host?.image : '../assets/user.png'"
-    alt="UserName"
+    [src]="post.hostImage? post.hostImage : '../assets/user.png'"
+    alt={{post.hostUsername}}
     class="avatar"
   />
   <div class="user-info-box">
     <a
-      *ngIf="host"
       class="user-info-box--link"
-      [routerLink]="['/profile', host?.username]"
-      >{{ host?.displayName }}</a
+      [routerLink]="['/profile', post.hostUsername]"
+      >{{ post.hostDisplayName}}</a
     >
     <span>{{ post.date | timeAgo }}</span>
   </div>
@@ -25,7 +24,7 @@
     aria-label="icon-button with edit icon"
     class="card__headline--btn"
     [routerLink]="['/create-post', post.id]"
-    *ngIf="isAuthor1"
+    *ngIf="post.isAuthor"
   >
     <mat-icon class="card__headline--icon" matTooltip="Edit Post">
       edit
@@ -36,7 +35,7 @@
     aria-label="icon-button with delete icon"
     class="card__headline--btn"
     (click)="onPostDelete()"
-    *ngIf="isAuthor1"
+    *ngIf="post.isAuthor"
   >
     <mat-icon class="card__headline--icon" matTooltip="Delete Post"
       >delete_forever</mat-icon
@@ -66,14 +65,14 @@
       matTooltip="{{f.displayName}}"/>
     </div> -->
     <div class="engagers-info--like">
-      {{ noOfLikes < 2 ? "Like" : "Likes" }}
+      {{ post.noOfLikes < 2 ? "Like" : "Likes" }}
       <span matTooltip="{{ noOfLikes }} like this.">
-        {{ noOfLikes }}
+        {{ post.noOfLikes }}
       </span>
     </div>
     <span class="engagers-info--comment">
-      {{ post.comments.length < 2 ? "Comment" : "Comments" }}
-      {{ post.comments.length }}
+      {{ post.noOfComments < 2 ? "Comment" : "Comments" }}
+      {{ post.noOfComments }}
     </span>
   </div>
 

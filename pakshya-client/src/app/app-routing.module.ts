@@ -30,7 +30,7 @@ const routes: Routes = [
       { path: "profile/:username", component: ProfileComponent }
     ]
   },
-  { path: "posts", component: PostComponent },
+ 
 
   { path: "**", redirectTo: "", pathMatch: "full" }
 ];

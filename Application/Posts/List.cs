@@ -15,7 +15,7 @@ namespace Application.Posts
     {
         public class PostsEnvelope
         {
-            public List<PostDto> Posts { get; set; }
+            public List<PostConcise> Posts { get; set; }
             public int PostCount { get; set; }
         }
         public class Query : IRequest<PostsEnvelope>
@@ -63,7 +63,7 @@ namespace Application.Posts
                     .Take(request.Limit ?? 3).ToListAsync();
                 return new PostsEnvelope
                 {
-                    Posts = _mapper.Map<List<Post>, List<PostDto>>(posts),
+                    Posts = _mapper.Map<List<Post>, List<PostConcise>>(posts),
                     PostCount = queryable.Count()
                 };
                 //var postToReturn = _mapper.Map<Post, PostDto>(post);

@@ -1,5 +1,5 @@
 export interface IPostsEnvelope {
-  posts: IPost[],
+  posts: IPostConcise[],
   postCount: number
 }
 
@@ -48,4 +48,20 @@ export interface ICommentor {
   displayName: string,
   isAuthor: boolean,
   noOfLikes: number
+}
+
+export interface IPostConcise {
+  id: string;
+  heading: string;
+  description: string;
+  category: ICategory;
+  date: Date;
+  url?: string;
+  hostUsername: string;
+  hostDisplayName: string;
+  hostImage: string;
+  isAuthor: boolean;
+  isPostLiked: boolean;
+  noOfLikes: number;
+  noOfComments: number;
 }

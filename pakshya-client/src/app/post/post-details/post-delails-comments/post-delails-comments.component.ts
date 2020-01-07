@@ -8,6 +8,7 @@ import {
 import { AlertifyService } from 'src/app/_services/alertify.service';
 import { AuthService } from 'src/app/_services/auth.service';
 import { CommentService } from 'src/app/_services/comment.service';
+import { environment } from 'src/environments/environment';
 
 
 @Component({
@@ -23,6 +24,7 @@ export class PostDelailsCommentsComponent implements OnInit, OnDestroy {
   commentToPost: any;
   currentUserName: string;
   private _hubConnection: HubConnection;
+  baseUrl = environment.chatUrl;
   constructor(private alertify: AlertifyService, private authService: AuthService, private commentService: CommentService) { }
 
   type:string = 'for'
@@ -35,7 +37,7 @@ export class PostDelailsCommentsComponent implements OnInit, OnDestroy {
 
   createHubConnection() {
     this._hubConnection = new HubConnectionBuilder()
-      .withUrl("http://localhost:5000/chat", {
+      .withUrl(this.baseUrl+"chat", {
         accessTokenFactory: () => localStorage.getItem("token")
       })
       .build();

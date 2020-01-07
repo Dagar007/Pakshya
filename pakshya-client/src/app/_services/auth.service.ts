@@ -6,12 +6,13 @@ import { IUser, IUserLoginFormValues, IUserRegisterFormValues } from '../_models
 
 
 import {JwtHelperService} from '@auth0/angular-jwt';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  baseUrl = 'http://localhost:5000/api/user/';
+  baseUrl = environment.apiUrl;
   jwtHelper = new JwtHelperService(); 
   currentUser1: IUser;
   decodedToken: any;
@@ -25,7 +26,7 @@ export class AuthService {
   constructor(private http: HttpClient) { }
 
   login(loginFormValues : IUserLoginFormValues){
-    return this.http.post<IUser>(this.baseUrl+'login', loginFormValues).pipe(
+    return this.http.post<IUser>(this.baseUrl+'user/'+'login', loginFormValues).pipe(
       map((res: IUser) => {
         const user = res;
         if(user)
@@ -41,11 +42,11 @@ export class AuthService {
   }
 
   currentUser() {
-    return this.http.get<IUser>(this.baseUrl);
+    return this.http.get<IUser>(this.baseUrl+'user/');
   }
 
   register(register :IUserRegisterFormValues) {
-    return this.http.post<IUser>(this.baseUrl+'register',register).pipe(
+    return this.http.post<IUser>(this.baseUrl+'user/'+'register',register).pipe(
       map((response: IUser) => {
         const user = response;
         if(user)

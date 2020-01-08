@@ -42,14 +42,31 @@ namespace API
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
+        // public void ConfigureDevelopmentServices(IServiceCollection services)
+        // {
+        //     services.AddDbContext<DataContext>(opt =>
+        //                {
+        //                    opt.UseLazyLoadingProxies();
+        //                    opt.UseSqlite(Configuration.GetConnectionString("DefaultConnection"));
+        //                });
+        //     ConfigureServices(services);
+        // }
+
+        // public void ConfigureProductionServices(IServiceCollection services)
+        // {
+           
+        //     ConfigureServices(services);
+        // }
+
+
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<DataContext>(opt =>
-            {
-                opt.UseLazyLoadingProxies();
-                opt.UseSqlite(Configuration.GetConnectionString("DefaultConnection"));
-            });
+             services.AddDbContext<DataContext>(opt =>
+                       {
+                           opt.UseLazyLoadingProxies();
+                           opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+                       });
+
             services.AddCors(opt =>
             {
                 opt.AddPolicy("CorsPolicy", policy =>
@@ -132,7 +149,7 @@ namespace API
 
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseMiddleware<ErrorHandlingMiddleware>();
@@ -148,22 +165,22 @@ namespace API
             }
 
             // app.UseHttpsRedirection();
-             app.UseDefaultFiles();
+            app.UseDefaultFiles();
             app.UseStaticFiles();
 
             app.UseRouting();
             app.UseCors("CorsPolicy");
             app.UseAuthentication();
             app.UseAuthorization();
-           
+
             app.UseEndpoints(endpoints =>
             {
-                
+
                 endpoints.MapControllers();
                 endpoints.MapHub<ChatHub>("/chat");
                 endpoints.MapFallbackToController("Index", "Fallback");
-                
-                
+
+
             });
 
         }

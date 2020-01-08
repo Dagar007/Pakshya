@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Persistence.Migrations
 {
-    public partial class ChangedAppUserForInterests : Migration
+    public partial class SqlServerMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -71,7 +71,7 @@ namespace Persistence.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -84,7 +84,7 @@ namespace Persistence.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     RoleId = table.Column<string>(nullable: false),
                     ClaimType = table.Column<string>(nullable: true),
                     ClaimValue = table.Column<string>(nullable: true)
@@ -105,7 +105,7 @@ namespace Persistence.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<string>(nullable: false),
                     ClaimType = table.Column<string>(nullable: true),
                     ClaimValue = table.Column<string>(nullable: true)
@@ -338,77 +338,31 @@ namespace Persistence.Migrations
             migrationBuilder.InsertData(
                 table: "Categories",
                 columns: new[] { "Id", "Value" },
-                values: new object[] { "abc", "Politics" });
-
-            migrationBuilder.InsertData(
-                table: "Categories",
-                columns: new[] { "Id", "Value" },
-                values: new object[] { "def", "Economics" });
-
-            migrationBuilder.InsertData(
-                table: "Categories",
-                columns: new[] { "Id", "Value" },
-                values: new object[] { "ghi", "India" });
-
-            migrationBuilder.InsertData(
-                table: "Categories",
-                columns: new[] { "Id", "Value" },
-                values: new object[] { "jkl", "World" });
-
-            migrationBuilder.InsertData(
-                table: "Categories",
-                columns: new[] { "Id", "Value" },
-                values: new object[] { "mno", "Sports" });
-
-            migrationBuilder.InsertData(
-                table: "Categories",
-                columns: new[] { "Id", "Value" },
-                values: new object[] { "pqr", "Random" });
-
-            migrationBuilder.InsertData(
-                table: "Categories",
-                columns: new[] { "Id", "Value" },
-                values: new object[] { "stu", "Entertainment" });
-
-            migrationBuilder.InsertData(
-                table: "Categories",
-                columns: new[] { "Id", "Value" },
-                values: new object[] { "vwx", "Good Life" });
-
-            migrationBuilder.InsertData(
-                table: "Categories",
-                columns: new[] { "Id", "Value" },
-                values: new object[] { "yza", "Fashion And Style" });
-
-            migrationBuilder.InsertData(
-                table: "Categories",
-                columns: new[] { "Id", "Value" },
-                values: new object[] { "bcd", "Writing" });
-
-            migrationBuilder.InsertData(
-                table: "Categories",
-                columns: new[] { "Id", "Value" },
-                values: new object[] { "efg", "Computers" });
-
-            migrationBuilder.InsertData(
-                table: "Categories",
-                columns: new[] { "Id", "Value" },
-                values: new object[] { "hij", "Philosophy" });
+                values: new object[,]
+                {
+                    { "abc", "Politics" },
+                    { "def", "Economics" },
+                    { "ghi", "India" },
+                    { "jkl", "World" },
+                    { "mno", "Sports" },
+                    { "pqr", "Random" },
+                    { "stu", "Entertainment" },
+                    { "vwx", "Good Life" },
+                    { "yza", "Fashion And Style" },
+                    { "bcd", "Writing" },
+                    { "efg", "Computers" },
+                    { "hij", "Philosophy" }
+                });
 
             migrationBuilder.InsertData(
                 table: "Values",
                 columns: new[] { "Id", "Name" },
-                values: new object[] { 1, "Value 101" });
-
-            migrationBuilder.InsertData(
-                table: "Values",
-                columns: new[] { "Id", "Name" },
-                values: new object[] { 2, "Value 102" });
-
-            migrationBuilder.InsertData(
-                table: "Values",
-                columns: new[] { "Id", "Name" },
-                values: new object[] { 3, "Value 103" });
+                values: new object[,]
+                {
+                    { 1, "Value 101" },
+                    { 2, "Value 102" },
+                    { 3, "Value 103" }
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -419,7 +373,8 @@ namespace Persistence.Migrations
                 name: "RoleNameIndex",
                 table: "AspNetRoles",
                 column: "NormalizedName",
-                unique: true);
+                unique: true,
+                filter: "[NormalizedName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetUserClaims_UserId",
@@ -445,7 +400,8 @@ namespace Persistence.Migrations
                 name: "UserNameIndex",
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
-                unique: true);
+                unique: true,
+                filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Comments_AuthorId",

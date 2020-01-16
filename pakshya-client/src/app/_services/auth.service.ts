@@ -60,6 +60,21 @@ export class AuthService {
     )
   }
 
+  fbLogin(accessToken: string) {
+    return this.http.post<IUser>(this.baseUrl +'user/facebook', {accessToken}).pipe(
+      map((response: IUser) => {
+        const user = response;
+        if(user)
+        {
+          localStorage.setItem('token', user.token);
+          localStorage.setItem('user', JSON.stringify(user))
+          this.decodedToken = this.jwtHelper.decodeToken(user.token);
+          this.currentUser1 = user;
+        }
+      })
+    )
+  }
+
   loggedIn() {
     const token = localStorage.getItem('token');
     return !this.jwtHelper.isTokenExpired(token);

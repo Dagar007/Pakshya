@@ -26,10 +26,6 @@ export class InterestsComponent implements OnInit {
 
   }
   ngOnInit() {
-    // this.postService.getCategories().subscribe((categories: ICategory[]) => {
-    //   this.categories = categories;
-    console.log(this.profile.interests)
-     
     };
 
   onSubmit(){

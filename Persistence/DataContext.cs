@@ -51,7 +51,8 @@ namespace Persistence
                     .HasOne(p => p.Post)
                     .WithMany(u => u.UserPosts)
                     .HasForeignKey(a => a.PostId);
-             builder.Entity<UserComment>(x => x.HasKey(ua => new { ua.AppUserId, ua.CommentId }));
+
+            builder.Entity<UserComment>(x => x.HasKey(ua => new { ua.AppUserId, ua.CommentId }));
             builder.Entity<UserComment>()
               .HasOne(u => u.AppUser)
               .WithMany(c => c.UserComments)

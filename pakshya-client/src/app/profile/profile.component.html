@@ -5,7 +5,7 @@
   <div class="personal-about-wrapper">
     <app-personal-about *ngIf="profile" [profile] ="profile" [edit] = "edit" ></app-personal-about>
   </div>
-  <div class="paksya-stats-wrapper">
-    <app-pakshya-stats></app-pakshya-stats>
+  <div class="paksya-stats-wrapper" >
+    <app-pakshya-stats *ngIf="profile" [profile] ="profile"></app-pakshya-stats>
   </div>
 </div>

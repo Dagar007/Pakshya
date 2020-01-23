@@ -6,9 +6,12 @@ namespace Application.Profiles
 {
     public class Profile
     {
+        // General Section
         public string DisplayName { get; set; } 
         public string Username { get; set; }
         public string Image { get; set; }
+
+        // Personal Section
         public string Bio { get; set; }
         public string Education { get; set; }
         public string Address { get; set; }
@@ -19,6 +22,13 @@ namespace Application.Profiles
         public int FollowingCount { get; set; }
         public ICollection<Photo> Photos { get; set; }
 
+        // Stats Section
         public ICollection<InterestDTO> Interests { get; set; }
+        public ICollection<PostPostedByUserDto> Posts { get; set; }
+        public ICollection<CommentPostedByUserDto> Comments { get; set; }
+
+        public ICollection<FollowingUsersDTO> Followings { get; set; }
+        public ICollection<FollowingUsersDTO> Followers { get; set; }
+        
     }
 }

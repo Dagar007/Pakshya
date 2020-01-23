@@ -8,7 +8,7 @@ import { TimeAgoPipe } from "time-ago-pipe";
 import {
   SocialLoginModule,
   AuthServiceConfig,
-  FacebookLoginProvider
+  FacebookLoginProvider,
 } from "angularx-social-login";
 
 import { AppRoutingModule } from "./app-routing.module";
@@ -46,12 +46,8 @@ export function tokenGetter() {
   return localStorage.getItem("token");
 }
 
-let config = new AuthServiceConfig([
-  // {
-  //    id: GoogleLoginProvider.PROVIDER_ID,
-  //    provider: new GoogleLoginProvider(Google ClientID)
-  // },
-  {
+const config = new AuthServiceConfig([
+ {
     id: FacebookLoginProvider.PROVIDER_ID,
     provider: new FacebookLoginProvider("536520493877013")
   }
@@ -109,9 +105,12 @@ export function provideConfig() {
         ]
       }
     }),
-    SocialLoginModule.initialize(config)
+    SocialLoginModule
   ],
-  providers: [ErrorInterceptorProvider, {provide: AuthServiceConfig, useFactory: provideConfig}],
+  providers: [
+    ErrorInterceptorProvider, 
+    { provide: AuthServiceConfig, useFactory: provideConfig },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

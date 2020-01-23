@@ -4,6 +4,8 @@ using System.Net;
 using System.Threading.Tasks;
 using Application.Errors;
 using Application.Interfaces;
+using AutoMapper;
+using Domain;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
 
@@ -13,8 +15,10 @@ namespace Application.Profiles
     {
         private readonly DataContext _context;
         private readonly IUserAccessor _userAccessor;
-        public ProfileReader(DataContext context, IUserAccessor userAccessor)
+        private readonly IMapper _mapper;
+        public ProfileReader(DataContext context, IUserAccessor userAccessor, IMapper mapper)
         {
+            _mapper = mapper;
             _userAccessor = userAccessor;
             _context = context;
         }
@@ -24,6 +28,8 @@ namespace Application.Profiles
             var user = await _context.Users.SingleOrDefaultAsync(u => u.UserName == username);
             if (user == null)
                 throw new RestException(HttpStatusCode.NotFound, new { User = "User not found." });
+            var userPosts = await _context.UserPosts.Where(u => u.AppUser.UserName == user.UserName && u.IsAuthor == true).ToListAsync();
+            var userComments = await _context.UserComments.Where(u => u.AppUser.UserName == user.UserName && u.IsAuthor == true).ToListAsync();
             var currentUser = await _context.Users.SingleOrDefaultAsync(u => u.UserName == _userAccessor.GetUserName());
             var categories = await _context.Categories.ToListAsync();
             List<InterestDTO> allInterests = new List<InterestDTO>();
@@ -39,7 +45,7 @@ namespace Application.Profiles
                     {
                         if (c.Id == i)
                         {
-                            allInterests.Find(io=> io.Id == i).DoesUser = true;
+                            allInterests.Find(io => io.Id == i).DoesUser = true;
                         }
                     }
                 }
@@ -56,7 +62,11 @@ namespace Application.Profiles
                 Work = user.Work,
                 FollowersCount = user.Followers.Count(),
                 FollowingCount = user.Followings.Count(),
-                Interests = allInterests
+                Interests = allInterests,
+                Posts = _mapper.Map<List<UserPost>,List<PostPostedByUserDto>>(userPosts),
+                Comments = _mapper.Map<List<UserComment>,List<CommentPostedByUserDto>>(userComments),
+                Followers = _mapper.Map<List<UserFollowing>,List<FollowingUsersDTO>>(user.Followers.ToList()),
+                Followings=  _mapper.Map<List<UserFollowing>,List<FollowingUsersDTO>>(user.Followings.ToList()),
             };
             if (currentUser.Followings.Any(x => x.TargetId == user.Id))
                 profile.IsFollowed = true;

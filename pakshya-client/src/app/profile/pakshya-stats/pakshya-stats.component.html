@@ -4,36 +4,46 @@
     <mat-tab-group>
       <mat-tab label="Posted" class="section-sub-heading">
         <mat-list class="sub-heading-list">
-          <mat-list-item>
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ratione,
-            dicta.
-          </mat-list-item>
-          <mat-divider></mat-divider>
-          <mat-list-item>
-            <p matLine>
-              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ratione,
-              dicta., amet consectetur adipisicing elit. Ratione, dicta. Lorem
-              ipsum dolor sit, amet consectetur adipisicing elit. Ratione,
-              dicta., amet consectetur adipisicing elit. Ratione, dicta. Lorem
-              ipsum dolor sit, amet consectetur adipisicing elit. Ratione,
-              dicta., amet consectetur adipisicing elit. Ratione, dicta.
-            </p>
-          </mat-list-item>
-          <mat-divider></mat-divider>
-          <mat-list-item>
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ratione,
-            dicta., amet
-          </mat-list-item>
+          <div *ngFor="let posted of profile.posts">
+            <mat-list-item>
+             {{posted.heading}} - ({{posted.noOfLikes}}) 
+            </mat-list-item>
+            <mat-divider></mat-divider>
+          </div>
         </mat-list>
+          
+         
       </mat-tab>
       <mat-tab label="Comments">
-        <p class="sub-heading-para">80</p>
+        <mat-list class="sub-heading-list">
+          <div *ngFor="let comment of profile.comments">
+            <mat-list-item>
+             {{comment.body}} - ({{comment.noLikes}}) 
+            </mat-list-item>
+            
+            <mat-divider></mat-divider>
+          </div>
+        </mat-list>
       </mat-tab>
       <mat-tab label="Following">
-        <p class="sub-heading-para">80</p>
+       <div class="following-tab">
+         <div class="follow-box" *ngFor="let follow of profile.followings">
+          <img [src]="follow?.image ? follow?.image : '../assets/user.png'" alt="" class="follow-box-image">
+           <div class="follow-box-info">
+              {{follow.displayName}}
+           </div>
+         </div>
+       </div>
       </mat-tab>
       <mat-tab label="Followers">
-        <p class="sub-heading-para">80</p>
+        <div class="following-tab">
+          <div class="follow-box" *ngFor="let follow of profile.followers">
+           <img [src]="follow?.image ? follow?.image : '../assets/user.png'" alt="" class="follow-box-image">
+            <div class="follow-box-info">
+               {{follow.displayName}}
+            </div>
+          </div>
+        </div>
       </mat-tab>
       <mat-tab label="Active Since">
         <p class="sub-heading-para">20 Aug, 2010</p>

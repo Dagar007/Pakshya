@@ -41,31 +41,13 @@ namespace API
         }
 
         public IConfiguration Configuration { get; }
-
-        // public void ConfigureDevelopmentServices(IServiceCollection services)
-        // {
-        //     services.AddDbContext<DataContext>(opt =>
-        //                {
-        //                    opt.UseLazyLoadingProxies();
-        //                    opt.UseSqlite(Configuration.GetConnectionString("DefaultConnection"));
-        //                });
-        //     ConfigureServices(services);
-        // }
-
-        // public void ConfigureProductionServices(IServiceCollection services)
-        // {
-           
-        //     ConfigureServices(services);
-        // }
-
-
         public void ConfigureServices(IServiceCollection services)
         {
-             services.AddDbContext<DataContext>(opt =>
-                       {
-                           opt.UseLazyLoadingProxies();
-                           opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
-                       });
+            services.AddDbContext<DataContext>(opt =>
+                      {
+                          opt.UseLazyLoadingProxies();
+                          opt.UseSqlite(Configuration.GetConnectionString("DefaultConnection"));
+                      });
 
             services.AddCors(opt =>
             {
@@ -88,6 +70,7 @@ namespace API
             {
                 cfg.RegisterValidatorsFromAssemblyContaining<Create>();
             });
+
             var builder = services.AddIdentityCore<AppUser>();
             var identityBuilder = new IdentityBuilder(builder.UserType, builder.Services);
             identityBuilder.AddEntityFrameworkStores<DataContext>();
@@ -145,7 +128,7 @@ namespace API
             services.AddScoped<IUserAccessor, UserAccessor>();
             services.AddScoped<IPhotoAccessor, PhotoAccessor>();
             services.AddScoped<IProfileReader, ProfileReader>();
-            services.AddScoped<IFacebookAccessor,FacebookAccessor>();
+            services.AddScoped<IFacebookAccessor, FacebookAccessor>();
             services.Configure<CloudinarySettings>(Configuration.GetSection("Cloudinary"));
             services.Configure<FacebookAppSettings>(Configuration.GetSection("Authentication:Facebook"));
 
@@ -163,7 +146,7 @@ namespace API
             else
             {
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                 app.UseHsts();
+               // app.UseHsts();
             }
 
             // app.UseHttpsRedirection();

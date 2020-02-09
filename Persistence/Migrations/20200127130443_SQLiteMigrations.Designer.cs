@@ -9,8 +9,8 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200123042207_initial")]
-    partial class initial
+    [Migration("20200127130443_SQLiteMigrations")]
+    partial class SQLiteMigrations
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -205,7 +205,7 @@ namespace Persistence.Migrations
                     b.Property<int>("Liked")
                         .HasColumnType("INTEGER");
 
-                    b.Property<Guid?>("PostId")
+                    b.Property<Guid>("PostId")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -496,7 +496,9 @@ namespace Persistence.Migrations
 
                     b.HasOne("Domain.Post", "Post")
                         .WithMany("Comments")
-                        .HasForeignKey("PostId");
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Domain.Photo", b =>

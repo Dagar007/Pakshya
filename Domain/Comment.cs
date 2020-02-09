@@ -12,6 +12,7 @@ namespace Domain
         public bool Against { get; set; }
         public int Liked { get; set; }
         public virtual Post Post { get; set; }
+        public Guid PostId {get; set;}
         public DateTime Date { get; set; }
          public virtual ICollection<UserComment> UserComments { get; set; }
         

@@ -17,7 +17,6 @@ export class SidebarComponent implements OnInit {
     })
   }
   catgorySelected(id: string) {
-    console.log(id)
     this.postService.catgorySelectedEmitter.emit(id);
 
     }

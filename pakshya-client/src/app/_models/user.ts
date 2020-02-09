@@ -14,7 +14,7 @@ export interface IUserRegisterFormValues {
     username: string;
     email: string;
     password: string;
-    birthday: string;
+    birthday: Date;
     displayName: string;
     gender: string
 }

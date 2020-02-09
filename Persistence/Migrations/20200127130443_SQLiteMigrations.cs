@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Persistence.Migrations
 {
-    public partial class initial : Migration
+    public partial class SQLiteMigrations : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -263,7 +263,7 @@ namespace Persistence.Migrations
                     For = table.Column<bool>(nullable: false),
                     Against = table.Column<bool>(nullable: false),
                     Liked = table.Column<int>(nullable: false),
-                    PostId = table.Column<Guid>(nullable: true),
+                    PostId = table.Column<Guid>(nullable: false),
                     Date = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
@@ -280,7 +280,7 @@ namespace Persistence.Migrations
                         column: x => x.PostId,
                         principalTable: "Posts",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(

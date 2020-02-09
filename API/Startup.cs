@@ -55,7 +55,6 @@ namespace API
                 {
                     policy.AllowAnyHeader()
                     .AllowAnyMethod()
-                    .WithExposedHeaders("WWW-Authenciate")
                     .WithOrigins("http://localhost:4200").AllowCredentials();
                 });
             });

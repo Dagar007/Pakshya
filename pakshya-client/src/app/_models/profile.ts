@@ -12,6 +12,7 @@ export interface IProfile {
     followersCount: number;
     followingCount: number;
     photos: IPhoto[];
+    views: number;
     interests: ICategory[];
     posts: IUserPosed[];
     comments: IUserCommented[];

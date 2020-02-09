@@ -35,6 +35,10 @@ namespace Application.Posts
                 if (post == null)
                     throw new RestException(HttpStatusCode.NotFound, new { post = "Not found" });
                 var postToReturn = _mapper.Map<Post,PostDto>(post);
+                post.Views ++;
+                await _context.SaveChangesAsync();
+                
+
                 return postToReturn;
             }
         }

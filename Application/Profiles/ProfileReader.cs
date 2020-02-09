@@ -30,7 +30,9 @@ namespace Application.Profiles
                 throw new RestException(HttpStatusCode.NotFound, new { User = "User not found." });
             var userPosts = await _context.UserPosts.Where(u => u.AppUser.UserName == user.UserName && u.IsAuthor == true).ToListAsync();
             var userComments = await _context.UserComments.Where(u => u.AppUser.UserName == user.UserName && u.IsAuthor == true).ToListAsync();
+            
             var currentUser = await _context.Users.SingleOrDefaultAsync(u => u.UserName == _userAccessor.GetUserName());
+           
             var categories = await _context.Categories.ToListAsync();
             List<InterestDTO> allInterests = new List<InterestDTO>();
             foreach (var c in categories)
@@ -63,6 +65,7 @@ namespace Application.Profiles
                 FollowersCount = user.Followers.Count(),
                 FollowingCount = user.Followings.Count(),
                 Interests = allInterests,
+                Views = userPosts.Sum(u => u.Post.Views),
                 Posts = _mapper.Map<List<UserPost>,List<PostPostedByUserDto>>(userPosts),
                 Comments = _mapper.Map<List<UserComment>,List<CommentPostedByUserDto>>(userComments),
                 Followers = _mapper.Map<List<UserFollowing>,List<FollowingUsersDTO>>(user.Followers.ToList()),

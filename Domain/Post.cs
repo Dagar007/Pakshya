@@ -13,6 +13,7 @@ namespace Domain
         public string Url { get; set; }
         public int For { get; set; }
         public int Against { get; set; }
+        public int Views { get; set; }
 
         public virtual ICollection<UserPost> UserPosts { get; set; }
 

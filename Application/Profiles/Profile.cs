@@ -23,6 +23,7 @@ namespace Application.Profiles
         public ICollection<Photo> Photos { get; set; }
 
         // Stats Section
+        public int Views { get; set; }
         public ICollection<InterestDTO> Interests { get; set; }
         public ICollection<PostPostedByUserDto> Posts { get; set; }
         public ICollection<CommentPostedByUserDto> Comments { get; set; }

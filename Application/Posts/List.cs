@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Application.Helpers;
 using AutoMapper;
 using Domain;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
 
@@ -13,60 +15,52 @@ namespace Application.Posts
 {
     public class List
     {
-        public class PostsEnvelope
+        // public class PostsEnvelope
+        // {
+        //     public List<PostConcise> Posts { get; set; }
+        //     public int PostCount { get; set; }
+        // }
+        public class Query : IRequest<List<PostConcise>>
         {
-            public List<PostConcise> Posts { get; set; }
-            public int PostCount { get; set; }
-        }
-        public class Query : IRequest<PostsEnvelope>
-        {
-            public Query(int? limit, int? offset, string categories, string username)
+            public Query(PostParams postParams)
             {
-                Limit = limit;
-                Offset = offset;
-                Categories = categories;
-                Username = username;
-
+                this.PostParams = postParams;
             }
-            public int? Limit { get; set; }
-            public int? Offset { get; set; }
-            public string Categories { get; set; }  = null;
-            public string Username { get; set; } =null;
+            public PostParams PostParams { get; set; }
         }
-        public class Handler : IRequestHandler<Query, PostsEnvelope>
+        public class Handler : IRequestHandler<Query, List<PostConcise>>
         {
             private readonly DataContext _context;
             private readonly IMapper _mapper;
-            public Handler(DataContext context, IMapper mapper)
+            private readonly IHttpContextAccessor _httpContext;
+            public Handler(DataContext context, IMapper mapper, IHttpContextAccessor httpContext)
             {
+                _httpContext = httpContext;
                 _mapper = mapper;
                 _context = context;
             }
 
-            public async Task<PostsEnvelope> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<List<PostConcise>> Handle(Query request, CancellationToken cancellationToken)
             {
                 var queryable = _context.Posts
                     .OrderByDescending(d => d.Date)
                 .AsQueryable();
 
-                if(!string.IsNullOrEmpty(request.Categories)) 
+                if(!string.IsNullOrEmpty(request.PostParams.Category)) 
                 {
-                    queryable = queryable.Where(c => c.Category.Id == request.Categories);
+                    queryable = queryable.Where(c => c.Category.Id == request.PostParams.Category);
                 }
-                if(!string.IsNullOrEmpty(request.Username))
-                {
-                    queryable = queryable.Where(u => u.UserPosts.Any(x => x.AppUser.UserName == request.Username));
-                }
+               
+                // if(!string.IsNullOrEmpty(request.Username))
+                // {
+                //     queryable = queryable.Where(u => u.UserPosts.Any(x => x.AppUser.UserName == request.Username));
+                // }
 
-                var posts = await queryable
-                    .Skip(request.Offset ?? 0)
-                    .Take(request.Limit ?? 3).ToListAsync();
-                return new PostsEnvelope
-                {
-                    Posts = _mapper.Map<List<Post>, List<PostConcise>>(posts),
-                    PostCount = queryable.Count()
-                };
-                //var postToReturn = _mapper.Map<Post, PostDto>(post);
+                var posts = await PagedList<Post>.CreateAsync(queryable, request.PostParams.PageNumber, request.PostParams.PageSize);
+                _httpContext.HttpContext.Response.AddPagination(posts.CurrentPage, posts.PageSize,posts.TotalCount, posts.TotalPages);
+                return _mapper.Map<List<Post>, List<PostConcise>>(posts);
+
+                
             }
         }
     }

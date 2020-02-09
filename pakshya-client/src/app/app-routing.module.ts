@@ -8,9 +8,10 @@ import { LoginComponent } from "./auth/login/login.component";
 import { RegisterComponent } from "./auth/register/register.component";
 import { AuthGuard } from "./_guards/auth.guard";
 import { ProfileComponent } from './profile/profile.component';
+import { PostResolver } from './_resolvers/_post.resolver';
 
 const routes: Routes = [
-  { path: "", component: PostComponent },
+  { path: "", runGuardsAndResolvers:'always', component: PostComponent,  resolve: {posts:PostResolver } },
   {
     path: "",
     component: HomeComponent,

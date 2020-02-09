@@ -8,5 +8,6 @@ namespace Application.Profiles
         public string Heading { get; set; }
         public int NoOfLikes { get; set; }
         public int NoOfComments { get; set; }
+        public int Views { get; set; }
     }
 }

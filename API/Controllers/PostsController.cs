@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Application.Helpers;
 using Application.Posts;
 using Domain;
 using MediatR;
@@ -15,9 +16,9 @@ namespace API.Controllers
   {
     [AllowAnonymous]
     [HttpGet]
-    public async Task<ActionResult<List.PostsEnvelope>> List(int? limit, int? offset,string categories , string username )
+    public async Task<ActionResult<List<PostConcise>>> List([FromQuery]PostParams  postParams)
     {
-      return await Mediator.Send(new List.Query(limit, offset,categories,username));
+      return await Mediator.Send(new List.Query(postParams));
     }
     [HttpGet("{id}")]
     public async Task<ActionResult<PostDto>> Details(Guid id)

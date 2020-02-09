@@ -1,7 +1,7 @@
-export interface IPostsEnvelope {
-  posts: IPostConcise[],
-  postCount: number
-}
+// export interface IPostsEnvelope {
+//   posts: IPostConcise[],
+//   postCount: number
+// }
 
 export interface IPost {
   id: string;

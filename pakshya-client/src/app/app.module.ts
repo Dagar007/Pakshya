@@ -41,6 +41,7 @@ import { BioComponent } from "./profile/personal-about/bio/bio.component";
 import { EducationComponent } from "./profile/personal-about/education/education.component";
 import { WorkComponent } from "./profile/personal-about/work/work.component";
 import { LivingComponent } from "./profile/personal-about/living/living.component";
+import { PostResolver } from './_resolvers/_post.resolver';
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -108,6 +109,7 @@ export function provideConfig() {
     SocialLoginModule
   ],
   providers: [
+    PostResolver,
     ErrorInterceptorProvider, 
     { provide: AuthServiceConfig, useFactory: provideConfig },
   ],

@@ -3,8 +3,10 @@ import {
   OnInit
 } from "@angular/core";
 import { PostService } from "src/app/_services/post.service";
-import { IPost, IPostsEnvelope, IPostConcise } from "src/app/_models/post";
+import { IPostConcise } from "src/app/_models/post";
 import { AlertifyService } from "src/app/_services/alertify.service";
+import { ActivatedRoute } from '@angular/router';
+import { Pagination, PaginatedResult } from 'src/app/_models/pagination';
 
 @Component({
   selector: "app-post-cards",
@@ -13,79 +15,75 @@ import { AlertifyService } from "src/app/_services/alertify.service";
 })
 export class PostCardsComponent implements OnInit {
   posts: IPostConcise[];
-  LIMIT = 2;
-  postCount = 0;
-  page = 0;
-  totalPages = 0;
   loading = false;
   catgorySelected = "";
+  userParams: any = {};
+  pagination: Pagination;
 
   constructor(
     private postService: PostService,
-    private alertify: AlertifyService
+    private alertify: AlertifyService,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
     this.getPosts();
     this.postService.catgorySelectedEmitter.subscribe(category => {
-      this.catgorySelected = category;
+      this.userParams.category = category;
       this.setPage(0)
       this.loading = true;
       this.posts = null
       this.postService
-        .getPosts(this.LIMIT, this.page, "", this.catgorySelected)
-        .subscribe(
-          (postsEnvelope: IPostsEnvelope) => {
-            console.log(this.catgorySelected);
-            this.posts = postsEnvelope.posts;
-            this.postCount = postsEnvelope.postCount;
-            this.loading = false;
-          },
-          err => {
-            this.loading = false;
-            this.alertify.error(err);
-          }
-        );
-    });
-  }
-
-  getPosts() {
-    this.loading = true;
-    this.postService
-      .getPosts(this.LIMIT, this.page, "", this.catgorySelected)
+        .getPosts(this.pagination.currentPage, this.pagination.itemsPerPage, this.userParams)
       .subscribe(
-        (postsEnvelope: IPostsEnvelope) => {
-          this.posts = postsEnvelope.posts;
-          this.postCount = postsEnvelope.postCount;
+        (res: PaginatedResult<IPostConcise[]>) => {
+          this.pagination = res.pagination;
+          this.posts = res.result;
+         
           this.loading = false;
         },
         err => {
           this.loading = false;
           this.alertify.error(err);
-        }
-      );
+        })
+      
+      
+    });
+  }
+
+  getPosts() {
+    this.loading = true;
+    this.route.data.subscribe(data => {
+     this.pagination= data["posts"].pagination;
+     
+     this.posts = data["posts"].result;
+     this.userParams.category = null;
+     this.loading = false;
+    }, err => {
+      this.loading = false;
+      this.alertify.error(err);
+    })
   }
   postDeleted(deletedPost: IPostConcise) {
     this.posts = this.posts.filter(c => {
       return c.id !== deletedPost.id;
     });
   }
-  getTotalPages() {
-    return Math.ceil(this.postCount / this.LIMIT);
-  }
+  
   setPage(page: number) {
-    this.page = page;
+    this.pagination.currentPage = page;
   }
 
   loadNextPosts() {
-    this.setPage(this.page + 1);
+    this.setPage(this.pagination.currentPage + 1);
     this.loading = true;
     this.postService
-      .getPosts(this.LIMIT, this.page, "", this.catgorySelected)
+      .getPosts(this.pagination.currentPage, this.pagination.itemsPerPage, this.userParams)
       .subscribe(
-        (postsEnvelope: IPostsEnvelope) => {
-          Array.prototype.push.apply(this.posts, postsEnvelope.posts);
-          this.postCount = postsEnvelope.postCount;
+        (res: PaginatedResult<IPostConcise[]>) => {
+          this.pagination = res.pagination;
+          Array.prototype.push.apply(this.posts, res.result);
+         
           this.loading = false;
         },
         err => {

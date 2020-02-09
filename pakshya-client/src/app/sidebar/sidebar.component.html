@@ -1,6 +1,10 @@
 <div class="card sidebar">
     <p class="sidebar__header">Categories</p>
     <mat-list class="sidebar__list">
+      <mat-list-item class="sidebar__list--item"
+        (click)="catgorySelected('')"
+        >All Categories</mat-list-item>
+        <mat-divider></mat-divider>
       <div *ngFor="let category of categories">
         <mat-list-item class="sidebar__list--item"
         (click)="catgorySelected(category.id)"

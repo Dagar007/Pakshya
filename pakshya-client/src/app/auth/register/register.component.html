@@ -1,115 +1,130 @@
 <div class="register__conatiner card">
-  <form class="form" #regiterForm=ngForm (ngSubmit)= "onSubmit()">
+  <form class="form" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
     <h1 class="card__headline mb-medium">SignUp</h1>
 
-      <mat-form-field class="form__input form__input--withHint" hintLabel="It should be unique name. If you wish you can have your email as username.">
-        <input 
-        matInput 
-        placeholder="Username"  
-        name="username"
-        [(ngModel)] = "register.username"
-        required  />
-        <mat-error>Username is required.</mat-error>
-      </mat-form-field>
+    <mat-radio-group
+      aria-label="Select an option"
+      class="form__radio"
+      color="primary"
+      formControlName="gender"
+    >
+      <mat-radio-button class="form__radio--btn" value="male"
+        >Male</mat-radio-button
+      >
+      <mat-radio-button class="form__radio--btn" value="female"
+        >Female</mat-radio-button
+      >
+      <mat-radio-button class="form__radio--btn" value="other"
+        >Other</mat-radio-button
+      >
+    </mat-radio-group>
 
-      <mat-form-field class="form__input" hintLabel="You would be known by others by this name.">
-        <input 
-        matInput 
-        placeholder="Display Name"  
-        name="displayName"
-        [(ngModel)] = "register.displayName"
-        required  />
+    <mat-form-field
+      class="form__input form__input--withHint"
+      hintLabel="It should be unique name. If you wish you can have your email as username."
+    >
+      <input matInput placeholder="Username" formControlName="username" />
+      <mat-error>Username is required.</mat-error>
+    </mat-form-field>
 
-        <mat-error>Username is required.</mat-error>
-      </mat-form-field>
+    <mat-form-field
+      class="form__input"
+      hintLabel="You would be known by others by this name."
+    >
+      <input
+        matInput
+        placeholder="Display Name"
+        formControlName="displayName"
+      />
 
-      <mat-form-field class="form__input">
-        <input 
-        matInput 
-        placeholder="Email"  
-        name="email"
-        [(ngModel)] = "register.email"
-        email
-        required 
-        #emailInput="ngModel" />
+      <mat-error>Display Name is required.</mat-error>
+    </mat-form-field>
 
-        <mat-error *ngIf="emailInput.hasError('required')">Email is required.</mat-error>
-        <mat-error *ngIf="emailInput.hasError('email')">Please enter a valid email.</mat-error>
+    <mat-form-field class="form__input">
+      <input matInput placeholder="Email" formControlName="email" />
 
-      </mat-form-field>
+      <mat-error *ngIf="registerForm.get('email').hasError('required')"
+        >Email is required.</mat-error
+      >
+      <mat-error *ngIf="registerForm.get('email').hasError('email')"
+        >Please enter a valid email.</mat-error
+      >
+    </mat-form-field>
 
-      <mat-form-field class="form__input" hintLabel="Should be at least 6 character long.">
-        <input 
-        matInput 
-        placeholder="Password" 
-        [(ngModel)] = "register.password" 
-        name="password" 
-        type="password" 
-        required
-        minlength="6"
-        #passwordLength = "ngModel"/>
+    <mat-form-field class="form__input">
+      <input
+        matInput
+        [matDatepicker]="picker"
+        placeholder="Choose a date"
+        [max]="maxDate"
+        formControlName="birthday"
+      />
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
 
-        <mat-error *ngIf="passwordLength.hasError('required')">Password is required.</mat-error>
-        <mat-error *ngIf="passwordLength.hasError('minlength')">Password should be at least 6 character.</mat-error>
-        <mat-hint align="end">{{passwordLength.value?.length}} / 6</mat-hint>
+    <mat-form-field
+      class="form__input"
+      hintLabel="Should be at least 6 character long."
+    >
+      <input
+        matInput
+        placeholder="Password"
+        formControlName="password"
+        type="password"
+      />
 
-      </mat-form-field>
+      <mat-error *ngIf="registerForm.get('password').hasError('required')"
+        >Password is required.</mat-error
+      >
+      <mat-error *ngIf="registerForm.get('password').hasError('minlength')"
+        >Password should be at least 6 character.</mat-error
+      >
+      <mat-hint align="end"
+        >{{ registerForm.get("password").value?.length }} / 6</mat-hint
+      >
+    </mat-form-field>
 
-      <mat-form-field class="form__input">
-        <input 
-          matInput 
-          ngModel
-          placeholder="Confirm Password"  
-          name="confirmPassword" 
-          type="password" 
-          required
-          #passwordC = "ngModel"/>
-          <mat-error *ngIf="passwordC.hasError('required')">Confirm Password is required.</mat-error>
-      </mat-form-field>
+    <mat-form-field class="form__input">
+      <input
+        matInput
+        placeholder="Confirm Password"
+        formControlName="confirmPassword"
+        type="password"
+        [errorStateMatcher]="errorMatcher"
+      />
 
-      <mat-form-field class="form__input">
-        <input 
-          matInput 
-          [matDatepicker]="picker" 
-          placeholder="Choose a date"
-          [max]="maxDate"
-          [(ngModel)] = "localBrithDay"
-          name="birthday"
-          required
-        >
-        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
-      </mat-form-field >
-      <mat-radio-group aria-label="Select an option" class="form__radio" color="primary" 
-      [(ngModel)] = "register.gender"
-      required name="gender">
-        <mat-radio-button class="form__radio--btn" value="male">Male</mat-radio-button>
-        <mat-radio-button class="form__radio--btn" value="female">Female</mat-radio-button>
-        <mat-radio-button class="form__radio--btn" value="other">Other</mat-radio-button>
-      </mat-radio-group>
-      <mat-checkbox 
-        class="form__check"
-        ngModel
-        name="agree"
-        required
+      <mat-error
+        *ngIf="registerForm.get('confirmPassword').hasError('required')"
+        >Confirm Password is required.</mat-error
+      >
+      <mat-error *ngIf="registerForm.hasError('mismatch')"
+        >Passwords must match.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-checkbox
+      class="form__check"
+      name="agree"
+      color="primary"
+      formControlName="agree"
+      >Agree to terms of use.</mat-checkbox
+    >
+
+    <div class="form__action--wrapper">
+      <button
+        mat-raised-button
         color="primary"
-      >Agree to terms of use.</mat-checkbox>
-
-
-      <div class="form__action--wrapper">
-        <button 
-        mat-raised-button 
-        color="primary" 
         class="form__action--left"
-        [disabled]= "regiterForm.invalid">
-          SignUp
-        </button>
+        [disabled]="registerForm.invalid"
+      >
+        SignUp
+      </button>
 
-        <div class="link">
-         Already have an account?
-          <a [routerLink] = "['/login']">Login</a>
-        </div>
-       
+      <div class="link">
+        Already have an account?
+        <a [routerLink]="['/login']">Login</a>
       </div>
+    </div>
   </form>
 </div>

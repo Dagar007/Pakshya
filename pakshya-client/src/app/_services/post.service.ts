@@ -1,8 +1,11 @@
 import { Injectable, EventEmitter } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
-import { IPost, IPostsEnvelope, ICategory } from "../_models/post";
+import { HttpClient, HttpParams } from "@angular/common/http";
+import { IPost, ICategory, IPostConcise } from "../_models/post";
 import { IPostStats, ICategoryStats } from '../_models/sidebarHelper';
 import { environment } from 'src/environments/environment';
+import { Observable } from 'rxjs';
+import { PaginatedResult } from '../_models/pagination';
+import { map } from 'rxjs/operators';
 
 
 @Injectable({
@@ -14,9 +17,31 @@ export class PostService {
   catgorySelectedEmitter = new EventEmitter<string>();
   constructor(private http: HttpClient) {}
 
-  getPosts(limit?:number, page?:number, username?: string, category?:string) {
-    var offset = page? page * limit!: 0
-    return this.http.get<IPostsEnvelope>(this.baseUrl+'posts/'+'?limit='+limit+'&offset='+offset+'&username='+username+'&categories='+category );
+  getPosts(page?,itemsPerPage?, userParams?):Observable<PaginatedResult<IPostConcise[]>> {
+
+    const paginatedResult: PaginatedResult<IPostConcise[]> = new PaginatedResult<IPostConcise[]>();
+    let params = new HttpParams();
+    if(page != null && itemsPerPage!= null) {
+      params = params.append('pageNumber', page);
+      params = params.append('pageSize', itemsPerPage);
+    }
+    if(userParams != null){
+      params = params.append('category',userParams.category);
+      params = params.append('name', userParams.nameStartsWith);
+      params = params.append('orderBy', userParams.orderBy);
+    }
+    return this.http.get<IPostConcise[]>(this.baseUrl+'posts/', {observe: 'response', params} )
+      .pipe(
+        map(response => {
+          
+          paginatedResult.result = response.body;
+          if(response.headers.get('Pagination') != null) {
+            paginatedResult.pagination = JSON.parse(response.headers.get('Pagination'));
+          }
+          
+          return paginatedResult;
+        })
+      );
   }
   getPost(id: string) {
     return this.http.get<IPost>(this.baseUrl+'posts/' + id);

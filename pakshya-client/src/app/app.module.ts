@@ -42,6 +42,7 @@ import { EducationComponent } from "./profile/personal-about/education/education
 import { WorkComponent } from "./profile/personal-about/work/work.component";
 import { LivingComponent } from "./profile/personal-about/living/living.component";
 import { PostResolver } from './_resolvers/_post.resolver';
+import { CommentResolver } from './_resolvers/comments.resolver';
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -110,6 +111,7 @@ export function provideConfig() {
   ],
   providers: [
     PostResolver,
+    CommentResolver,
     ErrorInterceptorProvider, 
     { provide: AuthServiceConfig, useFactory: provideConfig },
   ],

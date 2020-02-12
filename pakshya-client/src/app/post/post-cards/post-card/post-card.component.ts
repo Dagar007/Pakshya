@@ -27,9 +27,6 @@ export class PostCardComponent implements OnInit {
   like: boolean = false;
 
   ngOnInit() {
-    //this.host = this.post.engagers.filter(x => x.isAuthor)[0];
-   // this.noOfLikes = this.post.engagers.length;
-   // this.isPostLiked();
    if(this.post.isPostLiked){
     this.color = "primary";
    }
@@ -48,22 +45,7 @@ export class PostCardComponent implements OnInit {
       }
     );
   }
-  // isPostLiked() {
-  //   if (this.authService.currentUser1)
-  //     this.currentUserName = this.authService.currentUser1.username;
-  //   if (this.post.engagers.some(e => e.username == this.currentUserName)) {
-  //     this.color = "primary";
-  //     this.like = true;
-  //   }
-  //   if (
-  //     this.post.engagers.some(
-  //       e => e.username == this.currentUserName && e.isAuthor
-  //     )
-  //   ) {
-  //     this.isAuthor1 = true;
-  //   }
-  // }
-
+  
   likePost() {
     if (this.post.isPostLiked) {
       this.postService.unlikePost(this.post.id).subscribe(

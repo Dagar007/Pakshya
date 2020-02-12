@@ -27,8 +27,6 @@ export class PostService {
     }
     if(userParams != null){
       params = params.append('category',userParams.category);
-      params = params.append('name', userParams.nameStartsWith);
-      params = params.append('orderBy', userParams.orderBy);
     }
     return this.http.get<IPostConcise[]>(this.baseUrl+'posts/', {observe: 'response', params} )
       .pipe(
@@ -44,7 +42,7 @@ export class PostService {
       );
   }
   getPost(id: string) {
-    return this.http.get<IPost>(this.baseUrl+'posts/' + id);
+    return this.http.get<IPostConcise>(this.baseUrl+'posts/' + id);
   }
   updatePost(post: IPost) {
     return this.http.put(this.baseUrl+'posts/' + post.id, post);

@@ -1,10 +1,10 @@
 <div class="card__header">
   <img 
-  [src]="host?.image ? host?.image : '../assets/user.png'"
+  [src]="post.hostImage ? post.hostImage : '../assets/user.png'"
   alt="UserName" 
   class="avatar" />
   <div class="user-info-box">
-    {{host?.displayName}}
+    {{post.hostDisplayName}}
     <span>{{ post.date | timeAgo}}</span>
   </div>
   <mat-chip-list aria-label="category" *ngIf="post.category">
@@ -24,23 +24,15 @@
 </div>
 <div class="card__footer">
   <div class="engagers-info">
-    <!-- <div *ngFor="let f of post.engagers;">
-      <img
-      *ngIf="f.following"
-      [src]="f.image ? f.image : '../assets/user.png'"
-      alt="UserName"
-      class="avatar-following"
-      matTooltip="{{f.displayName}}"/>
-    </div> -->
     <div class="engagers-info--like">
-      {{ noOfLikes < 2 ? "Like" : "Likes" }}
-      <span matTooltip="{{ noOfLikes }} like this.">
-        {{ noOfLikes }}
+      {{ post.noOfLikes < 2 ? "Like" : "Likes" }}
+      <span matTooltip="{{ post.noOfLikes }} like this.">
+        {{ post.noOfLikes }}
       </span>
     </div>
     <span class="engagers-info--comment">
-      {{ post.comments.length < 2 ? "Comment" : "Comments" }}
-      {{ post.comments.length }}
+      {{ post.noOfComments < 2 ? "Comment" : "Comments" }}
+      {{ post.noOfComments }}
     </span>
   </div>
 

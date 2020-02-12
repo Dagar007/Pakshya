@@ -1,6 +1,6 @@
 namespace Application.Helpers
 {
-    public class PostParams
+    public class Params
     {
         private const int MaxPageSize = 20; 
         public int PageNumber { get; set; } = 1;

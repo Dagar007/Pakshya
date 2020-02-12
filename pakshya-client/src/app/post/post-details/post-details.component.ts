@@ -1,6 +1,6 @@
 import { Component, OnInit} from "@angular/core";
 import { Observable } from "rxjs";
-import { IPost} from "src/app/_models/post";
+import { IPost, IPostConcise} from "src/app/_models/post";
 import { ActivatedRoute, Router, ParamMap } from "@angular/router";
 import { PostService } from "src/app/_services/post.service";
 import { switchMap } from "rxjs/operators";
@@ -15,8 +15,8 @@ import { AlertifyService } from "src/app/_services/alertify.service";
 export class PostDetailsComponent implements OnInit{
   
 
-  post$: Observable<IPost>;
-  post: IPost;
+  post$: Observable<IPostConcise>;
+  post: IPostConcise;
   constructor(
     private route: ActivatedRoute,
     private postService: PostService,
@@ -30,13 +30,21 @@ export class PostDetailsComponent implements OnInit{
       )
     );
     this.post$.subscribe(
-      (post: IPost) => {
+      (post: IPostConcise) => {
         this.post = post;
       },
       err => {
         this.alertify.error(err);
       }
     );
+  }
+
+  commentsModified(modification: string) {
+    if(modification == 'added') {
+      this.post.noOfComments++;
+    } else if(modification == 'deleted') {
+      this.post.noOfComments--;
+    }
   }
 
  

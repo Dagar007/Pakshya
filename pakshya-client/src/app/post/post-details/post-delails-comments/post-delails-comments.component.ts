@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { IPost, IComment } from 'src/app/_models/post';
 import {
   HubConnection,
@@ -9,6 +9,8 @@ import { AlertifyService } from 'src/app/_services/alertify.service';
 import { AuthService } from 'src/app/_services/auth.service';
 import { CommentService } from 'src/app/_services/comment.service';
 import { environment } from 'src/environments/environment';
+import { PaginatedResult, Pagination } from 'src/app/_models/pagination';
+import { ActivatedRoute } from '@angular/router';
 
 
 @Component({
@@ -18,21 +20,51 @@ import { environment } from 'src/environments/environment';
 })
 export class PostDelailsCommentsComponent implements OnInit, OnDestroy {
 
-  @Input() post: IPost;
+  @Output() commentsModified = new EventEmitter<string>();
+  allComments: IComment[];
   formatedDate:string;
   comment: string;
   commentToPost: any;
   currentUserName: string;
   private _hubConnection: HubConnection;
   baseUrl = environment.chatUrl;
-  constructor(private alertify: AlertifyService, private authService: AuthService, private commentService: CommentService) { }
+
+  postId: string;
+
+  userParams: any = {};
+  pagination: Pagination;
+  
+
+  constructor(private alertify: AlertifyService, 
+    private authService: AuthService, 
+    private commentService: CommentService,
+    private route: ActivatedRoute) { }
+    
 
   type:string = 'for'
 
   ngOnInit() {
     if (this.authService.currentUser1)
     this.currentUserName = this.authService.currentUser1.username;
+
+    this.route.params.subscribe(params => {
+      if(params['id']) {
+        this.postId = params['id'];
+      }
+     // console.log(this.postId);
+    })
     this.createHubConnection();
+
+    this.route.data.subscribe(data => {
+      this.pagination= data["comments"].pagination;
+      this.allComments = data["comments"].result;
+    })
+
+    // this.commentService.getComments(this.post.id).subscribe((res: PaginatedResult<IComment[]>) => {
+    //   this.allComments = res.result;
+    //   console.log(this.allComments);
+    // })
+
   }
 
   createHubConnection() {
@@ -45,19 +77,22 @@ export class PostDelailsCommentsComponent implements OnInit, OnDestroy {
     this._hubConnection
       .start()
       .then(() => {
-        if(this.post)
-          this._hubConnection!.invoke('AddToGroup', this.post.id)
+        if(this.postId){
+          this._hubConnection!.invoke('AddToGroup', this.postId)
+        }
+          
       })
       .catch(err => this.alertify.error(err));
 
     this._hubConnection.on("ReceiveComment", (comment: IComment) => {
-      this.post.comments.push(comment);
+      this.allComments.unshift(comment)
+      this.commentsModified.emit('added');
     });
   }
 
   stopHubConnection() {
     if (this._hubConnection) {
-      this._hubConnection.invoke('RemoveFromGroup', this.post.id).then(() => {
+      this._hubConnection.invoke('RemoveFromGroup', this.postId).then(() => {
         this._hubConnection.stop();
       })
     }  
@@ -72,7 +107,7 @@ export class PostDelailsCommentsComponent implements OnInit, OnDestroy {
       this.alertify.error("Please enter your comment");
     } else {
       this.commentToPost = {
-        postId: this.post.id,
+        postId: this.postId,
         body : this.comment,
         for : this.type=='for'? true: false,
         against: this.type=='against'? true: false,
@@ -91,9 +126,10 @@ export class PostDelailsCommentsComponent implements OnInit, OnDestroy {
 
   commentDelete(comment: IComment) {
     this.commentService.deleteComment(comment.id).subscribe(()=> {
-      var index = this.post.comments.indexOf(comment);
+      this.commentsModified.emit('deleted');
+      var index = this.allComments.indexOf(comment);
       if(index > -1) {
-        this.post.comments.splice(index, 1);
+        this.allComments.splice(index, 1);
       }
       this.alertify.success("comment deleted successfully");
     }, err => {
@@ -112,5 +148,14 @@ export class PostDelailsCommentsComponent implements OnInit, OnDestroy {
         comment.isLikedByUser = true;
       })
     }
+  }
+
+  seeMore() {
+    this.pagination.currentPage++;
+    this.commentService.getComments(this.postId,this.pagination.currentPage, this.pagination.itemsPerPage).subscribe((res: PaginatedResult<IComment[]>) => {
+      this.pagination= res.pagination;
+      Array.prototype.push.apply(this.allComments, res.result);
+      
+    })
   }
 }

@@ -13,12 +13,12 @@ namespace Application.Posts
 {
     public class Details
     {
-        public class Query : IRequest<PostDto>
+        public class Query : IRequest<PostConcise>
         {
             public Guid Id { get; set; }
         }
 
-        public class Handler : IRequestHandler<Query, PostDto>
+        public class Handler : IRequestHandler<Query, PostConcise>
         {
             private readonly DataContext _context;
             private readonly IMapper _mapper;
@@ -28,13 +28,13 @@ namespace Application.Posts
                 _context = context;
             }
 
-            public async Task<PostDto> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<PostConcise> Handle(Query request, CancellationToken cancellationToken)
             {
                 var post = await _context.Posts
                 .FindAsync(request.Id);
                 if (post == null)
                     throw new RestException(HttpStatusCode.NotFound, new { post = "Not found" });
-                var postToReturn = _mapper.Map<Post,PostDto>(post);
+                var postToReturn = _mapper.Map<Post,PostConcise>(post);
                 post.Views ++;
                 await _context.SaveChangesAsync();
                 

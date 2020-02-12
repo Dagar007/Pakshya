@@ -1,7 +1,56 @@
+<div class="card">
+  <div class="commentbox">
+    <form class="form">
+      <mat-form-field
+        class="form__textbox"
+        style="width: 100%;"
+        hintLabel="Not more than 1000 words."
+      >
+        <textarea
+          matInput
+          placeholder="Comment"
+          [(ngModel)]="comment"
+          name="comment"
+          value="comment"
+          maxlength="1000"
+          #commentValue="ngModel"
+        ></textarea>
+        <mat-error *ngIf="commentValue.hasError('maxlength')"
+          >Comment should be less than 1000 characters.</mat-error
+        >
+        <mat-hint align="end"
+          >{{ commentValue?.value?.length }} / 1000</mat-hint
+        >
+      </mat-form-field>
+      <div class="form__action--wrapper">
+        <div class="comment-buttons">
+          <mat-radio-group
+            aria-label="Select an option"
+            color="primary"
+            [(ngModel)]="type"
+            [ngModelOptions]="{ standalone: true }"
+          >
+            <mat-radio-button value="for">For</mat-radio-button>
+            <mat-radio-button value="against">Against</mat-radio-button>
+          </mat-radio-group>
+          <button
+            mat-raised-button
+            color="primary"
+            class="form__action--left"
+            (click)="addComment()"
+          >
+            Submit
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
 <div class="card comments">
+
   <div
     class=" mb-medium"
-    *ngFor="let comment of post?.comments"
+    *ngFor="let comment of allComments"
     [ngClass]="comment.for ? 'comments__for' : 'comments__against'"
   >
     <!-- User Placement for For Comment -->
@@ -73,50 +122,7 @@
       <h2 class="comments__user--name">{{ comment?.displayName }}</h2>
     </div>
   </div>
-  <div class="commentbox">
-    <form class="form">
-      <mat-form-field
-        class="form__textbox"
-        style="width: 100%;"
-        hintLabel="Not more than 1000 words."
-      >
-        <textarea
-          matInput
-          placeholder="Comment"
-          [(ngModel)]="comment"
-          name="comment"
-          value="comment"
-          maxlength="1000"
-          #commentValue="ngModel"
-        ></textarea>
-        <mat-error *ngIf="commentValue.hasError('maxlength')"
-          >Password should be at least 6 character.</mat-error
-        >
-        <mat-hint align="end"
-          >{{ commentValue?.value?.length }} / 1000</mat-hint
-        >
-      </mat-form-field>
-      <div class="form__action--wrapper">
-        <div class="comment-buttons">
-          <mat-radio-group
-            aria-label="Select an option"
-            color="primary"
-            [(ngModel)]="type"
-            [ngModelOptions]="{ standalone: true }"
-          >
-            <mat-radio-button value="for">For</mat-radio-button>
-            <mat-radio-button value="against">Against</mat-radio-button>
-          </mat-radio-group>
-          <button
-            mat-raised-button
-            color="primary"
-            class="form__action--left"
-            (click)="addComment()"
-          >
-            Submit
-          </button>
-        </div>
-      </div>
-    </form>
+  <div class="comments__seemore">
+    <button *ngIf="pagination?.currentPage < pagination?.totalPages " (click) ="seeMore()" class="comments__seemore--button" mat-button >See more</button>
   </div>
 </div>

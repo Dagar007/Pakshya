@@ -1,6 +1,8 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Application.Comments;
+using Application.Helpers;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -9,6 +11,11 @@ namespace API.Controllers
 {
     public class CommentController : BaseController
     {
+        [HttpGet("{postId}")]
+        public async Task<ActionResult<List<CommentDto>>> List(Guid postId, [FromQuery]Params  commentParams)
+        {
+            return await Mediator.Send(new List.Query(postId, commentParams));
+        }
         [HttpDelete("{id}")]
         [Authorize(Policy = "IsCommentHost")]
         public async Task<ActionResult<Unit>> Delete(Guid id)

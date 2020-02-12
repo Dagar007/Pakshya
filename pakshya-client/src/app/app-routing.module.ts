@@ -9,6 +9,7 @@ import { RegisterComponent } from "./auth/register/register.component";
 import { AuthGuard } from "./_guards/auth.guard";
 import { ProfileComponent } from './profile/profile.component';
 import { PostResolver } from './_resolvers/_post.resolver';
+import { CommentResolver } from './_resolvers/comments.resolver';
 
 const routes: Routes = [
   { path: "", runGuardsAndResolvers:'always', component: PostComponent,  resolve: {posts:PostResolver } },
@@ -25,7 +26,7 @@ const routes: Routes = [
     runGuardsAndResolvers: "always",
     canActivate: [AuthGuard],
     children: [
-      { path: "posts/:id", component: PostDetailsComponent },
+      { path: "posts/:id", component: PostDetailsComponent, resolve: {comments: CommentResolver}, data: {'path': 'posts/:id'} },
       { path: "create-post", component: CreateComponent },
       { path: "create-post/:id", component: CreateComponent },
       { path: "profile/:username", component: ProfileComponent }

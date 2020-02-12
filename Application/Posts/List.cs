@@ -15,18 +15,13 @@ namespace Application.Posts
 {
     public class List
     {
-        // public class PostsEnvelope
-        // {
-        //     public List<PostConcise> Posts { get; set; }
-        //     public int PostCount { get; set; }
-        // }
         public class Query : IRequest<List<PostConcise>>
         {
-            public Query(PostParams postParams)
+            public Query(Params postParams)
             {
                 this.PostParams = postParams;
             }
-            public PostParams PostParams { get; set; }
+            public Params PostParams { get; set; }
         }
         public class Handler : IRequestHandler<Query, List<PostConcise>>
         {

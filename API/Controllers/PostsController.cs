@@ -16,12 +16,12 @@ namespace API.Controllers
   {
     [AllowAnonymous]
     [HttpGet]
-    public async Task<ActionResult<List<PostConcise>>> List([FromQuery]PostParams  postParams)
+    public async Task<ActionResult<List<PostConcise>>> List([FromQuery]Params  postParams)
     {
       return await Mediator.Send(new List.Query(postParams));
     }
     [HttpGet("{id}")]
-    public async Task<ActionResult<PostDto>> Details(Guid id)
+    public async Task<ActionResult<PostConcise>> Details(Guid id)
     {
       return await Mediator.Send(new Details.Query { Id = id });
     }

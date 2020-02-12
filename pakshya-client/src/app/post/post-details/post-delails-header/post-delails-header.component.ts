@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { IPost, IEngagers } from 'src/app/_models/post';
+import { IPost, IEngagers, IPostConcise } from 'src/app/_models/post';
 import { PostService } from 'src/app/_services/post.service';
 import { AlertifyService } from 'src/app/_services/alertify.service';
 import { AuthService } from 'src/app/_services/auth.service';
@@ -11,11 +11,11 @@ import { AuthService } from 'src/app/_services/auth.service';
 })
 export class PostDelailsHeaderComponent implements OnInit {
 
-  @Input() post: IPost;
+  @Input() post: IPostConcise;
   host: IEngagers;
   color: string;
   isAuthor1: boolean;
-  noOfLikes: number;
+  // noOfLikes: number;
   currentUserName: string;
 
   like: boolean = false;
@@ -24,8 +24,6 @@ export class PostDelailsHeaderComponent implements OnInit {
     private authService: AuthService) { }
 
   ngOnInit() {
-    this.host = this.post.engagers.filter(x => x.isAuthor)[0];
-    this.noOfLikes = this.post.engagers.length;
     this.isPostLiked();
   }
 
@@ -35,7 +33,7 @@ export class PostDelailsHeaderComponent implements OnInit {
         () => {
           this.like = !this.like;
           this.color = "";
-          --this.noOfLikes;
+          --this.post.noOfLikes;
         },
         err => {
           this.alertify.error(err);
@@ -46,7 +44,7 @@ export class PostDelailsHeaderComponent implements OnInit {
         () => {
           this.like = !this.like;
           this.color = "primary";
-          ++this.noOfLikes;
+          ++this.post.noOfLikes;
         },
         err => {
           this.alertify.error(err);
@@ -58,15 +56,11 @@ export class PostDelailsHeaderComponent implements OnInit {
   isPostLiked() {
     if (this.authService.currentUser1)
       this.currentUserName = this.authService.currentUser1.username;
-    if (this.post.engagers.some(e => e.username == this.currentUserName)) {
+    if (this.post.isPostLiked) {
       this.color = "primary";
       this.like = true;
     }
-    if (
-      this.post.engagers.some(
-        e => e.username == this.currentUserName && e.isAuthor
-      )
-    ) {
+    if (this.post.isAuthor) {
       this.isAuthor1 = true;
     }
   }

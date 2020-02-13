@@ -44,10 +44,10 @@ export class PostService {
   getPost(id: string) {
     return this.http.get<IPostConcise>(this.baseUrl+'posts/' + id);
   }
-  updatePost(post: IPost) {
+  updatePost(post: IPostConcise) {
     return this.http.put(this.baseUrl+'posts/' + post.id, post);
   }
-  createPost(post: IPost) {
+  createPost(post: IPostConcise) {
     return this.http.post(this.baseUrl+'posts/', post);
   }
   deletePost(id: string) {

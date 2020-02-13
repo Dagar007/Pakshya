@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { Observable } from "rxjs";
-import { IPost, ICategory } from "src/app/_models/post";
+import { IPost, ICategory, IPostConcise } from "src/app/_models/post";
 import { ActivatedRoute, Router, ParamMap, Params } from "@angular/router";
 import { PostService } from "src/app/_services/post.service";
 import { switchMap } from "rxjs/operators";
@@ -13,19 +13,22 @@ import { AlertifyService } from "src/app/_services/alertify.service";
   styleUrls: ["./create.component.scss"]
 })
 export class CreateComponent implements OnInit {
-  post$: Observable<IPost>;
+  post$: Observable<IPostConcise>;
   categories: ICategory[];
-  post: IPost = {
+  post: IPostConcise = {
     id: null,
     heading: null,
     description: null,
     date: null,
     url: null,
     category: null,
-    for: 0,
-    against: 0,
-    engagers: [],
-    comments: []
+    hostUsername: null,
+    hostDisplayName: null,
+    hostImage: null,
+    isAuthor: false,
+    isPostLiked: false,
+    noOfLikes: 0,
+    noOfComments: 0
   };
   id: string = "";
   page: string = "Create";
@@ -53,7 +56,7 @@ export class CreateComponent implements OnInit {
         )
       );
       this.post$.subscribe(
-        (post: IPost) => {
+        (post: IPostConcise) => {
           this.post = post;
           this.page = "Edit";
           if (post.category) this.selectedValue = post.category.id;
@@ -76,7 +79,9 @@ export class CreateComponent implements OnInit {
   onSubmit() {
     if (this.id) {
       this.post.date = new Date();
-      this.post.category = this.categories.filter(c => c.id == this.selectedValue)[0];
+      this.post.category = this.categories.filter(
+        c => c.id == this.selectedValue
+      )[0];
       this.postService.updatePost(this.post).subscribe(
         () => {
           this.router.navigate(["/posts", this.post.id]);
@@ -88,8 +93,9 @@ export class CreateComponent implements OnInit {
     } else {
       this.post.id = uuid();
       this.post.date = new Date();
-      this.post.category = this.categories.filter(c => c.id == this.selectedValue)[0];
-      this.post.comments = [];
+      this.post.category = this.categories.filter(
+        c => c.id == this.selectedValue
+      )[0];
       this.postService.createPost(this.post).subscribe(
         () => {
           this.router.navigate(["/posts", this.post.id]);

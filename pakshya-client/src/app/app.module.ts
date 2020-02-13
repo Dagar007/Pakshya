@@ -27,7 +27,7 @@ import { PostCardComponent } from "./post/post-cards/post-card/post-card.compone
 import { PostDelailsHeaderComponent } from "./post/post-details/post-delails-header/post-delails-header.component";
 import { PostDelailsCommentsComponent } from "./post/post-details/post-delails-comments/post-delails-comments.component";
 import { ErrorInterceptorProvider } from "./_services/error.interceptor";
-import { HomeComponent } from "./home/home.component";
+
 import { LoginComponent } from "./auth/login/login.component";
 import { RegisterComponent } from "./auth/register/register.component";
 import { NavComponent } from "./nav/nav.component";
@@ -43,6 +43,7 @@ import { WorkComponent } from "./profile/personal-about/work/work.component";
 import { LivingComponent } from "./profile/personal-about/living/living.component";
 import { PostResolver } from './_resolvers/_post.resolver';
 import { CommentResolver } from './_resolvers/comments.resolver';
+import { HomeComponent } from './auth/home/home.component';
 
 export function tokenGetter() {
   return localStorage.getItem("token");

@@ -3,13 +3,14 @@ import { Routes, RouterModule } from "@angular/router";
 import { PostComponent } from "./post/post.component";
 import { PostDetailsComponent } from "./post/post-details/post-details.component";
 import { CreateComponent } from "./post/create/create.component";
-import { HomeComponent } from "./home/home.component";
+
 import { LoginComponent } from "./auth/login/login.component";
 import { RegisterComponent } from "./auth/register/register.component";
 import { AuthGuard } from "./_guards/auth.guard";
 import { ProfileComponent } from './profile/profile.component';
 import { PostResolver } from './_resolvers/_post.resolver';
 import { CommentResolver } from './_resolvers/comments.resolver';
+import { HomeComponent } from './auth/home/home.component';
 
 const routes: Routes = [
   { path: "", runGuardsAndResolvers:'always', component: PostComponent,  resolve: {posts:PostResolver } },
@@ -26,7 +27,7 @@ const routes: Routes = [
     runGuardsAndResolvers: "always",
     canActivate: [AuthGuard],
     children: [
-      { path: "posts/:id", component: PostDetailsComponent, resolve: {comments: CommentResolver}, data: {'path': 'posts/:id'} },
+      { path: "posts/:id", component: PostDetailsComponent, resolve: {comments: CommentResolver}  },
       { path: "create-post", component: CreateComponent },
       { path: "create-post/:id", component: CreateComponent },
       { path: "profile/:username", component: ProfileComponent }

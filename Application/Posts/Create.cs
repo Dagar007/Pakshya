@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -7,7 +8,9 @@ using Application.Interfaces;
 using Domain;
 using FluentValidation;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using Persistence;
 
 namespace Application.Posts
@@ -21,15 +24,26 @@ namespace Application.Posts
             public string Description { get; set; }
             public Category Category { get; set; }
             public DateTime Date { get; set; }
-            public string Url { get; set; }
-            public int For { get; set; }
-            public int Against { get; set; }
+
+            public IFormFile File { get; set; }
+
+        }
+
+        public class Command1 
+        {
+            public Guid Id { get; set; }
+            public string Heading { get; set; }
+            public string Description { get; set; }
+            public Category Category { get; set; }
+            public DateTime Date { get; set; }
+
         }
 
         public class CommandValidator : AbstractValidator<Command>
         {
             public CommandValidator()
             {
+
                 RuleFor(x => x.Heading).NotEmpty();
                 RuleFor(x => x.Description).NotEmpty();
                 RuleFor(x => x.Category).NotEmpty();
@@ -42,8 +56,10 @@ namespace Application.Posts
         {
             private readonly DataContext _context;
             private readonly IUserAccessor _userAccessor;
-            public Handler(DataContext context, IUserAccessor userAccessor)
+            private readonly IPhotoAccessor _photoAccessor;
+            public Handler(DataContext context, IUserAccessor userAccessor, IPhotoAccessor photoAccessor)
             {
+                _photoAccessor = photoAccessor;
                 _userAccessor = userAccessor;
                 _context = context;
             }
@@ -60,10 +76,21 @@ namespace Application.Posts
                     Description = request.Description,
                     Category = category,
                     Date = DateTime.Now,
-                    Url = request.Url,
                     For = 0,
-                    Against = 0
+                    Against = 0,
+                    Photos = new List<Photo>()
+                    
                 };
+                if (request.File.Length > 0)
+                {
+                    var photoUploadResult = _photoAccessor.AddPhoto(request.File);
+                    var photo = new Photo
+                    {
+                        Url = photoUploadResult.Url,
+                        Id = photoUploadResult.PublicId
+                    };
+                    post.Photos.Add(photo);
+                }
                 _context.Posts.Add(post);
                 var user = await _context.Users.SingleOrDefaultAsync(x => x.UserName == _userAccessor.GetUserName());
 

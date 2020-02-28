@@ -20,20 +20,32 @@ namespace Infrastructure.Photos
             );
             _cloudinary = new Cloudinary(acc);
         }
-        public PhotoUploadResult AddPhoto(IFormFile file)
+        public PhotoUploadResult AddPhoto(IFormFile file, bool transform = false)
         {
             var uploadResult = new ImageUploadResult();
             if (file.Length > 0)
             {
                 using (var stream = file.OpenReadStream())
                 {
-                    var uploadParams = new ImageUploadParams
+                    ImageUploadParams uploadParams;
+                    if (transform)
                     {
-                        File = new FileDescription(file.FileName, stream),
-                        Transformation = new Transformation().Height(500).Width(500)
-                        .Crop("fill").Gravity("face")
-                        
-                    };
+                        uploadParams = new ImageUploadParams
+                        {
+                            File = new FileDescription(file.FileName, stream),
+                            Transformation = new Transformation().Height(500).Width(500)
+                       .Crop("fill").Gravity("face")
+
+                        };
+                    }
+                    else
+                    {
+                        uploadParams = new ImageUploadParams
+                        {
+                            File = new FileDescription(file.FileName, stream)
+                        };
+                    }
+
                     uploadResult = _cloudinary.Upload(uploadParams);
                 }
             }
@@ -49,9 +61,9 @@ namespace Infrastructure.Photos
 
         public string DeletePhoto(string publicId)
         {
-           var deleteParams = new DeletionParams(publicId);
-           var result = _cloudinary.Destroy(deleteParams);
-           return result.Result == "ok" ? result.Result: null;
+            var deleteParams = new DeletionParams(publicId);
+            var result = _cloudinary.Destroy(deleteParams);
+            return result.Result == "ok" ? result.Result : null;
         }
     }
 }

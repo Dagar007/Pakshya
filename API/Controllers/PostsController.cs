@@ -6,8 +6,9 @@ using Application.Posts;
 using Domain;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-
+using Newtonsoft.Json;
 
 namespace API.Controllers
 {
@@ -26,8 +27,18 @@ namespace API.Controllers
       return await Mediator.Send(new Details.Query { Id = id });
     }
     [HttpPost]
-    public async Task<ActionResult<Unit>> Create(Create.Command command)
+    public async Task<ActionResult<Unit>> Create([FromForm] IFormFile File, [FromForm] string jsonPost)
     {
+      var command1 = JsonConvert.DeserializeObject<Create.Command1>(jsonPost);
+      var command = new Create.Command();
+      command.Id = command1.Id;
+      command.Heading = command1.Heading;
+      command.Description = command1.Description;
+      command.Date = command1.Date;
+      command.Category = command1.Category;
+      command.File = File;
+
+      command.File = File;
       return await Mediator.Send(command);
     }
 

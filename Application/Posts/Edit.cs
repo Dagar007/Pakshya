@@ -59,7 +59,7 @@ namespace Application.Posts
                 post.Description = request.Description ?? post.Description;
                 
                 post.Date = DateTime.Now;
-                post.Url = request.Url ?? post.Url;
+                //post.Url = request.Url ?? post.Url;
 
 
                 var success = await _context.SaveChangesAsync() > 0;

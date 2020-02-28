@@ -13,7 +13,7 @@ import { CommentResolver } from './_resolvers/comments.resolver';
 import { HomeComponent } from './auth/home/home.component';
 
 const routes: Routes = [
-  { path: "", runGuardsAndResolvers:'always', component: PostComponent,  resolve: {posts:PostResolver } },
+  { path: "", runGuardsAndResolvers:'always', component: PostComponent,  },
   {
     path: "",
     component: HomeComponent,

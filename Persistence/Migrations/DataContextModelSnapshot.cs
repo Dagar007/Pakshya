@@ -226,12 +226,17 @@ namespace Persistence.Migrations
                     b.Property<bool>("IsMain")
                         .HasColumnType("INTEGER");
 
+                    b.Property<Guid?>("PostId")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Url")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
                     b.HasIndex("AppUserId");
+
+                    b.HasIndex("PostId");
 
                     b.ToTable("Photos");
                 });
@@ -258,9 +263,6 @@ namespace Persistence.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Heading")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Url")
                         .HasColumnType("TEXT");
 
                     b.Property<int>("Views")
@@ -507,6 +509,10 @@ namespace Persistence.Migrations
                     b.HasOne("Domain.AppUser", null)
                         .WithMany("Photos")
                         .HasForeignKey("AppUserId");
+
+                    b.HasOne("Domain.Post", null)
+                        .WithMany("Photos")
+                        .HasForeignKey("PostId");
                 });
 
             modelBuilder.Entity("Domain.Post", b =>

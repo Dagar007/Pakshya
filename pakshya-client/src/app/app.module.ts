@@ -5,6 +5,7 @@ import { HttpClientModule } from "@angular/common/http";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { JwtModule } from "@auth0/angular-jwt";
 import { TimeAgoPipe } from "time-ago-pipe";
+import {StoreModule} from '@ngrx/store';
 import {
   SocialLoginModule,
   AuthServiceConfig,
@@ -44,6 +45,7 @@ import { LivingComponent } from "./profile/personal-about/living/living.componen
 import { PostResolver } from './_resolvers/_post.resolver';
 import { CommentResolver } from './_resolvers/comments.resolver';
 import { HomeComponent } from './auth/home/home.component';
+import { reducer } from './app.reducer';
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -108,7 +110,8 @@ export function provideConfig() {
         ]
       }
     }),
-    SocialLoginModule
+    SocialLoginModule,
+    StoreModule.forRoot(reducer)
   ],
   providers: [
     PostResolver,

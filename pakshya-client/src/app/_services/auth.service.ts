@@ -3,6 +3,9 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject } from 'rxjs'
 import { map } from 'rxjs/operators';
 import { IUser, IUserLoginFormValues, IUserRegisterFormValues } from '../_models/user';
+import * as fromRoot from './../app.reducer';
+import { Store } from '@ngrx/store';
+import * as UI from './../_shared/ui.actions';
 
 
 import {JwtHelperService} from '@auth0/angular-jwt';
@@ -23,9 +26,10 @@ export class AuthService {
     this.photoUrl.next(photoUrl);
   }
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private store: Store<fromRoot.State>) { }
 
   login(loginFormValues : IUserLoginFormValues){
+    this.store.dispatch(new UI.StartLoading());
     return this.http.post<IUser>(this.baseUrl+'user/'+'login', loginFormValues).pipe(
       map((res: IUser) => {
         const user = res;
@@ -36,6 +40,7 @@ export class AuthService {
           this.decodedToken = this.jwtHelper.decodeToken(user.token);
           this.currentUser1 = user;
           this.changeMainPhoto(this.currentUser1.image);
+          this.store.dispatch(new UI.StopLoading());
         }
       })
     );
@@ -46,6 +51,7 @@ export class AuthService {
   }
 
   register(register :IUserRegisterFormValues) {
+    this.store.dispatch(new UI.StartLoading());
     return this.http.post<IUser>(this.baseUrl+'user/'+'register',register).pipe(
       map((response: IUser) => {
         const user = response;
@@ -55,12 +61,14 @@ export class AuthService {
           localStorage.setItem('user', JSON.stringify(user))
           this.decodedToken = this.jwtHelper.decodeToken(user.token);
           this.currentUser1 = user;
+          this.store.dispatch(new UI.StopLoading());
         }
       })
     )
   }
 
   fbLogin(accessToken: string) {
+    this.store.dispatch(new UI.StartLoading());
     return this.http.post<IUser>(this.baseUrl +'user/facebook', {accessToken}).pipe(
       map((response: IUser) => {
         const user = response;
@@ -70,6 +78,7 @@ export class AuthService {
           localStorage.setItem('user', JSON.stringify(user))
           this.decodedToken = this.jwtHelper.decodeToken(user.token);
           this.currentUser1 = user;
+          this.store.dispatch(new UI.StopLoading());
         }
       })
     )

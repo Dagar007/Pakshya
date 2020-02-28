@@ -5,6 +5,9 @@ import { AlertifyService } from "src/app/_services/alertify.service";
 import { IUserLoginFormValues } from "src/app/_models/user";
 import { AuthService as FacebookAuth } from 'angularx-social-login';
 import { FacebookLoginProvider} from 'angularx-social-login';
+import * as fromRoot from './../../app.reducer';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: "app-login",
@@ -13,12 +16,13 @@ import { FacebookLoginProvider} from 'angularx-social-login';
 })
 export class LoginComponent implements OnInit {
 
-  loading = false;
+  isLoading$: Observable<boolean>
   constructor(
     private authService: AuthService,
     private router: Router,
     private alertify: AlertifyService,
-    private facebookAuthService: FacebookAuth 
+    private facebookAuthService: FacebookAuth,
+    private store: Store<fromRoot.State>
   ) {}
 
   loginFormValues: IUserLoginFormValues = {
@@ -26,18 +30,16 @@ export class LoginComponent implements OnInit {
     password: ""
   };
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.isLoading$ = this.store.select(fromRoot.getIsLoading);
+  }
 
   onSubmit() {
-    this.loading = true;
     this.authService.login(this.loginFormValues).subscribe(
       () => {
-        this.loading = false;
-        this.router.navigate(["/posts"]);
-        
+        this.router.navigate(["/posts"]); 
       },
       err => {
-        this.loading = false;
         this.alertify.error(err);
         this.loginFormValues = {
           email: this.loginFormValues.email,
@@ -48,18 +50,14 @@ export class LoginComponent implements OnInit {
   }
 
   loginFacebook(platform: string): void {
-    this.loading = true;
     platform = FacebookLoginProvider.PROVIDER_ID;
        this.facebookAuthService.signIn(platform).then(
     (response) => {
         this.authService.fbLogin(response.authToken).subscribe((user)=> {
           this.router.navigate(["/posts"]);
-          this.loading = false;
-        })
-         
+        })    
      }),
      (err: any) => {
-      this.loading = false;
       this.alertify.error(err);
       this.loginFormValues = {
         email: this.loginFormValues.email,

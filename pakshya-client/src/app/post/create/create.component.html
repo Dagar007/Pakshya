@@ -1,43 +1,66 @@
 <div class="form-wrapper">
+ 
   <div class="card create-form">
-    <form class="form">
-      <h1 class="card__headline mb-medium">{{page}} Post</h1>
+    <form class="form" [formGroup]="createPostForm" (ngSubmit)="onSubmit()">
+      <h1 class="card__headline mb-medium">{{ page }} Post</h1>
 
       <mat-form-field class="form__input">
-        <input matInput placeholder="Heading" [(ngModel)]="post.heading" name="heading" value="post.heading" />
+        <input matInput placeholder="Heading" formControlName="heading" />
+        <mat-error>Please provide a heading for your post.</mat-error>
       </mat-form-field>
       <mat-form-field class="form__textbox">
-        <textarea matInput placeholder="Description(Optional)" [(ngModel)]="post.description" name="description"
-          value="post.description"></textarea>
+        <textarea
+          matInput
+          placeholder="Description"
+          formControlName="description"
+        ></textarea>
+        <mat-error>Please provide a description for your post</mat-error>
       </mat-form-field>
-      <!-- <mat-form-field class="form__input">
-        <input matInput placeholder="Category (Optional)" [(ngModel)]="post.category" name="category"
-          value="post.description" />
-      </mat-form-field> -->
 
       <mat-form-field class="form__input">
         <mat-label>Category</mat-label>
-        <mat-select [(value)]='selectedValue' >
-          <mat-option *ngFor="let c of categories" [value]="c.id">
-            {{c.value}}
+        <mat-select formControlName="category">
+          <mat-option *ngFor="let c of categories" [value]="c">
+            {{ c.value }}
           </mat-option>
         </mat-select>
+        <mat-error>Please select a category.</mat-error>
       </mat-form-field>
 
-      <mat-form-field class="form__input">
-        <input matInput placeholder="URL (Optional)" name="url" [(ngModel)]="post.url" value="post.url" />
-      </mat-form-field>
-
+      <div class="image-section">
+        <button mat-raised-button type="button" color="primary" (click)="fileinput.click()">
+          <i class="material-icons">
+            add_a_photo
+          </i>
+          Add Image
+        </button>
+        <input  type="file" accept='image/*' hidden  #fileinput (change)="onFileChange($event)" />
+        <div class="image-section--preview">
+          <img [src]="imgURL" height="200" *ngIf="imgURL" style="border: 1px solid black;">
+        </div>
+        
+      </div>
+      
       <div class="form__action--wrapper">
-        <button mat-raised-button color="primary" class="form__action--left" (click)="onSubmit()">
+        <button
+        type="submit"
+          mat-raised-button
+          color="primary"
+          [disabled]="createPostForm.invalid"
+          class="form__action--left"
+        >
           Submit
         </button>
-        <button type="button" mat-raised-button (click) = "onCancelCreateEditForm()">
+        <button
+          type="button"
+          mat-raised-button
+          (click)="onCancelCreateEditForm()"
+        >
           Cancel
         </button>
       </div>
     </form>
-  </div>
+  </div> 
   <div class="right-sidebar">
     <app-right-sidebar></app-right-sidebar>
   </div>

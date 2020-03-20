@@ -12,7 +12,6 @@ using Newtonsoft.Json;
 
 namespace API.Controllers
 {
-  //[AllowAnonymous]
   public class PostsController : BaseController
   {
     [AllowAnonymous]
@@ -44,7 +43,7 @@ namespace API.Controllers
 
     [HttpPut("{id}")]
     [Authorize(Policy = "IsPostHost")]
-    public async Task<ActionResult<Unit>> Edit (Guid id, Edit.Command command)
+    public async Task<ActionResult<Unit>> Edit (Guid id,[FromForm] IFormFile File, [FromForm] string jsonPost, Edit.Command command)
     {
       command.Id = id;
       return await Mediator.Send(command);

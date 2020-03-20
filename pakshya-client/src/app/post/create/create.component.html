@@ -1,5 +1,4 @@
 <div class="form-wrapper">
- 
   <div class="card create-form">
     <form class="form" [formGroup]="createPostForm" (ngSubmit)="onSubmit()">
       <h1 class="card__headline mb-medium">{{ page }} Post</h1>
@@ -19,7 +18,7 @@
 
       <mat-form-field class="form__input">
         <mat-label>Category</mat-label>
-        <mat-select formControlName="category">
+        <mat-select formControlName="category" [compareWith]="compareObjects">
           <mat-option *ngFor="let c of categories" [value]="c">
             {{ c.value }}
           </mat-option>
@@ -28,22 +27,37 @@
       </mat-form-field>
 
       <div class="image-section">
-        <button mat-raised-button type="button" color="primary" (click)="fileinput.click()">
+        <div class="image-section--preview">
+          <img
+            [src]="imgURL"
+            height="200"
+            *ngIf="imgURL"
+            style="border: 1px solid black;"
+          />
+        </div>
+        <button
+          mat-raised-button
+          type="button"
+          color="primary"
+          (click)="fileinput.click()"
+        >
           <i class="material-icons">
             add_a_photo
           </i>
           Add Image
         </button>
-        <input  type="file" accept='image/*' hidden  #fileinput (change)="onFileChange($event)" />
-        <div class="image-section--preview">
-          <img [src]="imgURL" height="200" *ngIf="imgURL" style="border: 1px solid black;">
-        </div>
-        
+        <input
+          type="file"
+          accept="image/*"
+          hidden
+          #fileinput
+          (change)="onFileChange($event)"
+        />
       </div>
-      
+
       <div class="form__action--wrapper">
         <button
-        type="submit"
+          type="submit"
           mat-raised-button
           color="primary"
           [disabled]="createPostForm.invalid"
@@ -60,7 +74,7 @@
         </button>
       </div>
     </form>
-  </div> 
+  </div>
   <div class="right-sidebar">
     <app-right-sidebar></app-right-sidebar>
   </div>

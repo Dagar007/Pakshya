@@ -62,9 +62,9 @@ export class CreateComponent implements OnInit {
           this.createPostForm = this.formBuilder.group({
             heading: post.heading,
             description: post.description,
-            category: post.category
+            category: post.category,           
           });
-
+          this.imgURL = post.photos[0].url;
           this.post = post;
           this.page = "Edit";
           //if (post.category) this.selectedValue = post.category.id;
@@ -139,5 +139,8 @@ export class CreateComponent implements OnInit {
     reader.onload = _event => {
       this.imgURL = reader.result;
     };
+  }
+  compareObjects(o1: any, o2: any): boolean {
+    return o1.name === o2.name && o1.id === o2.id;
   }
 }

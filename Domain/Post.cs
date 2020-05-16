@@ -10,11 +10,10 @@ namespace Domain
         public string  Description  { get; set; }
         public virtual Category Category {get; set;}
         public DateTime Date { get; set; }
-        public string Url { get; set; }
         public int For { get; set; }
         public int Against { get; set; }
         public int Views { get; set; }
-
+        public virtual ICollection<Photo> Photos { get; set; }
         public virtual ICollection<UserPost> UserPosts { get; set; }
 
         public virtual ICollection<Comment> Comments { get; set; }

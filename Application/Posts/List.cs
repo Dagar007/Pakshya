@@ -53,6 +53,7 @@ namespace Application.Posts
 
                 var posts = await PagedList<Post>.CreateAsync(queryable, request.PostParams.PageNumber, request.PostParams.PageSize);
                 _httpContext.HttpContext.Response.AddPagination(posts.CurrentPage, posts.PageSize,posts.TotalCount, posts.TotalPages);
+                Thread.Sleep(5000);
                 return _mapper.Map<List<Post>, List<PostConcise>>(posts);
 
                 

@@ -50,14 +50,14 @@
   }
   &__image{
     display: block;
-    height: 17rem;
-    width: 100%;
+    height: auto;
+    max-width: 100%;
     margin-bottom: .5rem;
   }
   &__image--list{
     display: block;
-    height: 10rem;
-    width: 100%;
+    height: auto;
+    max-width: 100%;
     margin-bottom: .5rem;
   }
 

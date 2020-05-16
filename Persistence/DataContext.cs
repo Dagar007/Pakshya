@@ -1,10 +1,11 @@
 ﻿using Domain;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Persistence
 {
-    public class DataContext : IdentityDbContext<AppUser>
+    public class DataContext : IdentityDbContext<AppUser, Role, string , IdentityUserClaim<string>, UserRole, IdentityUserLogin<string>, IdentityRoleClaim<string>, IdentityUserToken<string>>
     {
         public DataContext(DbContextOptions options) : base(options)
         {
@@ -22,6 +23,17 @@ namespace Persistence
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+
+            builder.Entity<UserRole>(userRole =>{
+              userRole.HasKey(ur => new {ur.RoleId, ur.UserId});
+              userRole.HasOne(ur => ur.Role)
+                .WithMany(r => r.UserRoles)
+                .HasForeignKey(ur => ur.RoleId).IsRequired();
+              userRole.HasOne(ur => ur.User)
+                .WithMany(r => r.UserRoles)
+                .HasForeignKey(ur => ur.UserId).IsRequired();
+            });
+
             builder.Entity<Value>().HasData(
               new Value { Id = 1, Name = "Value 101" },
               new Value { Id = 2, Name = "Value 102" },

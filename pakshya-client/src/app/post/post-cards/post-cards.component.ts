@@ -4,6 +4,10 @@ import { IPostConcise } from "src/app/_models/post";
 import { AlertifyService } from "src/app/_services/alertify.service";
 import { ActivatedRoute } from "@angular/router";
 import { Pagination, PaginatedResult } from "src/app/_models/pagination";
+import { Store } from '@ngrx/store';
+import * as fromRoot from './../../app.reducer';
+import {Observable, of} from 'rxjs';
+import {map} from 'rxjs/operators';
 
 @Component({
   selector: "app-post-cards",
@@ -11,23 +15,28 @@ import { Pagination, PaginatedResult } from "src/app/_models/pagination";
   styleUrls: ["./post-cards.component.scss"]
 })
 export class PostCardsComponent implements OnInit {
+  pageNumber = 1;
+  pageSize = 3;
   posts: IPostConcise[];
-  loading = false;
+  isloading$: Observable<boolean>;
   userParams: any = {};
   pagination: Pagination;
 
   constructor(
     private postService: PostService,
     private alertify: AlertifyService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private store: Store<fromRoot.State>
   ) {}
 
   ngOnInit() {
+    this.isloading$ = this.store.select(fromRoot.getIsLoading);
+
     this.getPosts();
     this.postService.catgorySelectedEmitter.subscribe(category => {
       this.userParams.category = category;
       this.setPage(1);
-      this.loading = true;
+     
       this.posts = null;
       this.postService
         .getPosts(
@@ -39,11 +48,8 @@ export class PostCardsComponent implements OnInit {
           (res: PaginatedResult<IPostConcise[]>) => {
             this.pagination = res.pagination;
             this.posts = res.result;
-
-            this.loading = false;
           },
           err => {
-            this.loading = false;
             this.alertify.error(err);
           }
         );
@@ -51,20 +57,32 @@ export class PostCardsComponent implements OnInit {
   }
 
   getPosts() {
-    this.loading = true;
-    this.route.data.subscribe(
-      data => {
-        this.pagination = data["posts"].pagination;
+    // this.route.data.subscribe(
+    //   data => {
+    //     this.pagination = data["posts"].pagination;
+    //     this.posts = data["posts"].result;
+    //     this.userParams.category = null;
+    //   },
+    //   err => {
+    //     this.alertify.error(err);
+    //   }
+    // );
 
-        this.posts = data["posts"].result;
-        this.userParams.category = null;
-        this.loading = false;
-      },
-      err => {
-        this.loading = false;
-        this.alertify.error(err);
-      }
-    );
+    this.postService
+      .getPosts(
+        this.pageNumber,
+        this.pageSize,
+        this.userParams.category != null ? this.userParams : null
+      )
+      .subscribe(
+        (res: PaginatedResult<IPostConcise[]>) => {
+          this.pagination = res.pagination;
+          this.posts= res.result;
+        },
+        err => {
+          this.alertify.error(err);
+        }
+      );
   }
   postDeleted(deletedPost: IPostConcise) {
     this.posts = this.posts.filter(c => {
@@ -78,7 +96,7 @@ export class PostCardsComponent implements OnInit {
 
   loadNextPosts() {
     this.setPage(this.pagination.currentPage + 1);
-    this.loading = true;
+    
     this.postService
       .getPosts(
         this.pagination.currentPage,
@@ -89,11 +107,8 @@ export class PostCardsComponent implements OnInit {
         (res: PaginatedResult<IPostConcise[]>) => {
           this.pagination = res.pagination;
           Array.prototype.push.apply(this.posts, res.result);
-
-          this.loading = false;
         },
         err => {
-          this.loading = false;
           this.alertify.error(err);
         }
       );

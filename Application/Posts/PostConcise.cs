@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Domain;
 
 namespace Application.Posts
@@ -10,7 +11,7 @@ namespace Application.Posts
         public string  Description  { get; set; }
         public Category Category { get; set; }
         public DateTime Date { get; set; }
-        public string Url { get; set; }
+        public virtual ICollection<Photo> Photos { get; set; }
         public string HostUsername {get; set;}
         public string HostDisplayName {get; set;}
         public string HostImage {get; set;}

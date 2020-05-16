@@ -15,8 +15,13 @@
 <h1 class="card__headline">
   {{ post.heading }}
 </h1>
-
-<img *ngIf="post.url" src="{{ post.url }}" alt="Dog" class="card__image" />
+<img
+  *ngFor="let p of post.photos"
+  src="{{ p.url }}"
+  alt="Dog"
+  class="card__image--list"
+/>
+<!-- <img *ngIf="post.url" src="{{ post.url }}" alt="Dog" class="card__image" /> -->
 <div class="card__description">
   <p>
     {{ post.description }}

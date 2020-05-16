@@ -6,6 +6,10 @@ import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
 import { PaginatedResult } from '../_models/pagination';
 import { map } from 'rxjs/operators';
+import * as fromRoot from './../app.reducer';
+import { Store } from '@ngrx/store';
+import * as UI from './../_shared/ui.actions';
+import { IPhoto } from '../_models/profile';
 
 
 @Injectable({
@@ -15,10 +19,11 @@ export class PostService {
   private baseUrl = environment.apiUrl;
 
   catgorySelectedEmitter = new EventEmitter<string>();
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient,private store: Store<fromRoot.State>) {}
 
   getPosts(page?,itemsPerPage?, userParams?):Observable<PaginatedResult<IPostConcise[]>> {
 
+    this.store.dispatch(new UI.StartLoading());
     const paginatedResult: PaginatedResult<IPostConcise[]> = new PaginatedResult<IPostConcise[]>();
     let params = new HttpParams();
     if(page != null && itemsPerPage!= null) {
@@ -36,10 +41,10 @@ export class PostService {
           if(response.headers.get('Pagination') != null) {
             paginatedResult.pagination = JSON.parse(response.headers.get('Pagination'));
           }
-          
+          this.store.dispatch(new UI.StopLoading());
           return paginatedResult;
         })
-      );
+      );  
   }
   getPost(id: string) {
     return this.http.get<IPostConcise>(this.baseUrl+'posts/' + id);
@@ -47,7 +52,8 @@ export class PostService {
   updatePost(post: IPostConcise) {
     return this.http.put(this.baseUrl+'posts/' + post.id, post);
   }
-  createPost(post: IPostConcise) {
+  createPost(post: any) {
+    console.log(post);
     return this.http.post(this.baseUrl+'posts/', post);
   }
   deletePost(id: string) {
@@ -67,5 +73,8 @@ export class PostService {
   }
   getCategoryStats() {
     return this.http.get<ICategoryStats[]>(this.baseUrl+'posts/category/stats');
+  }
+  uploadPhoto(file: any) {
+    return this.http.post<IPhoto>(this.baseUrl+'photos', file);
   }
 }

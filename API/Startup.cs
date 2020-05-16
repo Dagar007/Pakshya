@@ -70,9 +70,11 @@ namespace API
                 cfg.RegisterValidatorsFromAssemblyContaining<Create>();
             });
 
-            var builder = services.AddIdentityCore<AppUser>();
-            var identityBuilder = new IdentityBuilder(builder.UserType, builder.Services);
+            var builder = services.AddIdentityCore<AppUser>().AddDefaultTokenProviders();
+            var identityBuilder = new IdentityBuilder(builder.UserType, typeof(Role), builder.Services);
             identityBuilder.AddEntityFrameworkStores<DataContext>();
+            identityBuilder.AddRoleValidator<RoleValidator<Role>>();
+            identityBuilder.AddRoleManager<RoleManager<Role>>();
             identityBuilder.AddSignInManager<SignInManager<AppUser>>();
 
             services.AddAuthorization(opt =>

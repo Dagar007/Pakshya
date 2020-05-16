@@ -28,8 +28,8 @@ namespace Application.Profiles
             var user = await _context.Users.SingleOrDefaultAsync(u => u.UserName == username);
             if (user == null)
                 throw new RestException(HttpStatusCode.NotFound, new { User = "User not found." });
-            var userPosts = await _context.UserPosts.Where(u => u.AppUser.UserName == user.UserName && u.IsAuthor == true).ToListAsync();
-            var userComments = await _context.UserComments.Where(u => u.AppUser.UserName == user.UserName && u.IsAuthor == true).ToListAsync();
+            var userPosts = await _context.UserPosts.Where(u => u.AppUser.UserName == user.UserName && u.IsAuthor == true).Take(5).ToListAsync();
+            var userComments = await _context.UserComments.Where(u => u.AppUser.UserName == user.UserName && u.IsAuthor == true).Take(5).ToListAsync();
             
             var currentUser = await _context.Users.SingleOrDefaultAsync(u => u.UserName == _userAccessor.GetUserName());
            

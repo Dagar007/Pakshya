@@ -44,8 +44,8 @@
 </h1>
 
 <img
-  *ngIf="post.url"
-  src="{{ post.url }}"
+  *ngFor="let p of post.photos"
+  src="{{ p.url }}"
   alt="Dog"
   class="card__image--list"
 />

@@ -76,6 +76,7 @@ export class PhotoComponent implements OnInit {
     }
     const formData = new FormData();
     formData.append("file", this.uploadForm.get("profile").value);
+    console.log(formData);
     this.profileService.uploadPhoto(formData).subscribe((res: IPhoto) => {
       if (this.profile.photos.length == 0) {
         res.isMain = true;

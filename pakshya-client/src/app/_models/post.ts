@@ -1,3 +1,6 @@
+import { IPhoto } from './profile';
+
+
 // export interface IPostsEnvelope {
 //   posts: IPostConcise[],
 //   postCount: number
@@ -56,7 +59,6 @@ export interface IPostConcise {
   description: string;
   category: ICategory;
   date: Date;
-  url?: string;
   hostUsername: string;
   hostDisplayName: string;
   hostImage: string;
@@ -64,4 +66,5 @@ export interface IPostConcise {
   isPostLiked: boolean;
   noOfLikes: number;
   noOfComments: number;
+  photos: IPhoto[]
 }

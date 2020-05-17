@@ -108,14 +108,14 @@ export class CreateComponent implements OnInit {
 
   onSubmit() {
     if (this.createPostForm.valid) {
+      if (!this.formData) {
+        this.formData = new FormData();
+      }
       if (this.id) {
         this.post = Object.assign({}, this.createPostForm.value);
         this.post.id = this.id;
         this.post.date = new Date();
         this.post.isImageEdited = this.isImageEdited;
-        if (!this.formData) {
-          this.formData = new FormData();
-        }
         this.formData.append('jsonPost', JSON.stringify(this.post));
         this.postService.updatePost(this.id, this.formData).subscribe(
           () => {

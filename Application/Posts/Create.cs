@@ -86,7 +86,7 @@ namespace Application.Posts
                     IsActive = true,
                     
                 };
-                if (request.File.Length > 0)
+                if (request.File != null && request.File.Length > 0)
                 {
                     var photoUploadResult = _photoAccessor.AddPhoto(request.File);
                     var photo = new Photo

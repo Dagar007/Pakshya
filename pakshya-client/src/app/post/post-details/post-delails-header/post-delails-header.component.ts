@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { IPost, IEngagers, IPostConcise } from 'src/app/_models/post';
+import { IEngagers, IPostConcise } from 'src/app/_models/post';
 import { PostService } from 'src/app/_services/post.service';
 import { AlertifyService } from 'src/app/_services/alertify.service';
 import { AuthService } from 'src/app/_services/auth.service';
@@ -15,10 +15,9 @@ export class PostDelailsHeaderComponent implements OnInit {
   host: IEngagers;
   color: string;
   isAuthor1: boolean;
-  // noOfLikes: number;
   currentUserName: string;
 
-  like: boolean = false;
+  like = false;
   constructor(private postService: PostService,
     private alertify: AlertifyService,
     private authService: AuthService) { }
@@ -32,7 +31,7 @@ export class PostDelailsHeaderComponent implements OnInit {
       this.postService.unlikePost(this.post.id).subscribe(
         () => {
           this.like = !this.like;
-          this.color = "";
+          this.color = '';
           --this.post.noOfLikes;
         },
         err => {
@@ -43,7 +42,7 @@ export class PostDelailsHeaderComponent implements OnInit {
       this.postService.likePost(this.post.id).subscribe(
         () => {
           this.like = !this.like;
-          this.color = "primary";
+          this.color = 'primary';
           ++this.post.noOfLikes;
         },
         err => {
@@ -54,10 +53,11 @@ export class PostDelailsHeaderComponent implements OnInit {
   }
 
   isPostLiked() {
-    if (this.authService.currentUser1)
+    if (this.authService.currentUser1) {
       this.currentUserName = this.authService.currentUser1.username;
+    }
     if (this.post.isPostLiked) {
-      this.color = "primary";
+      this.color = 'primary';
       this.like = true;
     }
     if (this.post.isAuthor) {

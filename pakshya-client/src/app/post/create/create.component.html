@@ -29,11 +29,19 @@
       <div class="image-section">
         <div class="image-section--preview">
           <img
+            class="image-section--img"
             [src]="imgURL"
             height="200"
             *ngIf="imgURL"
             style="border: 1px solid black;"
           />
+          <button class="image-section--preview--button" *ngIf="imgURL" mat-mini-fab 
+            color="primary" aria-label="icon button with a highlight_off icon"
+            type="button" 
+            matTooltip="Remove image"
+            (click)="removeImage()">
+            <mat-icon>clear</mat-icon>
+          </button>
         </div>
         <button
           mat-raised-button
@@ -41,10 +49,14 @@
           color="primary"
           (click)="fileinput.click()"
         >
+        <div class="button-content">
           <i class="material-icons">
             add_a_photo
           </i>
-          Add Image
+          <span>
+            {{ imgURL? "Another image instead" : "Add Image" }}
+          </span>
+        </div>
         </button>
         <input
           type="file"

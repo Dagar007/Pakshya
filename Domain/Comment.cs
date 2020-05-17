@@ -15,6 +15,7 @@ namespace Domain
         public Guid PostId {get; set;}
         public DateTime Date { get; set; }
          public virtual ICollection<UserComment> UserComments { get; set; }
+        public bool IsActive { get; set; }
         
     }
 }

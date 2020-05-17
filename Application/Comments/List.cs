@@ -42,7 +42,7 @@ namespace Application.Comments
             {
                 
 
-                var queryable = _context.Comments.Where(c => c.PostId == request.PostId)
+                var queryable = _context.Comments.Where(c => c.PostId == request.PostId && c.IsActive)
                     .OrderByDescending(d => d.Date).AsQueryable();
                
                 if(queryable == null)

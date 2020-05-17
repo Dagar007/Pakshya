@@ -19,17 +19,20 @@ namespace Application.Posts
     {
         public class Command : IRequest
         {
-            public Guid Id { get; set; }
-            public string Heading { get; set; }
-            public string Description { get; set; }
-            public Category Category { get; set; }
-            public DateTime Date { get; set; }
+            // public Guid Id { get; set; }
+            // public string Heading { get; set; }
+            // public string Description { get; set; }
+            // public Category Category { get; set; }
+            // public DateTime Date { get; set; }
+
+            // public IFormFile File { get; set; }
 
             public IFormFile File { get; set; }
+            public string JsonPost { get; set; }
 
         }
 
-        public class Command1 
+        public class JsonPostDeseroalized 
         {
             public Guid Id { get; set; }
             public string Heading { get; set; }
@@ -41,15 +44,15 @@ namespace Application.Posts
 
         public class CommandValidator : AbstractValidator<Command>
         {
-            public CommandValidator()
-            {
 
-                RuleFor(x => x.Heading).NotEmpty();
-                RuleFor(x => x.Description).NotEmpty();
-                RuleFor(x => x.Category).NotEmpty();
-                RuleFor(x => x.Date).NotEmpty();
+            // public CommandValidator()
+            // {
+            //     RuleFor(x => x.JsonPost.).NotEmpty();
+            //     RuleFor(x => x.Description).NotEmpty();
+            //     RuleFor(x => x.Category).NotEmpty();
+            //     RuleFor(x => x.Date).NotEmpty();
 
-            }
+            // }
         }
 
         public class Handler : IRequestHandler<Command>
@@ -66,19 +69,21 @@ namespace Application.Posts
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-                var category = await _context.Categories.FindAsync(request.Category.Id);
+                var jsonPostDeseroalized = JsonConvert.DeserializeObject<JsonPostDeseroalized>(request.JsonPost);
+                var category = await _context.Categories.FindAsync(jsonPostDeseroalized.Category.Id);
                 if (category == null)
                     throw new RestException(HttpStatusCode.NotFound, new { Category = "Not found" });
                 var post = new Post
                 {
-                    Id = request.Id,
-                    Heading = request.Heading,
-                    Description = request.Description,
+                    Id = jsonPostDeseroalized.Id,
+                    Heading = jsonPostDeseroalized.Heading,
+                    Description = jsonPostDeseroalized.Description,
                     Category = category,
                     Date = DateTime.Now,
                     For = 0,
                     Against = 0,
-                    Photos = new List<Photo>()
+                    Photos = new List<Photo>(),
+                    IsActive = true,
                     
                 };
                 if (request.File.Length > 0)

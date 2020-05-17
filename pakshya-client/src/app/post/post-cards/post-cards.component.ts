@@ -1,18 +1,18 @@
-import { Component, OnInit } from "@angular/core";
-import { PostService } from "src/app/_services/post.service";
-import { IPostConcise } from "src/app/_models/post";
-import { AlertifyService } from "src/app/_services/alertify.service";
-import { ActivatedRoute } from "@angular/router";
-import { Pagination, PaginatedResult } from "src/app/_models/pagination";
+import { Component, OnInit } from '@angular/core';
+import { PostService } from 'src/app/_services/post.service';
+import { IPostConcise } from 'src/app/_models/post';
+import { AlertifyService } from 'src/app/_services/alertify.service';
+import { ActivatedRoute } from '@angular/router';
+import { Pagination, PaginatedResult } from 'src/app/_models/pagination';
 import { Store } from '@ngrx/store';
 import * as fromRoot from './../../app.reducer';
 import {Observable, of} from 'rxjs';
 import {map} from 'rxjs/operators';
 
 @Component({
-  selector: "app-post-cards",
-  templateUrl: "./post-cards.component.html",
-  styleUrls: ["./post-cards.component.scss"]
+  selector: 'app-post-cards',
+  templateUrl: './post-cards.component.html',
+  styleUrls: ['./post-cards.component.scss']
 })
 export class PostCardsComponent implements OnInit {
   pageNumber = 1;
@@ -36,7 +36,6 @@ export class PostCardsComponent implements OnInit {
     this.postService.catgorySelectedEmitter.subscribe(category => {
       this.userParams.category = category;
       this.setPage(1);
-     
       this.posts = null;
       this.postService
         .getPosts(
@@ -77,7 +76,7 @@ export class PostCardsComponent implements OnInit {
       .subscribe(
         (res: PaginatedResult<IPostConcise[]>) => {
           this.pagination = res.pagination;
-          this.posts= res.result;
+          this.posts = res.result;
         },
         err => {
           this.alertify.error(err);
@@ -96,7 +95,7 @@ export class PostCardsComponent implements OnInit {
 
   loadNextPosts() {
     this.setPage(this.pagination.currentPage + 1);
-    
+
     this.postService
       .getPosts(
         this.pagination.currentPage,
@@ -114,7 +113,8 @@ export class PostCardsComponent implements OnInit {
       );
   }
   onScroll() {
-    if (this.pagination.currentPage < this.pagination.totalPages)
+    if (this.pagination.currentPage < this.pagination.totalPages) {
       this.loadNextPosts();
+    }
   }
 }

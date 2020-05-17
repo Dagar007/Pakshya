@@ -66,5 +66,6 @@ export interface IPostConcise {
   isPostLiked: boolean;
   noOfLikes: number;
   noOfComments: number;
-  photos: IPhoto[]
+  photos: IPhoto[];
+  isImageEdited: boolean;
 }

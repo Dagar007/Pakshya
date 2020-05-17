@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Persistence.Migrations
 {
-    public partial class AddedRole : Migration
+    public partial class IsActiveAdded : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -47,7 +47,8 @@ namespace Persistence.Migrations
                     Education = table.Column<string>(nullable: true),
                     Work = table.Column<string>(nullable: true),
                     Address = table.Column<string>(nullable: true),
-                    Interests = table.Column<string>(nullable: true)
+                    Interests = table.Column<string>(nullable: true),
+                    IsActive = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -59,7 +60,8 @@ namespace Persistence.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(nullable: false),
-                    Value = table.Column<string>(nullable: true)
+                    Value = table.Column<string>(nullable: true),
+                    IsActive = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -151,7 +153,6 @@ namespace Persistence.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUserRoles", x => new { x.RoleId, x.UserId });
-                    table.UniqueConstraint("AK_AspNetUserRoles_UserId_RoleId", x => new { x.UserId, x.RoleId });
                     table.ForeignKey(
                         name: "FK_AspNetUserRoles_AspNetRoles_RoleId",
                         column: x => x.RoleId,
@@ -221,7 +222,8 @@ namespace Persistence.Migrations
                     Date = table.Column<DateTime>(nullable: false),
                     For = table.Column<int>(nullable: false),
                     Against = table.Column<int>(nullable: false),
-                    Views = table.Column<int>(nullable: false)
+                    Views = table.Column<int>(nullable: false),
+                    IsActive = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -245,7 +247,8 @@ namespace Persistence.Migrations
                     Against = table.Column<bool>(nullable: false),
                     Liked = table.Column<int>(nullable: false),
                     PostId = table.Column<Guid>(nullable: false),
-                    Date = table.Column<DateTime>(nullable: false)
+                    Date = table.Column<DateTime>(nullable: false),
+                    IsActive = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -345,63 +348,63 @@ namespace Persistence.Migrations
 
             migrationBuilder.InsertData(
                 table: "Categories",
-                columns: new[] { "Id", "Value" },
-                values: new object[] { "abc", "Politics" });
+                columns: new[] { "Id", "IsActive", "Value" },
+                values: new object[] { "abc", false, "Politics" });
 
             migrationBuilder.InsertData(
                 table: "Categories",
-                columns: new[] { "Id", "Value" },
-                values: new object[] { "def", "Economics" });
+                columns: new[] { "Id", "IsActive", "Value" },
+                values: new object[] { "def", false, "Economics" });
 
             migrationBuilder.InsertData(
                 table: "Categories",
-                columns: new[] { "Id", "Value" },
-                values: new object[] { "ghi", "India" });
+                columns: new[] { "Id", "IsActive", "Value" },
+                values: new object[] { "ghi", false, "India" });
 
             migrationBuilder.InsertData(
                 table: "Categories",
-                columns: new[] { "Id", "Value" },
-                values: new object[] { "jkl", "World" });
+                columns: new[] { "Id", "IsActive", "Value" },
+                values: new object[] { "jkl", false, "World" });
 
             migrationBuilder.InsertData(
                 table: "Categories",
-                columns: new[] { "Id", "Value" },
-                values: new object[] { "mno", "Sports" });
+                columns: new[] { "Id", "IsActive", "Value" },
+                values: new object[] { "mno", false, "Sports" });
 
             migrationBuilder.InsertData(
                 table: "Categories",
-                columns: new[] { "Id", "Value" },
-                values: new object[] { "pqr", "Random" });
+                columns: new[] { "Id", "IsActive", "Value" },
+                values: new object[] { "pqr", false, "Random" });
 
             migrationBuilder.InsertData(
                 table: "Categories",
-                columns: new[] { "Id", "Value" },
-                values: new object[] { "stu", "Entertainment" });
+                columns: new[] { "Id", "IsActive", "Value" },
+                values: new object[] { "stu", false, "Entertainment" });
 
             migrationBuilder.InsertData(
                 table: "Categories",
-                columns: new[] { "Id", "Value" },
-                values: new object[] { "vwx", "Good Life" });
+                columns: new[] { "Id", "IsActive", "Value" },
+                values: new object[] { "vwx", false, "Good Life" });
 
             migrationBuilder.InsertData(
                 table: "Categories",
-                columns: new[] { "Id", "Value" },
-                values: new object[] { "yza", "Fashion And Style" });
+                columns: new[] { "Id", "IsActive", "Value" },
+                values: new object[] { "yza", false, "Fashion And Style" });
 
             migrationBuilder.InsertData(
                 table: "Categories",
-                columns: new[] { "Id", "Value" },
-                values: new object[] { "bcd", "Writing" });
+                columns: new[] { "Id", "IsActive", "Value" },
+                values: new object[] { "bcd", false, "Writing" });
 
             migrationBuilder.InsertData(
                 table: "Categories",
-                columns: new[] { "Id", "Value" },
-                values: new object[] { "efg", "Computers" });
+                columns: new[] { "Id", "IsActive", "Value" },
+                values: new object[] { "efg", false, "Computers" });
 
             migrationBuilder.InsertData(
                 table: "Categories",
-                columns: new[] { "Id", "Value" },
-                values: new object[] { "hij", "Philosophy" });
+                columns: new[] { "Id", "IsActive", "Value" },
+                values: new object[] { "hij", false, "Philosophy" });
 
             migrationBuilder.InsertData(
                 table: "Values",
@@ -437,6 +440,11 @@ namespace Persistence.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetUserLogins_UserId",
                 table: "AspNetUserLogins",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUserRoles_UserId",
+                table: "AspNetUserRoles",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(

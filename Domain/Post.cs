@@ -15,8 +15,8 @@ namespace Domain
         public int Views { get; set; }
         public virtual ICollection<Photo> Photos { get; set; }
         public virtual ICollection<UserPost> UserPosts { get; set; }
-
         public virtual ICollection<Comment> Comments { get; set; }
+        public bool IsActive { get; set; }
        
     }
 }

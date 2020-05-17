@@ -37,7 +37,8 @@ namespace Persistence
                         UserName = "bob",
                         Email = "bob@test.com",
                         Birthday = DateTime.Now.AddYears(-18),
-                        Gender = "male"
+                        Gender = "male",
+                        IsActive = true
                     },
                     new AppUser
                     {
@@ -46,7 +47,8 @@ namespace Persistence
                         UserName = "tom",
                         Email = "tom@test.com",
                         Birthday = DateTime.Now.AddYears(-20),
-                        Gender = "male"
+                        Gender = "male",
+                        IsActive = true
                     },
                     new AppUser
                     {
@@ -55,7 +57,8 @@ namespace Persistence
                         UserName = "jane",
                         Email = "jane@test.com",
                          Birthday = DateTime.Now.AddYears(-22),
-                        Gender = "female"
+                        Gender = "female",
+                        IsActive = true
                     },
 
                 };
@@ -71,7 +74,8 @@ namespace Persistence
                     DisplayName= "Pakshya",
                     UserName = "Admin",
                     Email = "admin@test.com",
-                    EmailConfirmed = true
+                    EmailConfirmed = true,
+                    IsActive = true
                 };
 
                 var result = userManager.CreateAsync(adminUser, "Pa$$w0rd").Result;
@@ -96,6 +100,7 @@ namespace Persistence
                             //Url = null,
                             For = 3,
                             Against = 10,
+                            IsActive = true,
                             UserPosts = new List<UserPost>
                             {
                                 new UserPost 
@@ -116,6 +121,7 @@ namespace Persistence
                         //Url = "https://dummyimage.com/640x4:3",
                         For = 13,
                      Against = 2,
+                     IsActive = true,
                       UserPosts = new List<UserPost>
                             {
                                 new UserPost 
@@ -141,6 +147,7 @@ namespace Persistence
                         //Url = "https://dummyimage.com/640x4:3",
                         For = 1400,
                     Against = 10,
+                    IsActive = true,
                      UserPosts = new List<UserPost>
                             {
                                 new UserPost 
@@ -164,6 +171,7 @@ namespace Persistence
                         Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus magna erat, malesuada in felis at, tincidunt fringilla augue. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Etiam maximus tortor vitae ex ultrices, nec maximus arcu gravida. Sed orci odio, suscipit non feugiat sit amet, viverra eget tellus. Ut vestibulum vitae tellus et sollicitudin. Aenean augue leo, dignissim eu libero in, mollis auctor nibh. Quisque lobortis tempor lorem id bibendum. Sed mattis nisl maximus fringilla pretium. Curabitur et leo enim. Morbi sapien leo, malesuada vel neque vel, lobortis porttitor magna.",
                         
                         //Url = "https://dummyimage.com/200x200/000/fff",
+                        IsActive = true,
                         For = 0,
                     Against = 1010,
                      UserPosts = new List<UserPost>
@@ -189,6 +197,7 @@ namespace Persistence
                         Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus magna erat, malesuada in felis at, tincidunt fringilla augue. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Etiam maximus tortor vitae ex ultrices, nec maximus arcu gravida. Sed orci odio, suscipit non feugiat sit amet, viverra eget tellus. Ut vestibulum vitae tellus et sollicitudin. Aenean augue leo, dignissim eu libero in, mollis auctor nibh. Quisque lobortis tempor lorem id bibendum. Sed mattis nisl maximus fringilla pretium. Curabitur et leo enim. Morbi sapien leo, malesuada vel neque vel, lobortis porttitor magna.",
                          
                         //Url = null,
+                        IsActive = true,
                         For = 30,
                     Against = 31,
                      UserPosts = new List<UserPost>
@@ -216,6 +225,7 @@ namespace Persistence
                         //Url = "https://dummyimage.com/200x200/000/fff",
                         For = 3,
                     Against = 10,
+                    IsActive = true,
                      UserPosts = new List<UserPost>
                             {
                                 new UserPost 
@@ -241,6 +251,7 @@ namespace Persistence
                         //Url = "https://dummyimage.com/200x200/000/fff",
                         For = 113,
                     Against = 10,
+                    IsActive = true,
                      UserPosts = new List<UserPost>
                             {
                                 new UserPost 
@@ -262,7 +273,7 @@ namespace Persistence
                         Heading = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus magna erat, malesuada in felis at, tincidunt fringilla augue.",
                         Date = DateTime.Now,
                         Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus magna erat, malesuada in felis at, tincidunt fringilla augue. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Etiam maximus tortor vitae ex ultrices, nec maximus arcu gravida. Sed orci odio, suscipit non feugiat sit amet, viverra eget tellus. Ut vestibulum vitae tellus et sollicitudin. Aenean augue leo, dignissim eu libero in, mollis auctor nibh. Quisque lobortis tempor lorem id bibendum. Sed mattis nisl maximus fringilla pretium. Curabitur et leo enim. Morbi sapien leo, malesuada vel neque vel, lobortis porttitor magna.",
-                        
+                        IsActive = true,
                        // Url = "https://dummyimage.com/200x200/000/fff",
                         For = 37,
                     Against = 13,

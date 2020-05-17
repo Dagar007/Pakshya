@@ -56,9 +56,32 @@
     
   }
   &--preview {
+    display: flex;
+    justify-content: center;
+    width: 100%;
     margin-bottom: 1rem;
+    position: relative;
+    &--button {
+      position: absolute;
+      right: 0;
+    }
+  }
+  &--img {
+    max-width: 70%;
+    max-height: 250px;
   }
 }
 .right-sidebar{
   grid-column: 2 / 3;
+}
+.button-content {
+  i{
+
+    margin: 0;
+    padding: 0;
+    padding-right: .7rem;
+  }
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

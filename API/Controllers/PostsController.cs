@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Application.Helpers;
 using Application.Posts;
-using Domain;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 
 namespace API.Controllers
 {
@@ -28,25 +26,14 @@ namespace API.Controllers
     [HttpPost]
     public async Task<ActionResult<Unit>> Create([FromForm] IFormFile File, [FromForm] string jsonPost)
     {
-      var command1 = JsonConvert.DeserializeObject<Create.Command1>(jsonPost);
-      var command = new Create.Command();
-      command.Id = command1.Id;
-      command.Heading = command1.Heading;
-      command.Description = command1.Description;
-      command.Date = command1.Date;
-      command.Category = command1.Category;
-      command.File = File;
-
-      command.File = File;
-      return await Mediator.Send(command);
+      return await Mediator.Send(new Create.Command {File = File, JsonPost = jsonPost});
     }
 
-    [HttpPut("{id}")]
+    [HttpPost("{id}")]
     [Authorize(Policy = "IsPostHost")]
-    public async Task<ActionResult<Unit>> Edit (Guid id,[FromForm] IFormFile File, [FromForm] string jsonPost, Edit.Command command)
+    public async Task<ActionResult<Unit>> Edit (Guid id, [FromForm] IFormFile File, [FromForm] string jsonPost)
     {
-      command.Id = id;
-      return await Mediator.Send(command);
+      return await Mediator.Send(new Edit.Command{Id = id, File = File, JsonPost = jsonPost});
     }
 
     [HttpDelete("{id}")]

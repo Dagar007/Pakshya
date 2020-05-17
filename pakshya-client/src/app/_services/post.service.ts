@@ -6,9 +6,6 @@ import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
 import { PaginatedResult } from '../_models/pagination';
 import { map } from 'rxjs/operators';
-import * as fromRoot from './../app.reducer';
-import { Store } from '@ngrx/store';
-import * as UI from './../_shared/ui.actions';
 import { IPhoto } from '../_models/profile';
 
 
@@ -19,11 +16,10 @@ export class PostService {
   private baseUrl = environment.apiUrl;
 
   catgorySelectedEmitter = new EventEmitter<string>();
-  constructor(private http: HttpClient, private store: Store<fromRoot.State>) {}
+  constructor(private http: HttpClient) {}
 
   getPosts(page?, itemsPerPage?, userParams?): Observable<PaginatedResult<IPostConcise[]>> {
 
-    this.store.dispatch(new UI.StartLoading());
     const paginatedResult: PaginatedResult<IPostConcise[]> = new PaginatedResult<IPostConcise[]>();
     let params = new HttpParams();
     if (page != null && itemsPerPage != null) {
@@ -41,7 +37,6 @@ export class PostService {
           if (response.headers.get('Pagination') != null) {
             paginatedResult.pagination = JSON.parse(response.headers.get('Pagination'));
           }
-          this.store.dispatch(new UI.StopLoading());
           return paginatedResult;
         })
       );

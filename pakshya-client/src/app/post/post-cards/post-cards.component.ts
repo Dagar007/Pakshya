@@ -4,10 +4,7 @@ import { IPostConcise } from 'src/app/_models/post';
 import { AlertifyService } from 'src/app/_services/alertify.service';
 import { ActivatedRoute } from '@angular/router';
 import { Pagination, PaginatedResult } from 'src/app/_models/pagination';
-import { Store } from '@ngrx/store';
-import * as fromRoot from './../../app.reducer';
-import {Observable, of} from 'rxjs';
-import {map} from 'rxjs/operators';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-post-cards',
@@ -25,12 +22,10 @@ export class PostCardsComponent implements OnInit {
   constructor(
     private postService: PostService,
     private alertify: AlertifyService,
-    private route: ActivatedRoute,
-    private store: Store<fromRoot.State>
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
-    this.isloading$ = this.store.select(fromRoot.getIsLoading);
 
     this.getPosts();
     this.postService.catgorySelectedEmitter.subscribe(category => {
@@ -56,17 +51,6 @@ export class PostCardsComponent implements OnInit {
   }
 
   getPosts() {
-    // this.route.data.subscribe(
-    //   data => {
-    //     this.pagination = data["posts"].pagination;
-    //     this.posts = data["posts"].result;
-    //     this.userParams.category = null;
-    //   },
-    //   err => {
-    //     this.alertify.error(err);
-    //   }
-    // );
-
     this.postService
       .getPosts(
         this.pageNumber,

@@ -11,18 +11,18 @@ import { AlertifyService } from '../_services/alertify.service';
 export class RightSidebarComponent implements OnInit {
 
   constructor(private postService: PostService, private alertify: AlertifyService) { }
-  postStats: IPostStats[]
-  categoryStats: ICategoryStats[]
+  postStats: IPostStats[];
+  categoryStats: ICategoryStats[];
   ngOnInit() {
-    this.postService.getPostStats().subscribe((postStats: IPostStats[])=> {
+    this.postService.getPostStats().subscribe((postStats: IPostStats[]) => {
       this.postStats = postStats;
     }, err => {
-      this.alertify.error("Some error occured");
+      this.alertify.error('Some error occured');
     });
-    this.postService.getCategoryStats().subscribe((categoryStats: ICategoryStats[])=> {
+    this.postService.getCategoryStats().subscribe((categoryStats: ICategoryStats[]) => {
       this.categoryStats = categoryStats;
     }, err => {
-      this.alertify.error("Some error occured");
+      this.alertify.error('Some error occured');
     });
   }
 

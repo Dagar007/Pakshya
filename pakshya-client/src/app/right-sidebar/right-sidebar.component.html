@@ -1,4 +1,4 @@
-<div class="card ">
+<div class="card " *ngIf="postStats">
   <div class="sidebar">
     <p class="sidebar__header">
       <i class="material-icons sidebar__header--icon">
@@ -18,7 +18,7 @@
     </mat-list>
   </div>
 </div>
-<div class="card ">
+<div class="card " *ngIf="categoryStats">
   <div class="sidebar">
     <p class="sidebar__header">
       <i class="material-icons sidebar__header--icon">

@@ -1,13 +1,13 @@
-import { Component, OnInit, Input, Output, EventEmitter, SimpleChanges, OnChanges } from "@angular/core";
-import { IPost, IEngagers, IPostConcise } from "src/app/_models/post";
-import { PostService } from "src/app/_services/post.service";
-import { AlertifyService } from "src/app/_services/alertify.service";
-import { AuthService } from "src/app/_services/auth.service";
+import { Component, OnInit, Input, Output, EventEmitter, SimpleChanges, OnChanges } from '@angular/core';
+import { IPost, IEngagers, IPostConcise } from 'src/app/_models/post';
+import { PostService } from 'src/app/_services/post.service';
+import { AlertifyService } from 'src/app/_services/alertify.service';
+import { AuthService } from 'src/app/_services/auth.service';
 
 @Component({
-  selector: "app-post-card",
-  templateUrl: "./post-card.component.html",
-  styleUrls: ["./post-card.component.scss"]
+  selector: 'app-post-card',
+  templateUrl: './post-card.component.html',
+  styleUrls: ['./post-card.component.scss']
 })
 export class PostCardComponent implements OnInit {
   constructor(
@@ -24,14 +24,13 @@ export class PostCardComponent implements OnInit {
   noOfLikes: number;
   currentUserName: string;
 
-  like: boolean = false;
+  like = false;
 
   ngOnInit() {
-   if(this.post.isPostLiked){
-    this.color = "primary";
-   }
-   else {
-    this.color = "";
+   if (this.post.isPostLiked) {
+    this.color = 'primary';
+   } else {
+    this.color = '';
    }
   }
 
@@ -45,13 +44,13 @@ export class PostCardComponent implements OnInit {
       }
     );
   }
-  
+
   likePost() {
     if (this.post.isPostLiked) {
       this.postService.unlikePost(this.post.id).subscribe(
         () => {
           this.post.isPostLiked = !this.post.isPostLiked;
-          this.color = "";
+          this.color = '';
           --this.post.noOfLikes;
         },
         err => {
@@ -62,7 +61,7 @@ export class PostCardComponent implements OnInit {
       this.postService.likePost(this.post.id).subscribe(
         () => {
           this.post.isPostLiked = !this.post.isPostLiked;
-          this.color = "primary";
+          this.color = 'primary';
           ++this.post.noOfLikes;
         },
         err => {

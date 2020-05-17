@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -8,7 +7,6 @@ using AutoMapper;
 using Domain;
 using MediatR;
 using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
 using Persistence;
 
 namespace Application.Posts
@@ -37,7 +35,7 @@ namespace Application.Posts
 
             public async Task<List<PostConcise>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var queryable = _context.Posts
+                var queryable = _context.Posts.Where(x => x.IsActive)
                     .OrderByDescending(d => d.Date)
                 .AsQueryable();
 
@@ -53,7 +51,6 @@ namespace Application.Posts
 
                 var posts = await PagedList<Post>.CreateAsync(queryable, request.PostParams.PageNumber, request.PostParams.PageSize);
                 _httpContext.HttpContext.Response.AddPagination(posts.CurrentPage, posts.PageSize,posts.TotalCount, posts.TotalPages);
-                Thread.Sleep(5000);
                 return _mapper.Map<List<Post>, List<PostConcise>>(posts);
 
                 

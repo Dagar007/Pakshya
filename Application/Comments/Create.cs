@@ -59,7 +59,8 @@ namespace Application.Comments
                     Date = DateTime.Now,
                     For = request.For,
                     Against = request.Against,
-                    Liked = 0
+                    Liked = 0,
+                    IsActive = true,
                 };
 
                 post.Comments.Add(comment);

@@ -9,14 +9,14 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200310114728_AddedRole")]
-    partial class AddedRole
+    [Migration("20200516161650_IsActiveAdded")]
+    partial class IsActiveAdded
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.0.0");
+                .HasAnnotation("ProductVersion", "3.1.1");
 
             modelBuilder.Entity("Domain.AppUser", b =>
                 {
@@ -57,6 +57,9 @@ namespace Persistence.Migrations
 
                     b.Property<string>("Interests")
                         .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("INTEGER");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("INTEGER");
@@ -111,6 +114,9 @@ namespace Persistence.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("TEXT");
 
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Value")
                         .HasColumnType("TEXT");
 
@@ -122,61 +128,73 @@ namespace Persistence.Migrations
                         new
                         {
                             Id = "abc",
+                            IsActive = false,
                             Value = "Politics"
                         },
                         new
                         {
                             Id = "def",
+                            IsActive = false,
                             Value = "Economics"
                         },
                         new
                         {
                             Id = "ghi",
+                            IsActive = false,
                             Value = "India"
                         },
                         new
                         {
                             Id = "jkl",
+                            IsActive = false,
                             Value = "World"
                         },
                         new
                         {
                             Id = "mno",
+                            IsActive = false,
                             Value = "Sports"
                         },
                         new
                         {
                             Id = "pqr",
+                            IsActive = false,
                             Value = "Random"
                         },
                         new
                         {
                             Id = "stu",
+                            IsActive = false,
                             Value = "Entertainment"
                         },
                         new
                         {
                             Id = "vwx",
+                            IsActive = false,
                             Value = "Good Life"
                         },
                         new
                         {
                             Id = "yza",
+                            IsActive = false,
                             Value = "Fashion And Style"
                         },
                         new
                         {
                             Id = "bcd",
+                            IsActive = false,
                             Value = "Writing"
                         },
                         new
                         {
                             Id = "efg",
+                            IsActive = false,
                             Value = "Computers"
                         },
                         new
                         {
                             Id = "hij",
+                            IsActive = false,
                             Value = "Philosophy"
                         });
                 });
@@ -200,6 +218,9 @@ namespace Persistence.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<bool>("For")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("IsActive")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("Liked")
@@ -266,6 +287,9 @@ namespace Persistence.Migrations
 
                     b.Property<string>("Heading")
                         .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("Views")
                         .HasColumnType("INTEGER");
@@ -370,7 +394,7 @@ namespace Persistence.Migrations
 
                     b.HasKey("RoleId", "UserId");
 
-                    b.HasAlternateKey("UserId", "RoleId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("AspNetUserRoles");
                 });

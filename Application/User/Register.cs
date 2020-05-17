@@ -74,7 +74,8 @@ namespace Application.User
                     Email = request.Email,
                     UserName = request.Username,
                     Gender = request.Gender,
-                    Birthday = request.Birthday
+                    Birthday = request.Birthday,
+                    IsActive = true,
                 };
 
                 var result = await _userManager.CreateAsync(user, request.Password);

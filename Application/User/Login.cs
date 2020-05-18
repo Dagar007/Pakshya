@@ -31,7 +31,6 @@ namespace Application.User
         public class Handler : IRequestHandler<Query, User>
         {
             private readonly UserManager<AppUser> _userManager;
-
             private readonly SignInManager<AppUser> _signInManager;
             private readonly IJwtGenerator _jwtGenerator;
 
@@ -49,7 +48,10 @@ namespace Application.User
                 var user = await _userManager.FindByEmailAsync(request.Email);
                 if(user == null)
                     throw new RestException(HttpStatusCode.Unauthorized);
+                if(!user.EmailConfirmed)
+                    throw new RestException(HttpStatusCode.BadRequest, new {Login = "Email not confirmed yet."});
                 var result = await _signInManager.CheckPasswordSignInAsync(user,request.Password, false);
+                
                 if(result.Succeeded)
                 {
                     return new User 

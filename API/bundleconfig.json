@@ -1,0 +1,23 @@
+[
+  {
+    "outputFileName": "wwwroot/bundle/bundle.min.js",
+    "inputFiles": [
+      "wwwroot/lib/jquery/jquery.min.js",
+      "wwwroot/lib/jquery-validate/jquery.validate.min.js",
+      "wwwroot/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js",
+      "wwwroot/js/materialize.min.js",
+      "wwwroot/js/alertify.min.js",
+      "wwwroot/js/scripts.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/bundle/bundle.min.css",
+    "inputFiles": [
+      "wwwroot/css/bootstrap.min.css",
+      "wwwroot/css/materialize.min.css",
+      "wwwroot/css/alertify.min.css",
+      "wwwroot/css/alertify.bootstrap.min.css",
+      "wwwroot/css/styles.css"
+    ]
+  }
+]

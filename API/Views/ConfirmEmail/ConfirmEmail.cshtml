@@ -1,0 +1,28 @@
+@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
+<div class="body-wrapper">
+    <div class="authentication-bg-wrapper">
+        <div class="authentication-container">
+            <div class="authentication-content-wrapapper d-flex justify-content-center align-items-center">
+                <div class="card authentication-wrapper">
+                    <div class="card-content">
+                        <h4 class="text-center text-uppercase title">
+                            <i class="fa fa-check fa-3x" aria-hidden="true"></i>
+                        </h4>
+                        <p class="text-center">Thanks for confirming your email.</p>
+                         <div class="button-wrapper-grid">
+                             @{
+                                 string hrefValue = Configuration["ClientUrl"] + "/login";
+                             }
+                             <a class="waves-effect waves-light btn" href=@hrefValue >Login</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+

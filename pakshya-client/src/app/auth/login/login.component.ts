@@ -5,7 +5,7 @@ import { AlertifyService } from 'src/app/_services/alertify.service';
 import { IUserLoginFormValues } from 'src/app/_models/user';
 import { AuthService as FacebookAuth } from 'angularx-social-login';
 import { FacebookLoginProvider} from 'angularx-social-login';
-import { Observable } from 'rxjs';
+
 
 @Component({
   selector: 'app-login',
@@ -14,7 +14,6 @@ import { Observable } from 'rxjs';
 })
 export class LoginComponent implements OnInit {
 
-  isLoading$: Observable<boolean>;
   constructor(
     private authService: AuthService,
     private router: Router,
@@ -28,6 +27,9 @@ export class LoginComponent implements OnInit {
   };
 
   ngOnInit() {
+    if (this.authService.loggedIn()) {
+      this.router.navigate(['/']);
+    }
   }
 
   onSubmit() {

@@ -46,6 +46,7 @@ import { PostResolver } from './_resolvers/_post.resolver';
 import { CommentResolver } from './_resolvers/comments.resolver';
 import { HomeComponent } from './auth/home/home.component';
 import { LoadingInterceptor } from './_services/loading.interceptors';
+import { ForgetPasswordComponent } from './auth/forget-password/forget-password.component';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -89,7 +90,8 @@ export function provideConfig() {
     EducationComponent,
     WorkComponent,
     LivingComponent,
-    TimeAgoPipe
+    TimeAgoPipe,
+    ForgetPasswordComponent
   ],
   imports: [
     BrowserModule,

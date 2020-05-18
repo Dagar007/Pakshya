@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using Application.User;
 using Domain;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,7 +17,7 @@ namespace API.Controllers
         }
         [AllowAnonymous]
         [HttpPost("register")]
-        public async Task<ActionResult<User>> Resiter(Register.Command command)
+        public async Task<ActionResult<Unit>> Resiter(Register.Command command)
         {
             return await Mediator.Send(command);
         }
@@ -31,8 +32,11 @@ namespace API.Controllers
         {
             return await Mediator.Send(query);
         }
-
-
+        [AllowAnonymous]
+        [HttpPost("forget")]
+        public async Task<ActionResult<Unit>> ForgetPassword(ForgetPassword.Query query)
+        {
+            return await Mediator.Send(query);
+        }
     }
-
 }

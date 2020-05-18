@@ -1,20 +1,20 @@
-import { Component, OnInit } from "@angular/core";
-import { AuthService } from "src/app/_services/auth.service";
-import { IUserRegisterFormValues, IUser } from "src/app/_models/user";
-import { AlertifyService } from "src/app/_services/alertify.service";
-import { Router } from "@angular/router";
+import { Component, OnInit } from '@angular/core';
+import { AuthService } from 'src/app/_services/auth.service';
+import { IUserRegisterFormValues } from 'src/app/_models/user';
+import { AlertifyService } from 'src/app/_services/alertify.service';
+import { Router } from '@angular/router';
 import {
   FormGroup,
   FormControl,
   Validators,
   FormBuilder
-} from "@angular/forms";
-import { CrossFieldErrorMatcher } from "src/app/_helper/CrossFieldErrorMatcher";
+} from '@angular/forms';
+import { CrossFieldErrorMatcher } from 'src/app/_helper/CrossFieldErrorMatcher';
 
 @Component({
-  selector: "app-register",
-  templateUrl: "./register.component.html",
-  styleUrls: ["./register.component.scss"]
+  selector: 'app-register',
+  templateUrl: './register.component.html',
+  styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent implements OnInit {
   maxDate;
@@ -32,6 +32,9 @@ export class RegisterComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    if (this.authService.loggedIn()) {
+      this.router.navigate(['/']);
+    }
     this.createRegisterForm();
     this.maxDate = new Date();
     this.maxDate.setFullYear(this.maxDate.getFullYear() - 18);
@@ -40,14 +43,14 @@ export class RegisterComponent implements OnInit {
   createRegisterForm() {
     this.registerForm = this.fb.group(
       {
-        gender: ["other"],
-        username: ["", Validators.required],
-        displayName: ["", Validators.required],
-        email: ["", [Validators.required, Validators.email]],
+        gender: ['other'],
+        username: ['', Validators.required],
+        displayName: ['', Validators.required],
+        email: ['', [Validators.required, Validators.email]],
         birthday: [null, Validators.required],
-        password: ["", [Validators.required, Validators.minLength(6)]],
-        confirmPassword: ["", [Validators.required]],
-        agree: ["", Validators.required]
+        password: ['', [Validators.required, Validators.minLength(6)]],
+        confirmPassword: ['', [Validators.required]],
+        agree: ['', Validators.required]
       },
       {
         validators: this.passwordMatchValidator
@@ -56,7 +59,7 @@ export class RegisterComponent implements OnInit {
   }
 
   passwordMatchValidator(g: FormGroup) {
-    return g.get("password").value === g.get("confirmPassword").value
+    return g.get('password').value === g.get('confirmPassword').value
       ? null
       : { mismatch: true };
   }
@@ -66,8 +69,12 @@ export class RegisterComponent implements OnInit {
       this.register = Object.assign({}, this.registerForm.value);
       this.authService.register(this.register).subscribe(
         () => {
-          this.alertify.success("Logged In");
-          this.router.navigate(["/posts"]);
+          this.registerForm.reset();
+          Object.keys(this.registerForm.controls).forEach(key => {
+            this.registerForm.get(key).setErrors(null);
+          });
+          this.alertify.success('Email confirmation link as been sent to your email.');
+          // this.router.navigate(['/posts']);
         },
         err => {
           this.alertify.error(err);

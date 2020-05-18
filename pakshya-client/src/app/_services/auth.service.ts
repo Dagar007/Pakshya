@@ -45,17 +45,18 @@ export class AuthService {
   }
 
   register(register: IUserRegisterFormValues) {
-    return this.http.post<IUser>(this.baseUrl + 'user/' + 'register', register).pipe(
-      map((response: IUser) => {
-        const user = response;
-        if (user) {
-          localStorage.setItem('token', user.token);
-          localStorage.setItem('user', JSON.stringify(user));
-          this.decodedToken = this.jwtHelper.decodeToken(user.token);
-          this.currentUser1 = user;
-        }
-      })
-    );
+    return this.http.post(this.baseUrl + 'user/' + 'register', register);
+    // .pipe(
+    //   map((response: IUser) => {
+    //     const user = response;
+    //     if (user) {
+    //       localStorage.setItem('token', user.token);
+    //       localStorage.setItem('user', JSON.stringify(user));
+    //       this.decodedToken = this.jwtHelper.decodeToken(user.token);
+    //       this.currentUser1 = user;
+    //     }
+    //   })
+    // );
   }
 
   fbLogin(accessToken: string) {
@@ -70,6 +71,10 @@ export class AuthService {
         }
       })
     );
+  }
+
+  forgetPassword(email: string) {
+    return this.http.post(this.baseUrl + 'user/forget', { email });
   }
 
   loggedIn() {

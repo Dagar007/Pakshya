@@ -36,6 +36,8 @@ namespace Application.User
                 if(userInfo == null)
                     throw new RestException(HttpStatusCode.BadRequest, new {User ="Problem validating user"});
                 var user =  await _userManager.FindByEmailAsync(userInfo.Email);
+                 if(user != null && !user.EmailConfirmed)
+                    throw new RestException(HttpStatusCode.BadRequest, new {Login = "Email not confirmed yet."});
                 if(user == null)
                 {
                     user = new AppUser 

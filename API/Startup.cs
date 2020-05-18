@@ -18,6 +18,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -65,8 +66,13 @@ namespace API
             {
                 cfg.RegisterValidatorsFromAssemblyContaining<Create>();
             });
+            services.AddMvc();
 
-            var builder = services.AddIdentityCore<AppUser>().AddDefaultTokenProviders();
+            var builder = services.AddIdentityCore<AppUser>(opt => 
+            {
+                opt.SignIn.RequireConfirmedEmail = true;
+            })
+            .AddDefaultTokenProviders();
             var identityBuilder = new IdentityBuilder(builder.UserType, typeof(Role), builder.Services);
             identityBuilder.AddEntityFrameworkStores<DataContext>();
             identityBuilder.AddRoleValidator<RoleValidator<Role>>();
@@ -126,7 +132,10 @@ namespace API
             services.AddScoped<IPhotoAccessor, PhotoAccessor>();
             services.AddScoped<IProfileReader, ProfileReader>();
             services.AddScoped<IFacebookAccessor, FacebookAccessor>();
+            services.AddScoped<IEmailService, EmailServiceAWS>();
+            services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
             services.Configure<CloudinarySettings>(Configuration.GetSection("Cloudinary"));
+            services.Configure<AwsSettings>(this.Configuration.GetSection("Aws"));
             services.Configure<FacebookAppSettings>(Configuration.GetSection("Authentication:Facebook"));
 
         }
@@ -161,8 +170,6 @@ namespace API
                 endpoints.MapControllers();
                 endpoints.MapHub<ChatHub>("/chat");
                 endpoints.MapFallbackToController("Index", "Fallback");
-
-
             });
 
         }

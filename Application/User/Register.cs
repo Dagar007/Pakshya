@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Persistence;
 
 namespace Application.User
@@ -42,17 +43,17 @@ namespace Application.User
                 RuleFor(x => x.Password).Password();
                 RuleFor(x => x.Birthday.Year).LessThan(DateTime.Now.Year - 17);
                 RuleFor(x => x.Gender).NotEmpty();
-
             }
         }
 
         public class Handler : IRequestHandler<Command, Unit>
         {
-             private readonly UserManager<AppUser> _userManager;
+            private readonly UserManager<AppUser> _userManager;
             private readonly SignInManager<AppUser> _signInManager;
             private readonly IUrlHelperFactory _urlHelperFactory;
             private readonly IActionContextAccessor _actionContextAccessor;
             private readonly IHttpContextAccessor _contextAccessor;
+            private readonly IConfiguration _configuration;
             private readonly IEmailService _emailService;
             private readonly DataContext _context;
             public Handler(UserManager<AppUser> userManager, 
@@ -60,10 +61,12 @@ namespace Application.User
             IUrlHelperFactory urlHelperFactory,
             IActionContextAccessor actionContextAccessor,
             IHttpContextAccessor contextAccessor,
+            IConfiguration configuration,
             IEmailService emailService,
             DataContext context)
             {
                 _contextAccessor = contextAccessor;
+                _configuration = configuration;
                 _userManager = userManager;
                 _signInManager = signInManager;
                 _urlHelperFactory = urlHelperFactory;
@@ -74,11 +77,11 @@ namespace Application.User
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-                if (await _context.Users.Where(x => x.Email == request.Email).AnyAsync())
+                if (await _context.Users.Where(x => x.Email.ToLower() == request.Email.ToLower()).AnyAsync())
                 {
                     throw new RestException(HttpStatusCode.BadRequest, new { Email = "Email already exists" });
                 }
-                if (await _context.Users.Where(x => x.UserName == request.Username).AnyAsync())
+                if (await _context.Users.Where(x => x.UserName.ToLower() == request.Username.ToLower()).AnyAsync())
                 {
                     throw new RestException(HttpStatusCode.BadRequest, new { Username = "Username already exists" });
                 }
@@ -100,27 +103,25 @@ namespace Application.User
 
                     var urlHelper = _urlHelperFactory.GetUrlHelper(_actionContextAccessor.ActionContext);
 
-                     var passwordResetLink = urlHelper.Action("ConfirmEmail", "ConfirmEmail",
+                    var passwordResetLink = urlHelper.Action("ConfirmEmail", "ConfirmEmail",
                     new { user = user.Id, token = token }, _contextAccessor.HttpContext.Request.Scheme);
                     var email = new EmailDto
                     {
-                        SenderAddress = "dagardeepak88@gmail.com",
-                        ReceiverAddress = "selfishdeepak@gmail.com",
+                        SenderAddress = _configuration["SenderAddress"],
+                        ReceiverAddress = "dagardeepak88@gmail.com",
                         Subject = "Confirm Email.",
                         TextBody = passwordResetLink,
                     };
                     await _emailService.SendEmail(email);
                     return Unit.Value;
-                    // return new User
-                    // {
-                    //     DisplayName = user.DisplayName,
-                    //     Token = _generator.CreateToken(user),
-                    //     Username = user.UserName,
-                    //     Image = user.Photos?.FirstOrDefault(x => x.IsMain)?.Url
-                    // };
                 }
-
-                throw new Exception("problem creating user.");
+                
+                string errors = "";
+                foreach(var error in result.Errors)
+                {
+                    errors+=error.Description;
+                }
+                throw new Exception(errors);
             }
 
         }

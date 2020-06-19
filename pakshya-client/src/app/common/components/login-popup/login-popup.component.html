@@ -1,0 +1,48 @@
+<div class="login__conatiner card">
+    <form class="form" #loginForm="ngForm" (ngSubmit)="onSubmit()">
+      <h1 class="card__headline mb-medium">Please login to continue...</h1>
+  
+      <mat-form-field class="form__input">
+        <input matInput placeholder="Email" name="email"   [(ngModel)] = "loginFormValues.email" required />
+        <mat-error>Email is required.</mat-error>
+      </mat-form-field>
+      <mat-form-field class="form__input">
+        <input
+          matInput
+          placeholder="Password"
+          name="password"
+          type="password"
+          [(ngModel)] = "loginFormValues.password"
+          required
+          #passwordLength="ngModel"
+        />
+        <mat-error *ngIf="passwordLength.hasError('required')"
+          >Password is required.</mat-error
+        >
+      </mat-form-field>
+  
+      <div class="form__action--wrapper">
+        <button
+          mat-raised-button
+          color="primary"
+          class="form__action"
+          type="submit"
+          [disabled]="loginForm.invalid"
+        >
+         
+          <div  class="loading-indicator">
+            Login
+          </div>
+        </button>
+  
+        <div class="link">
+          <a [routerLink]="['/forget-password']">Forget Password?</a>
+        </div>
+  
+        <div class="link">
+          Don't have an account?
+          <a [routerLink]="['/signup']">Signup</a> here.
+        </div>
+      </div>
+    </form>
+    </div>

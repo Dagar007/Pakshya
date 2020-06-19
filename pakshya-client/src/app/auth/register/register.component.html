@@ -6,6 +6,7 @@
       aria-label="Select an option"
       class="form__radio"
       color="primary"
+      required
       formControlName="gender"
     >
       <mat-radio-button class="form__radio--btn" value="male"
@@ -103,13 +104,14 @@
       </mat-error>
     </mat-form-field>
 
-    <mat-checkbox
+    <!-- <mat-checkbox
       class="form__check"
       name="agree"
       color="primary"
       formControlName="agree"
+      required
       >Agree to terms of use.</mat-checkbox
-    >
+    > -->
 
     <div class="form__action--wrapper">
       <button
@@ -118,9 +120,11 @@
         class="form__action--left"
         [disabled]="registerForm.invalid"
       >
-        SignUp
+        Sign Up
       </button>
-
+      <div class="link">
+        By clicking Sign Up, you agree to our Terms and that you have read our Data Use Policy, including our data storage.
+      </div>
       <div class="link">
         Already have an account?
         <a [routerLink]="['/login']">Login</a>

@@ -2,7 +2,7 @@ export interface IUser {
     username: string;
     displayName: string;
     token: string;
-    image?: string
+    image?: string;
 }
 
 export interface IUserLoginFormValues {
@@ -16,5 +16,5 @@ export interface IUserRegisterFormValues {
     password: string;
     birthday: Date;
     displayName: string;
-    gender: string
+    gender: string;
 }

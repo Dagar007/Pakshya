@@ -47,6 +47,7 @@ import { CommentResolver } from './_resolvers/comments.resolver';
 import { HomeComponent } from './auth/home/home.component';
 import { LoadingInterceptor } from './_services/loading.interceptors';
 import { ForgetPasswordComponent } from './auth/forget-password/forget-password.component';
+import { LoginPopupComponent } from './common/components/login-popup/login-popup.component';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -91,7 +92,8 @@ export function provideConfig() {
     WorkComponent,
     LivingComponent,
     TimeAgoPipe,
-    ForgetPasswordComponent
+    ForgetPasswordComponent,
+    LoginPopupComponent
   ],
   imports: [
     BrowserModule,
@@ -122,6 +124,7 @@ export function provideConfig() {
     { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true },
     { provide: AuthServiceConfig, useFactory: provideConfig },
   ],
+  entryComponents: [LoginPopupComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

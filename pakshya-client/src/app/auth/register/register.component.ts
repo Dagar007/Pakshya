@@ -43,14 +43,13 @@ export class RegisterComponent implements OnInit {
   createRegisterForm() {
     this.registerForm = this.fb.group(
       {
-        gender: ['other'],
+        gender: ['other',  Validators.required],
         username: ['', Validators.required],
         displayName: ['', Validators.required],
         email: ['', [Validators.required, Validators.email]],
         birthday: [null, Validators.required],
         password: ['', [Validators.required, Validators.minLength(6)]],
         confirmPassword: ['', [Validators.required]],
-        agree: ['', Validators.required]
       },
       {
         validators: this.passwordMatchValidator
@@ -66,20 +65,24 @@ export class RegisterComponent implements OnInit {
 
   onSubmit() {
     if (this.registerForm.valid) {
+      console.log(this.registerForm.value);
       this.register = Object.assign({}, this.registerForm.value);
       this.authService.register(this.register).subscribe(
         () => {
-          this.registerForm.reset();
-          Object.keys(this.registerForm.controls).forEach(key => {
-            this.registerForm.get(key).setErrors(null);
-          });
+          this.registrationFormReset();
           this.alertify.success('Email confirmation link as been sent to your email.');
-          // this.router.navigate(['/posts']);
         },
         err => {
           this.alertify.error(err);
         }
       );
     }
+  }
+
+  private registrationFormReset() {
+    this.registerForm.reset({'agree' : false, 'gender' : 'other'});
+    Object.keys(this.registerForm.controls).forEach(key => {
+      this.registerForm.get(key).setErrors(null);
+    });
   }
 }

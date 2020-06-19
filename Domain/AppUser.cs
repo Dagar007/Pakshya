@@ -26,6 +26,9 @@ namespace Domain
         public virtual ICollection<UserFollowing> Followers { get; set; }
         public string Interests {get; set;}
         public virtual ICollection<UserRole> UserRoles { get; set; }
+        public string RefreshToken { get; set; }
+        public DateTime RefreshTokenExpiry { get; set; }
         public bool IsActive { get; set; }
+
     }
 }

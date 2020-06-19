@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Routing;
+using Microsoft.Extensions.Configuration;
 
 namespace Application.User
 {
@@ -37,15 +38,18 @@ namespace Application.User
             private readonly IUrlHelperFactory _urlHelperFactory;
             private readonly IActionContextAccessor _actionContextAccessor;
             private readonly IHttpContextAccessor _contextAccessor;
+            private readonly IConfiguration _configuration;
             private readonly IEmailService _emailService;
             public Handler(UserManager<AppUser> userManager, 
             SignInManager<AppUser> signInManager, 
             IUrlHelperFactory urlHelperFactory,
             IActionContextAccessor actionContextAccessor,
             IHttpContextAccessor contextAccessor,
+            IConfiguration configuration,
             IEmailService emailService)
             {
                 _contextAccessor = contextAccessor;
+                _configuration = configuration;
                 _userManager = userManager;
                 _signInManager = signInManager;
                 _urlHelperFactory = urlHelperFactory;
@@ -65,8 +69,8 @@ namespace Application.User
                     new { user = user.Id, token = token }, _contextAccessor.HttpContext.Request.Scheme);
                 var email = new EmailDto
                 {
-                    SenderAddress = "dagardeepak88@gmail.com",
-                    ReceiverAddress = "selfishdeepak@gmail.com",
+                    SenderAddress = _configuration["SenderAddress"],
+                    ReceiverAddress = "dagardeepak88@gmail.com",
                     Subject = "Forget Password.",
                     TextBody = passwordResetLink,
                 };

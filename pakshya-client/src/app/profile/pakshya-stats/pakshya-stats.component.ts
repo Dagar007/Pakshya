@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { IProfile } from 'src/app/_models/profile';
+import { ProfileService } from 'src/app/_services/profile.service';
 
 @Component({
   selector: 'app-pakshya-stats',

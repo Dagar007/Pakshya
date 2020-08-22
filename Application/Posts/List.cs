@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -39,15 +40,10 @@ namespace Application.Posts
                     .OrderByDescending(d => d.Date)
                 .AsQueryable();
 
-                if(!string.IsNullOrEmpty(request.PostParams.Category)) 
+                if(request.PostParams.Category != Guid.Empty) 
                 {
                     queryable = queryable.Where(c => c.Category.Id == request.PostParams.Category);
                 }
-               
-                // if(!string.IsNullOrEmpty(request.Username))
-                // {
-                //     queryable = queryable.Where(u => u.UserPosts.Any(x => x.AppUser.UserName == request.Username));
-                // }
 
                 var posts = await PagedList<Post>.CreateAsync(queryable, request.PostParams.PageNumber, request.PostParams.PageSize);
                 _httpContext.HttpContext.Response.AddPagination(posts.CurrentPage, posts.PageSize,posts.TotalCount, posts.TotalPages);

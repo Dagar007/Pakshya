@@ -20,7 +20,7 @@ namespace Application.Profiles
         {
             public string DisplayName { get; set; }
             public string Bio { get; set; }
-            public string Address { get; set; }
+            public Address Address { get; set; }
             public string Education { get; set; }
             public string Work { get; set; }
             public List<InterestDTO> Interests { get; set; }
@@ -67,7 +67,7 @@ namespace Application.Profiles
                 user.Address = request.Address ?? user.Address;
                 user.Education = request.Education ?? user.Education;
                 user.Work = request.Work ?? user.Work;
-                user.Interests = sb.ToString();
+                //user.Interests = sb.ToString();
 
 
 

@@ -40,7 +40,8 @@ namespace Application.Followers
                     case "followers":
                         {
                             userFollowing = await queryable
-                                .Where(x => x.Target.UserName == request.Username).ToListAsync();
+                                .Where(x => x.Target.UserName == request.Username).ToListAsync(); 
+                                // List of users current user is following. User who ate in target of username
 
                             foreach (var follower in userFollowing)
                             {

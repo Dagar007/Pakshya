@@ -1,11 +1,5 @@
 import { IPhoto } from './profile';
 
-
-// export interface IPostsEnvelope {
-//   posts: IPostConcise[],
-//   postCount: number
-// }
-
 export interface IPost {
   id: string;
   heading: string;
@@ -22,7 +16,7 @@ export interface IPost {
 export interface ICategory {
   id: string;
   value: string;
-  doesUser : boolean
+  doesUser: boolean;
 }
 export interface IEngagers {
   username: string;
@@ -43,14 +37,14 @@ export interface IComment {
   username: string;
   displayName: string;
   image: string;
-  commentors: ICommentor[]
+  commentors: ICommentor[];
 }
 
 export interface ICommentor {
-  username: string,
-  displayName: string,
-  isAuthor: boolean,
-  noOfLikes: number
+  username: string;
+  displayName: string;
+  isAuthor: boolean;
+  noOfLikes: number;
 }
 
 export interface IPostConcise {

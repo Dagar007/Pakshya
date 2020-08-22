@@ -18,7 +18,7 @@
         <mat-list class="sub-heading-list">
           <div *ngFor="let comment of profile.comments">
             <mat-list-item>
-             {{comment.body}} - ({{comment.noLikes}}) 
+             {{comment.body}} - ({{comment.noOfLikes}}) 
             </mat-list-item>
             
             <mat-divider></mat-divider>
@@ -28,7 +28,7 @@
       <mat-tab label="Following">
        <div class="following-tab">
          <div class="follow-box" *ngFor="let follow of profile.followings">
-          <img [src]="follow?.image ? follow?.image : '../assets/user.png'" alt="" class="follow-box-image">
+          <img [src]="follow?.url ? follow?.url : '../assets/user.png'" alt="" class="follow-box-image">
            <div class="follow-box-info">
               {{follow.displayName}}
            </div>
@@ -38,7 +38,7 @@
       <mat-tab label="Followers">
         <div class="following-tab">
           <div class="follow-box" *ngFor="let follow of profile.followers">
-           <img [src]="follow?.image ? follow?.image : '../assets/user.png'" alt="" class="follow-box-image">
+           <img [src]="follow?.url ? follow?.url : '../assets/user.png'" alt="" class="follow-box-image">
             <div class="follow-box-info">
                {{follow.displayName}}
             </div>

@@ -1,3 +1,5 @@
+using System;
+
 namespace Application.Helpers
 {
     public class Params
@@ -10,6 +12,6 @@ namespace Application.Helpers
             get { return pageSize; }
             set { pageSize =(value> MaxPageSize ? MaxPageSize: value); }
         }
-        public string Category { get; set; }
+        public Guid Category { get; set; }
     }
 }

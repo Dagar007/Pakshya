@@ -31,6 +31,7 @@ namespace Application.Followers
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
+                // Current user would be observer.
                 var observer = await _context.Users.SingleOrDefaultAsync(x => x.UserName == _userAccessor.GetUserName());
 
                 var target = await _context.Users.SingleOrDefaultAsync(x => x.UserName == request.Username);
@@ -40,7 +41,7 @@ namespace Application.Followers
                     .SingleOrDefaultAsync(x => x.ObserverId == observer.Id && x.TargetId == target.Id);
                 
                 if(following!= null)
-                    throw new RestException(HttpStatusCode.BadRequest, new {User ="You are already Following this user."});
+                    throw new RestException(HttpStatusCode.BadRequest, new {User ="You are already following this user."});
                 
                 if(following == null)
                 {

@@ -104,6 +104,7 @@ export class CreateComponent implements OnInit {
       this.formData.delete('file');
     }
     this.imgURL = undefined;
+    this.isImageEdited = true;
   }
 
   onSubmit() {

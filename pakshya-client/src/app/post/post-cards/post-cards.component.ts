@@ -2,9 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { PostService } from 'src/app/_services/post.service';
 import { IPostConcise } from 'src/app/_models/post';
 import { AlertifyService } from 'src/app/_services/alertify.service';
-import { ActivatedRoute } from '@angular/router';
 import { Pagination, PaginatedResult } from 'src/app/_models/pagination';
-import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-post-cards',
@@ -15,14 +13,12 @@ export class PostCardsComponent implements OnInit {
   pageNumber = 1;
   pageSize = 3;
   posts: IPostConcise[];
-  isloading$: Observable<boolean>;
   userParams: any = {};
   pagination: Pagination;
 
   constructor(
     private postService: PostService,
     private alertify: AlertifyService,
-    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {

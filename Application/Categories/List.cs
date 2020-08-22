@@ -10,7 +10,7 @@ namespace Application.Categories
 {
     public class List
     {
-         public class Query : IRequest<List<Category>>
+        public class Query : IRequest<List<Category>>
         {
  
         }

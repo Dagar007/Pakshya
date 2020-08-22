@@ -4,15 +4,15 @@ import {
   Input,
   OnChanges,
   SimpleChanges
-} from "@angular/core";
-import { AuthService } from "src/app/_services/auth.service";
-import { IProfile } from "src/app/_models/profile";
+} from '@angular/core';
+import { AuthService } from 'src/app/_services/auth.service';
+import { IProfile } from 'src/app/_models/profile';
 import { ProfileService } from 'src/app/_services/profile.service';
 
 @Component({
-  selector: "app-profile-header",
-  templateUrl: "./profile-header.component.html",
-  styleUrls: ["./profile-header.component.scss"]
+  selector: 'app-profile-header',
+  templateUrl: './profile-header.component.html',
+  styleUrls: ['./profile-header.component.scss']
 })
 export class ProfileHeaderComponent implements OnInit, OnChanges {
   @Input() profile: IProfile;
@@ -28,7 +28,7 @@ export class ProfileHeaderComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.profile) {
-      if (this.authService.currentUser1.username == changes.profile.currentValue.username) {
+      if (this.authService.currentUser1.username === changes.profile.currentValue.username) {
         this.authService.currentPhotoUrl.subscribe(photoURL => {
           this.photoUrl = photoURL;
         });
@@ -40,16 +40,16 @@ export class ProfileHeaderComponent implements OnInit, OnChanges {
   }
 
   onFollow(following: boolean, username: string) {
-    if(following) {
+    if (following) {
       this.profileService.unfollow(username).subscribe(() => {
         this.profile.following = false;
         --this.profile.followersCount;
-      })
+      });
     } else {
       this.profileService.follow(username).subscribe(() => {
         this.profile.following = true;
         ++this.profile.followersCount;
-      })
+      });
     }
   }
 

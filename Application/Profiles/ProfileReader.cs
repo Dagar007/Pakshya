@@ -30,28 +30,9 @@ namespace Application.Profiles
                 throw new RestException(HttpStatusCode.NotFound, new { User = "User not found." });
             var userPosts = await _context.UserPosts.Where(u => u.AppUser.UserName == user.UserName && u.IsAuthor == true).Take(5).ToListAsync();
             var userComments = await _context.UserComments.Where(u => u.AppUser.UserName == user.UserName && u.IsAuthor == true).Take(5).ToListAsync();
-            
             var currentUser = await _context.Users.SingleOrDefaultAsync(u => u.UserName == _userAccessor.GetUserName());
-           
-            var categories = await _context.Categories.ToListAsync();
-            List<InterestDTO> allInterests = new List<InterestDTO>();
-            foreach (var c in categories)
-            {
-                allInterests.Add(new InterestDTO { Id = c.Id, Value = c.Value, DoesUser = false });
-            }
-            if (!string.IsNullOrEmpty(user.Interests))
-            {
-                foreach (var c in allInterests)
-                {
-                    foreach (var i in user.Interests.Split(','))
-                    {
-                        if (c.Id == i)
-                        {
-                            allInterests.Find(io => io.Id == i).DoesUser = true;
-                        }
-                    }
-                }
-            }
+
+            
             var profile = new Profile
             {
                 DisplayName = user.DisplayName,
@@ -64,17 +45,66 @@ namespace Application.Profiles
                 Work = user.Work,
                 FollowersCount = user.Followers.Count(),
                 FollowingCount = user.Followings.Count(),
-                Interests = allInterests,
+                Interests = _mapper.Map<ICollection<UserInterest>,ICollection<InterestDTO>>(user.UserInterests),
                 Views = userPosts.Sum(u => u.Post.Views),
-                Posts = _mapper.Map<List<UserPost>,List<PostPostedByUserDto>>(userPosts),
-                Comments = _mapper.Map<List<UserComment>,List<CommentPostedByUserDto>>(userComments),
-                Followers = _mapper.Map<List<UserFollowing>,List<FollowingUsersDTO>>(user.Followers.ToList()),
-                Followings=  _mapper.Map<List<UserFollowing>,List<FollowingUsersDTO>>(user.Followings.ToList()),
+                Posts = _mapper.Map<List<UserPost>, List<PostPostedByUserDto>>(userPosts),
+                Comments = _mapper.Map<List<UserComment>, List<CommentPostedByUserDto>>(userComments),
+                Followers = await GetFollowingList(user.UserName, "followers"),
+                Followings = await GetFollowingList(user.UserName, "following")
             };
             if (currentUser.Followings.Any(x => x.TargetId == user.Id))
                 profile.IsFollowed = true;
             return profile;
 
+        }
+        private async Task<List<FollowingUsersDTO>> GetFollowingList(string username, string predicate)
+        {
+            var queryable = _context.Followings.AsQueryable();
+
+            var userFollowing = new List<UserFollowing>();
+            var profiles = new List<FollowingUsersDTO>();
+
+            switch (predicate)
+            {
+                case "followers":
+                    {
+                        userFollowing = await queryable
+                            .Where(x => x.Target.UserName == username).ToListAsync();
+                        // List of users current user is following. User who ate in target of username
+
+                        foreach (var follower in userFollowing)
+                        {
+                            profiles.Add
+                            (
+                                new FollowingUsersDTO {
+                                    Username = follower.Observer.UserName,
+                                    DisplayName = follower .Observer.DisplayName,
+                                    Url = follower.Observer.Photos?.FirstOrDefault(x => x.IsMain)?.Url
+                                }
+                            );
+                        }
+                        break;
+                    }
+                case "following":
+                    {
+                        userFollowing = await queryable
+                            .Where(x => x.Observer.UserName == username).ToListAsync();
+
+                        foreach (var follower in userFollowing)
+                        {
+                            profiles.Add
+                            (
+                            new FollowingUsersDTO {
+                                    Username = follower.Target.UserName,
+                                    DisplayName = follower.Target.DisplayName,
+                                    Url = follower.Target.Photos?.FirstOrDefault(x => x.IsMain)?.Url
+                                }
+                            );
+                        }
+                        break;
+                    }
+            }
+            return profiles;
         }
     }
 }

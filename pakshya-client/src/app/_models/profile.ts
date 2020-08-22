@@ -17,7 +17,7 @@ export interface IProfile {
     posts: IUserPosed[];
     comments: IUserCommented[];
     followings: IFollow[];
-    followers : IFollow[];
+    followers: IFollow[];
 }
 
 export interface IPhoto {
@@ -40,5 +40,5 @@ export interface IUserCommented {
 export interface IFollow {
     username: string;
     displayName: string;
-    url: string
+    url: string;
 }

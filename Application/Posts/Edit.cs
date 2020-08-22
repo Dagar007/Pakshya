@@ -15,11 +15,20 @@ namespace Application.Posts
 {
     public class Edit
     {
-        public class Command : IRequest
+        public class Command : IRequest<Unit>
         {
-            public Guid Id { get; set; }
-            public IFormFile File { get; set; }
-            public string JsonPost { get; set; }
+            public Command(Guid id, IFormFile file, string jsonPost)
+            {
+                Id = id;
+                File = file;
+                JsonPost = jsonPost;
+                this.jsonPostDeserialized = JsonConvert.DeserializeObject<JsonPostDeseroalized>(jsonPost);
+            }
+
+            public Guid Id { get; private set; }
+            public IFormFile File { get; private set; }
+            public string JsonPost { get; private set; }
+            public JsonPostDeseroalized jsonPostDeserialized { get; private set; }
         }
 
         public class JsonPostDeseroalized
@@ -32,14 +41,16 @@ namespace Application.Posts
             public bool IsImageEdited { get; set; }
 
         }
-        public class CommandValidator : AbstractValidator<Command>
+        public class CommandValidator : AbstractValidator<JsonPostDeseroalized>
         {
             public CommandValidator()
             {
+                RuleFor(x => x.Heading).NotEmpty().WithMessage("Heading of post can't be empty");
+                RuleFor(x => x.Category).NotEmpty().WithMessage("Category of post can't be empty"); 
             }
         }
 
-        public class Handler : IRequestHandler<Command>
+        public class Handler : IRequestHandler<Command,Unit>
         {
             private readonly DataContext _context;
             private readonly IPhotoAccessor _photoAccessor;
@@ -55,7 +66,7 @@ namespace Application.Posts
                 var post = await _context.Posts.FindAsync(request.Id);
                 if (post == null)
                     throw new RestException(HttpStatusCode.NotFound, new { post = "Not found" });
-                var jsonPostDeseroalized = JsonConvert.DeserializeObject<JsonPostDeseroalized>(request.JsonPost);
+                var jsonPostDeseroalized = request.jsonPostDeserialized;
                 if (jsonPostDeseroalized.Category != null)
                 {
                     var category = await _context.Categories.FindAsync(jsonPostDeseroalized.Category.Id);

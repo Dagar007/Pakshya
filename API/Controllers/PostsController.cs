@@ -14,7 +14,7 @@ namespace API.Controllers
   {
     [AllowAnonymous]
     [HttpGet]
-    public async Task<ActionResult<List<PostConcise>>> List([FromQuery]Params  postParams)
+    public async Task<ActionResult<List<PostConcise>>> List([FromQuery]Params postParams)
     {
       return await Mediator.Send(new List.Query(postParams));
     }
@@ -33,7 +33,8 @@ namespace API.Controllers
     [Authorize(Policy = "IsPostHost")]
     public async Task<ActionResult<Unit>> Edit (Guid id, [FromForm] IFormFile File, [FromForm] string jsonPost)
     {
-      return await Mediator.Send(new Edit.Command{Id = id, File = File, JsonPost = jsonPost});
+      // return await Mediator.Send(new Edit.Command{Id = id, File = File, JsonPost = jsonPost});
+      return await Mediator.Send(new Edit.Command(id, File, jsonPost));
     }
 
     [HttpDelete("{id}")]

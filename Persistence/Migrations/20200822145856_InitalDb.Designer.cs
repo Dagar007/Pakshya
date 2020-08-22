@@ -9,14 +9,49 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200604110625_RefreshToken")]
-    partial class RefreshToken
+    [Migration("20200822145856_InitalDb")]
+    partial class InitalDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "3.1.1");
+
+            modelBuilder.Entity("Domain.Address", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("AppUserId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("City")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("State")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Street")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Zipcode")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppUserId")
+                        .IsUnique();
+
+                    b.ToTable("Addresses");
+                });
 
             modelBuilder.Entity("Domain.AppUser", b =>
                 {
@@ -25,9 +60,6 @@ namespace Persistence.Migrations
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("INTEGER");
-
-                    b.Property<string>("Address")
-                        .HasColumnType("TEXT");
 
                     b.Property<string>("Bio")
                         .HasColumnType("TEXT");
@@ -53,9 +85,6 @@ namespace Persistence.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Gender")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Interests")
                         .HasColumnType("TEXT");
 
                     b.Property<bool>("IsActive")
@@ -117,7 +146,8 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Category", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
                     b.Property<bool>("IsActive")
@@ -133,73 +163,73 @@ namespace Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "abc",
+                            Id = new Guid("976cd7db-488c-499e-a1f3-65e2540dfc5d"),
                             IsActive = false,
                             Value = "Politics"
                         },
                         new
                         {
-                            Id = "def",
+                            Id = new Guid("a4f4bf07-f27a-412c-baba-e7d15f90dffb"),
                             IsActive = false,
                             Value = "Economics"
                         },
                         new
                         {
-                            Id = "ghi",
+                            Id = new Guid("3a428ac6-e8ae-4a4a-9426-458c78f15a46"),
                             IsActive = false,
                             Value = "India"
                         },
                         new
                         {
-                            Id = "jkl",
+                            Id = new Guid("4769c29f-16fb-4782-9df2-e222c623110e"),
                             IsActive = false,
                             Value = "World"
                         },
                         new
                         {
-                            Id = "mno",
+                            Id = new Guid("208c12d3-2341-4edc-8dbd-68048467bc1c"),
                             IsActive = false,
                             Value = "Sports"
                         },
                         new
                         {
-                            Id = "pqr",
+                            Id = new Guid("4f160625-9b54-4844-9e0e-9c94eaca6dd3"),
                             IsActive = false,
                             Value = "Random"
                         },
                         new
                         {
-                            Id = "stu",
+                            Id = new Guid("8bf34e4d-ac74-4ada-bfc4-407b82bddd96"),
                             IsActive = false,
                             Value = "Entertainment"
                         },
                         new
                         {
-                            Id = "vwx",
+                            Id = new Guid("526770f3-3a67-47c7-9717-fc6437c6a33e"),
                             IsActive = false,
                             Value = "Good Life"
                         },
                         new
                         {
-                            Id = "yza",
+                            Id = new Guid("4bd731d3-c9a6-4f12-b716-cef8e960f56b"),
                             IsActive = false,
                             Value = "Fashion And Style"
                         },
                         new
                         {
-                            Id = "bcd",
+                            Id = new Guid("4c5d3788-59d9-439d-8868-fda30bef5b68"),
                             IsActive = false,
                             Value = "Writing"
                         },
                         new
                         {
-                            Id = "efg",
+                            Id = new Guid("a3014a6a-299c-4f32-8e54-e654a8440640"),
                             IsActive = false,
                             Value = "Computers"
                         },
                         new
                         {
-                            Id = "hij",
+                            Id = new Guid("2432b115-48f4-49dc-ae79-5ccbef5aba2f"),
                             IsActive = false,
                             Value = "Philosophy"
                         });
@@ -279,7 +309,7 @@ namespace Persistence.Migrations
                     b.Property<int>("Against")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("CategoryId")
+                    b.Property<Guid?>("CategoryId")
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("Date")
@@ -369,6 +399,21 @@ namespace Persistence.Migrations
                     b.ToTable("Followings");
                 });
 
+            modelBuilder.Entity("Domain.UserInterest", b =>
+                {
+                    b.Property<string>("AppUserId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("CategoryId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("AppUserId", "CategoryId");
+
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("UserInterests");
+                });
+
             modelBuilder.Entity("Domain.UserPost", b =>
                 {
                     b.Property<string>("AppUserId")
@@ -403,37 +448,6 @@ namespace Persistence.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("AspNetUserRoles");
-                });
-
-            modelBuilder.Entity("Domain.Value", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Values");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "Value 101"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "Value 102"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Name = "Value 103"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -523,6 +537,13 @@ namespace Persistence.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("Domain.Address", b =>
+                {
+                    b.HasOne("Domain.AppUser", "AppUser")
+                        .WithOne("Address")
+                        .HasForeignKey("Domain.Address", "AppUserId");
+                });
+
             modelBuilder.Entity("Domain.Comment", b =>
                 {
                     b.HasOne("Domain.AppUser", "Author")
@@ -581,6 +602,21 @@ namespace Persistence.Migrations
                         .WithMany("Followers")
                         .HasForeignKey("TargetId")
                         .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Domain.UserInterest", b =>
+                {
+                    b.HasOne("Domain.AppUser", "AppUser")
+                        .WithMany("UserInterests")
+                        .HasForeignKey("AppUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Category", "Category")
+                        .WithMany("UserInterests")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 

@@ -15,12 +15,12 @@ namespace Persistence
         public DbSet<Post> Posts { get; set; }
         public DbSet<Address> Addresses {get; set;}
         public DbSet<UserInterest> UserInterests { get; set; }
-        public DbSet<UserPost> UserPosts { get; set; }
+        public DbSet<UserPostLike> UserPostLikes { get; set; }
         public DbSet<Photo> Photos { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<UserFollowing> Followings { get; set; }
         public DbSet<Category> Categories { get; set; }
-        public DbSet<UserComment> UserComments { get; set; }
+        public DbSet<UserCommentLike> UserCommentLikes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

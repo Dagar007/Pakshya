@@ -23,8 +23,8 @@ namespace Application.Photos
         {
             private readonly DataContext _context;
             private readonly IUserAccessor _userAccessor;
-            private readonly IPhotoAccessor _photoAccessor;
-            public Handler(DataContext context, IUserAccessor userAccessor, IPhotoAccessor photoAccessor)
+            private readonly IPhotoS3Accessor _photoAccessor;
+            public Handler(DataContext context, IUserAccessor userAccessor, IPhotoS3Accessor photoAccessor)
             {
                 _photoAccessor = photoAccessor;
                 _userAccessor = userAccessor;
@@ -33,13 +33,13 @@ namespace Application.Photos
 
             public async Task<Photo> Handle(Command request, CancellationToken cancellationToken)
             {
-                var photoUploadResult = _photoAccessor.AddPhoto(request.File);
+                var photoUploadResult = await _photoAccessor.UploadFileAsync("pakshya.bucket",request.File);
                 var user = await _context.Users.SingleOrDefaultAsync(x=> x.UserName == _userAccessor.GetUserName());
 
                 var photo = new Photo
                 {
                     Url = photoUploadResult.Url,
-                    Id = photoUploadResult.PublicId
+                    Id = photoUploadResult.Key
                 };
 
                 if(!user.Photos.Any(x => x.IsMain))

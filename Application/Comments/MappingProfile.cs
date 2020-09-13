@@ -13,10 +13,10 @@ namespace Application.Comments
                 .ForMember(d => d.Username, o => o.MapFrom(s => s.Author.UserName))
                 .ForMember(d => d.DisplayName, o => o.MapFrom(s => s.Author.DisplayName))
                 .ForMember(d => d.Image, o => o.MapFrom(s => s.Author.Photos.FirstOrDefault(x => x.IsMain).Url))
-                .ForMember(d => d.Liked, o=> o.MapFrom(s => s.UserComments.Count))
+                .ForMember(d => d.Liked, o=> o.MapFrom(s => s.UserCommentLikes.Count))
                 .ForMember(d => d.IsLikedByUser, o =>o.MapFrom<CommentLikeResolver>());
                 
-            CreateMap<UserComment,LikeDto>()
+            CreateMap<UserCommentLike,LikeDto>()
                 .ForMember(d => d.Username, o=> o.MapFrom(s => s.AppUser.UserName))
                 .ForMember(d => d.DisplayName, o=> o.MapFrom(s => s.AppUser.DisplayName));
                 

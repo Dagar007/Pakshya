@@ -34,7 +34,7 @@ namespace Application.Posts
                     throw new RestException(HttpStatusCode.NotFound, new { Post = "Cann't find post." });
                 var user = await _context.Users.SingleOrDefaultAsync(x => x.UserName == _userAccessor.GetUserName());
 
-                var like = await _context.UserPosts.SingleOrDefaultAsync(x => x.PostId == post.Id && x.AppUserId == user.Id);
+                var like = await _context.UserPostLikes.SingleOrDefaultAsync(x => x.PostId == post.Id && x.AppUserId == user.Id);
 
                 if (like == null)
                 {
@@ -43,7 +43,7 @@ namespace Application.Posts
                 if (like.IsAuthor)
                     throw new RestException(HttpStatusCode.BadRequest, new { Post = "You cann't unlike your own post"} );
 
-                _context.UserPosts.Remove(like);
+                _context.UserPostLikes.Remove(like);
 
                 var success = await _context.SaveChangesAsync() > 0;
                 if (success) return Unit.Value;

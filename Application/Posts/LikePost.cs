@@ -35,18 +35,18 @@ namespace Application.Posts
                     throw new RestException(HttpStatusCode.NotFound, new {Post = "Cann't find post."});
                 var user = await _context.Users.SingleOrDefaultAsync( x=> x.UserName == _userAccessor.GetUserName());
 
-                var like = await _context.UserPosts.SingleOrDefaultAsync(x => x.PostId == post.Id && x.AppUserId == user.Id);
+                var like = await _context.UserPostLikes.SingleOrDefaultAsync(x => x.PostId == post.Id && x.AppUserId == user.Id);
 
                 if(like != null)
                     throw new RestException(HttpStatusCode.BadRequest, new {Attendence = "Already Liked."});
 
-                var newLike  = new UserPost {
+                var newLike  = new UserPostLike {
                     Post = post,
                     AppUser = user,
                     IsAuthor = false
                 };
 
-                _context.UserPosts.Add(newLike);
+                _context.UserPostLikes.Add(newLike);
 
                 var success = await _context.SaveChangesAsync() > 0;
                 if (success) return Unit.Value;

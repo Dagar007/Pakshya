@@ -10,7 +10,7 @@ import { SharedModule } from '../shared/shared.module';
 import { PostComponent } from './post.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { RightSidebarComponent } from './right-sidebar/right-sidebar.component';
-import { TimeAgoPipe } from 'time-ago-pipe';
+import { PostRoutingModule } from './post-routing.module';
 
 
 
@@ -29,6 +29,7 @@ import { TimeAgoPipe } from 'time-ago-pipe';
   imports: [
     CommonModule,
     SharedModule,
+    PostRoutingModule
   ]
 })
 export class PostModule { }

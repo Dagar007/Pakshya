@@ -9,7 +9,7 @@
       <button mat-button routerLink="/posts">
         Posts
       </button>
-      <button mat-button routerLink="/create-post" *ngIf="loggedIn()">
+      <button mat-button [routerLink]="['/posts/create']" *ngIf="loggedIn()">
         <i class="material-icons" style="margin-right: 5px;">
           create
         </i>
@@ -45,10 +45,10 @@
           </button>
       </mat-menu>
       
-      <button mat-button routerLink="/login" *ngIf="!loggedIn()">
+      <button mat-button routerLink="/account/login" *ngIf="!loggedIn()">
         Login
       </button>
-      <button mat-button routerLink="/signup" *ngIf="!loggedIn()">
+      <button mat-button routerLink="/account/signup" *ngIf="!loggedIn()">
         Signup
       </button>
 

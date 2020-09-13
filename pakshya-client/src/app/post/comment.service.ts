@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { PaginatedResult } from '../shared/_models/pagination';
 import { IComment } from '../shared/_models/post';
@@ -11,6 +11,7 @@ import { IComment } from '../shared/_models/post';
 })
 export class CommentService {
   private baseUrl = environment.apiUrl;
+  // private commentsSoruce = new BehaviorSubject<>
   constructor(private http: HttpClient) { }
 
   getComments(postId: string, page?, itemsPerPage?, userParams?): Observable<PaginatedResult<IComment[]>> {
@@ -31,6 +32,7 @@ export class CommentService {
         if (response.headers.get('Pagination') != null) {
           paginatedResult.pagination = JSON.parse(response.headers.get('Pagination'));
         }
+        console.log(paginatedResult);
         return paginatedResult;
       })
     );

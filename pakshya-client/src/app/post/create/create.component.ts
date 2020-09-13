@@ -34,9 +34,12 @@ export class CreateComponent implements OnInit {
     private postService: PostService,
     private alertify: AlertifyService,
     private formBuilder: FormBuilder
-  ) {}
+  ) {
+    console.log('came here');
+  }
 
   ngOnInit() {
+    console.log('came here');
     this.postService.getCategories().subscribe((categories: ICategory[]) => {
       this.categories = categories;
     });

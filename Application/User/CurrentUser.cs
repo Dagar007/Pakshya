@@ -14,12 +14,12 @@ namespace Application.User
 {
     public class CurrentUser
     {
-        public class Query : IRequest<User>
+        public class CurrentUserQuery : IRequest<User>
         {
             public Guid Id { get; set; }
         }
 
-        public class Handler : IRequestHandler<Query, User>
+        public class Handler : IRequestHandler<CurrentUserQuery, User>
         {
             private readonly UserManager<AppUser> _userManager;
             private readonly IJwtGenerator _jwtGenertor;
@@ -32,7 +32,7 @@ namespace Application.User
                 _userAccessor = userAccessor;
             }
 
-            public async Task<User> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<User> Handle(CurrentUserQuery request, CancellationToken cancellationToken)
             {
                var user = await _userManager.FindByNameAsync(_userAccessor.GetUserName());
                return new User {

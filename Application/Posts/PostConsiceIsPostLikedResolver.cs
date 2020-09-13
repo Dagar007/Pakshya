@@ -25,7 +25,7 @@ namespace Application.Posts
                 .SingleOrDefaultAsync(u => u.UserName == _userAccessor.GetUserName()).Result;
             if (currentUser == null)
                 return false;
-            if (source.UserPosts.Any(p => p.AppUser.UserName == currentUser.UserName))
+            if (source.UserPostLikes.Any(p => p.AppUser.UserName == currentUser.UserName))
             {
                 return true;
             }

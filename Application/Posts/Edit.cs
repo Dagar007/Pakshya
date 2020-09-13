@@ -53,8 +53,8 @@ namespace Application.Posts
         public class Handler : IRequestHandler<Command,Unit>
         {
             private readonly DataContext _context;
-            private readonly IPhotoAccessor _photoAccessor;
-            public Handler(DataContext context, IPhotoAccessor photoAccessor)
+            private readonly IPhotoS3Accessor _photoAccessor;
+            public Handler(DataContext context, IPhotoS3Accessor photoAccessor)
             {
                 _photoAccessor = photoAccessor;
                 _context = context;
@@ -87,18 +87,18 @@ namespace Application.Posts
                     var photos = post.Photos;
                     foreach (var ph in photos)
                     {
-                        _photoAccessor.DeletePhoto(ph.Id);
+                        await _photoAccessor.DeletePhoto(ph.Id, "pakshya.bucket");
                     }
                     _context.Photos.RemoveRange(photos);
 
                     if (request.File != null && request.File.Length > 0)
                     {
                         // Start fresh upload
-                        var photoUploadResult = _photoAccessor.AddPhoto(request.File);
+                        var photoUploadResult = await _photoAccessor.UploadFileAsync("pakshya.bucket",request.File);
                         var photo = new Photo
                         {
                             Url = photoUploadResult.Url,
-                            Id = photoUploadResult.PublicId
+                            Id = photoUploadResult.Key
                         };
                         post.Photos.Add(photo);
                     }

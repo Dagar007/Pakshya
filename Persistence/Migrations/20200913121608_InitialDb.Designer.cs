@@ -9,8 +9,8 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200822145856_InitalDb")]
-    partial class InitalDb
+    [Migration("20200913121608_InitialDb")]
+    partial class InitialDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -163,73 +163,73 @@ namespace Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("976cd7db-488c-499e-a1f3-65e2540dfc5d"),
+                            Id = new Guid("956d1ef1-4281-47f4-a80b-34e94c78ef02"),
                             IsActive = false,
                             Value = "Politics"
                         },
                         new
                         {
-                            Id = new Guid("a4f4bf07-f27a-412c-baba-e7d15f90dffb"),
+                            Id = new Guid("d488cedf-213b-49e8-818b-64eaa3d3bc9e"),
                             IsActive = false,
                             Value = "Economics"
                         },
                         new
                         {
-                            Id = new Guid("3a428ac6-e8ae-4a4a-9426-458c78f15a46"),
+                            Id = new Guid("851dd67d-a418-422b-ac52-d72904c5dd01"),
                             IsActive = false,
                             Value = "India"
                         },
                         new
                         {
-                            Id = new Guid("4769c29f-16fb-4782-9df2-e222c623110e"),
+                            Id = new Guid("c3a244f6-589b-4f8e-a21f-94c564b8a11a"),
                             IsActive = false,
                             Value = "World"
                         },
                         new
                         {
-                            Id = new Guid("208c12d3-2341-4edc-8dbd-68048467bc1c"),
+                            Id = new Guid("ef754ff5-b7fb-4c60-b654-63cbe60aa4ed"),
                             IsActive = false,
                             Value = "Sports"
                         },
                         new
                         {
-                            Id = new Guid("4f160625-9b54-4844-9e0e-9c94eaca6dd3"),
+                            Id = new Guid("9ad9515a-4a47-4df2-9ade-4902315e3014"),
                             IsActive = false,
                             Value = "Random"
                         },
                         new
                         {
-                            Id = new Guid("8bf34e4d-ac74-4ada-bfc4-407b82bddd96"),
+                            Id = new Guid("6beff27e-32b7-4b31-bf91-c74181dc3910"),
                             IsActive = false,
                             Value = "Entertainment"
                         },
                         new
                         {
-                            Id = new Guid("526770f3-3a67-47c7-9717-fc6437c6a33e"),
+                            Id = new Guid("287243c9-583b-4638-9e5a-87afeda23530"),
                             IsActive = false,
                             Value = "Good Life"
                         },
                         new
                         {
-                            Id = new Guid("4bd731d3-c9a6-4f12-b716-cef8e960f56b"),
+                            Id = new Guid("e7614950-eb39-4764-b276-95f0eb4d6411"),
                             IsActive = false,
                             Value = "Fashion And Style"
                         },
                         new
                         {
-                            Id = new Guid("4c5d3788-59d9-439d-8868-fda30bef5b68"),
+                            Id = new Guid("7c0efb9c-bcd8-438e-8eb6-f65c3f86854d"),
                             IsActive = false,
                             Value = "Writing"
                         },
                         new
                         {
-                            Id = new Guid("a3014a6a-299c-4f32-8e54-e654a8440640"),
+                            Id = new Guid("6dca59d8-1348-4c0c-8b80-adf0ccc742cd"),
                             IsActive = false,
                             Value = "Computers"
                         },
                         new
                         {
-                            Id = new Guid("2432b115-48f4-49dc-ae79-5ccbef5aba2f"),
+                            Id = new Guid("12563110-0d8c-417c-b539-7ae4854f3b83"),
                             IsActive = false,
                             Value = "Philosophy"
                         });
@@ -257,9 +257,6 @@ namespace Persistence.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<bool>("IsActive")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("Liked")
                         .HasColumnType("INTEGER");
 
                     b.Property<Guid>("PostId")
@@ -363,7 +360,7 @@ namespace Persistence.Migrations
                     b.ToTable("AspNetRoles");
                 });
 
-            modelBuilder.Entity("Domain.UserComment", b =>
+            modelBuilder.Entity("Domain.UserCommentLike", b =>
                 {
                     b.Property<string>("AppUserId")
                         .HasColumnType("TEXT");
@@ -381,7 +378,7 @@ namespace Persistence.Migrations
 
                     b.HasIndex("CommentId");
 
-                    b.ToTable("UserComments");
+                    b.ToTable("UserCommentLikes");
                 });
 
             modelBuilder.Entity("Domain.UserFollowing", b =>
@@ -414,7 +411,7 @@ namespace Persistence.Migrations
                     b.ToTable("UserInterests");
                 });
 
-            modelBuilder.Entity("Domain.UserPost", b =>
+            modelBuilder.Entity("Domain.UserPostLike", b =>
                 {
                     b.Property<string>("AppUserId")
                         .HasColumnType("TEXT");
@@ -432,7 +429,7 @@ namespace Persistence.Migrations
 
                     b.HasIndex("PostId");
 
-                    b.ToTable("UserPosts");
+                    b.ToTable("UserPostLikes");
                 });
 
             modelBuilder.Entity("Domain.UserRole", b =>
@@ -575,16 +572,16 @@ namespace Persistence.Migrations
                         .HasForeignKey("CategoryId");
                 });
 
-            modelBuilder.Entity("Domain.UserComment", b =>
+            modelBuilder.Entity("Domain.UserCommentLike", b =>
                 {
                     b.HasOne("Domain.AppUser", "AppUser")
-                        .WithMany("UserComments")
+                        .WithMany("UserCommentLikes")
                         .HasForeignKey("AppUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Domain.Comment", "Comment")
-                        .WithMany("UserComments")
+                        .WithMany("UserCommentLikes")
                         .HasForeignKey("CommentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -620,16 +617,16 @@ namespace Persistence.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Domain.UserPost", b =>
+            modelBuilder.Entity("Domain.UserPostLike", b =>
                 {
                     b.HasOne("Domain.AppUser", "AppUser")
-                        .WithMany("UserPosts")
+                        .WithMany("UserPostLikes")
                         .HasForeignKey("AppUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Domain.Post", "Post")
-                        .WithMany("UserPosts")
+                        .WithMany("UserPostLikes")
                         .HasForeignKey("PostId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

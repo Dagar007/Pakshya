@@ -24,7 +24,7 @@
       mat-button
       aria-label="icon-button with edit icon"
       class="card__headline--btn"
-      [routerLink]="['/create-post', post.id]"
+      [routerLink]="['/posts/edit', post.id]"
       *ngIf="post.isAuthor"
     >
       <mat-icon class="card__headline--icon" matTooltip="Edit Post">

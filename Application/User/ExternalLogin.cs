@@ -14,11 +14,11 @@ namespace Application.User
 {
     public class ExternalLogin
     {
-        public class Query : IRequest<User>
+        public class ExternalLoginQuery : IRequest<User>
         {
             public string AccessToken { get; set; }
         }
-        public class Handler : IRequestHandler<Query, User>
+        public class Handler : IRequestHandler<ExternalLoginQuery, User>
         {
             private readonly UserManager<AppUser> _userManager;
             private readonly IFacebookAccessor _facebookAccessor;
@@ -31,7 +31,7 @@ namespace Application.User
 
             }
 
-            public async Task<User> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<User> Handle(ExternalLoginQuery request, CancellationToken cancellationToken)
             {
                 var userInfo = await _facebookAccessor.FacebookLogin(request.AccessToken);
                 if(userInfo == null)

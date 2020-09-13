@@ -24,37 +24,37 @@ namespace API.Controllers
 
         [AllowAnonymous]
         [HttpPost("login")]
-        public async Task<ActionResult<User>> Login(Login.Query query)
+        public async Task<ActionResult<User>> Login(Login.LoginQuery query)
         {
             return await Mediator.Send(query);
         }
         [AllowAnonymous]
         [HttpPost("register")]
-        public async Task<ActionResult<Unit>> Resiter(Register.Command command)
+        public async Task<ActionResult<Unit>> Resiter(Register.RegisterCommand command)
         {
             return await Mediator.Send(command);
         }
         [HttpGet]
         public async Task<ActionResult<User>> CurrentUser()
         {
-            return await Mediator.Send(new CurrentUser.Query());
+            return await Mediator.Send(new CurrentUser.CurrentUserQuery());
         }
         [AllowAnonymous]
         [HttpPost("facebook")]
-        public async Task<ActionResult<User>> FacebookLogin(ExternalLogin.Query query)
+        public async Task<ActionResult<User>> FacebookLogin(ExternalLogin.ExternalLoginQuery query)
         {
             return await Mediator.Send(query);
         }
         [AllowAnonymous]
         [HttpPost("forget")]
-        public async Task<ActionResult<Unit>> ForgetPassword(ForgetPassword.Query query)
+        public async Task<ActionResult<Unit>> ForgetPassword(ForgetPassword.ForgetPasswordQuery query)
         {
             return await Mediator.Send(query);
         }
 
         [AllowAnonymous]
         [HttpPost("refresh")]
-        public async Task<ActionResult<User>> Refresh(RefreshToken.Query query)
+        public async Task<ActionResult<User>> Refresh(RefreshToken.RefreshTokenQuery query)
         {
             var principal = GetPrincipalFromExpiredToken(query.Token);
             query.Username = principal.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;

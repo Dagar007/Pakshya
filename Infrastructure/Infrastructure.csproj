@@ -5,7 +5,10 @@
   <ItemGroup>
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.5.1"/>
     <PackageReference Include="CloudinaryDotNet" Version="1.10.0"/>
-    <PackageReference Include="AWSSDK.SimpleEmail" Version="3.3.101.150"/>
+    <PackageReference Include="AWSSDK.SimpleEmail" Version="3.5.0.12"/>
+    <PackageReference Include="AWSSDK.S3" Version="3.5.1.1"/>
+    <PackageReference Include="AWSSDK.Extensions.NETCore.Setup" Version="3.3.101"/>
+    <PackageReference Include="AWSSDK.Core" Version="3.5.1.10"/>
   </ItemGroup>
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>

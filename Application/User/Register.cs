@@ -22,7 +22,7 @@ namespace Application.User
 {
     public class Register
     {
-        public class Command : IRequest<Unit>
+        public class RegisterCommand : IRequest<Unit>
         {
             public string DisplayName { get; set; }
             public string Email { get; set; }
@@ -32,7 +32,7 @@ namespace Application.User
 
         }
 
-        public class CommandValidator : AbstractValidator<Command>
+        public class CommandValidator : AbstractValidator<RegisterCommand>
         {
             public CommandValidator()
             {
@@ -44,7 +44,7 @@ namespace Application.User
             }
         }
 
-        public class Handler : IRequestHandler<Command, Unit>
+        public class Handler : IRequestHandler<RegisterCommand, Unit>
         {
             private readonly UserManager<AppUser> _userManager;
             private readonly SignInManager<AppUser> _signInManager;
@@ -73,7 +73,7 @@ namespace Application.User
                 _context = context;
             }
 
-            public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<Unit> Handle(RegisterCommand request, CancellationToken cancellationToken)
             {
                 if (await _context.Users.Where(x => x.Email.ToLower() == request.Email.ToLower()).AnyAsync())
                 {

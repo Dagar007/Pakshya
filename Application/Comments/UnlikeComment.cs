@@ -33,7 +33,7 @@ namespace Application.Comments
                     throw new RestException(HttpStatusCode.NotFound, new { Comment = "Cann't find comment." });
                 var user = await _context.Users.SingleOrDefaultAsync(x => x.UserName == _userAccessor.GetUserName());
 
-                var like = await _context.UserComments.SingleOrDefaultAsync(x => x.CommentId == comment.Id && x.AppUserId == user.Id);
+                var like = await _context.UserCommentLikes.SingleOrDefaultAsync(x => x.CommentId == comment.Id && x.AppUserId == user.Id);
 
                 if (like == null)
                 {
@@ -42,12 +42,12 @@ namespace Application.Comments
                 if (like.IsAuthor)
                     throw new RestException(HttpStatusCode.BadRequest, new { Post = "You cann't unlike your own comment"} );
 
-                _context.UserComments.Remove(like);
+                _context.UserCommentLikes.Remove(like);
 
                 var success = await _context.SaveChangesAsync() > 0;
                 if (success) return Unit.Value;
 
-                throw new Exception("problem unliking comments.");
+                throw new Exception("problem unliking comment.");
             }
         }
     }

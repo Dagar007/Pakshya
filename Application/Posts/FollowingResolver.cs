@@ -7,7 +7,7 @@ using Persistence;
 
 namespace Application.Posts
 {
-    public class FollowingResolver : IValueResolver<UserPost, LikeDto, bool>
+    public class FollowingResolver : IValueResolver<UserPostLike, LikeDto, bool>
     {
         private readonly DataContext _context;
         private readonly IUserAccessor _userAccessor;
@@ -17,7 +17,7 @@ namespace Application.Posts
             _context = context;
         }
 
-        public bool Resolve(UserPost source, LikeDto destination, bool destMember, ResolutionContext context)
+        public bool Resolve(UserPostLike source, LikeDto destination, bool destMember, ResolutionContext context)
         {
             var currentUser = _context.Users
                 .SingleOrDefaultAsync(u => u.UserName == _userAccessor.GetUserName()).Result;

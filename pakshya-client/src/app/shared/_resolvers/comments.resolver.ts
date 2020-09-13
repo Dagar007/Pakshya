@@ -3,7 +3,7 @@ import { IComment } from '../_models/post';
 import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-import { CommentService } from 'src/app/_services/comment.service';
+import { CommentService } from 'src/app/post/comment.service';
 
 @Injectable()
 export class CommentResolver implements Resolve<IComment[]> {

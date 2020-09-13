@@ -14,13 +14,13 @@ namespace Application.User
 {
     public class Login
     {
-        public class Query : IRequest<User>
+        public class LoginQuery : IRequest<User>
         {
             public string Email { get; set; }
             public string Password { get; set; }
         }
 
-        public class QueryValidator : AbstractValidator<Query>
+        public class QueryValidator : AbstractValidator<LoginQuery>
         {
             public QueryValidator()
             {
@@ -29,7 +29,7 @@ namespace Application.User
             }
         }
 
-        public class Handler : IRequestHandler<Query, User>
+        public class Handler : IRequestHandler<LoginQuery, User>
         {
             private readonly UserManager<AppUser> _userManager;
             private readonly SignInManager<AppUser> _signInManager;
@@ -44,7 +44,7 @@ namespace Application.User
                 _jwtGenerator = jwtGenerator;
             }
 
-            public async Task<User> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<User> Handle(LoginQuery request, CancellationToken cancellationToken)
             {
                 var user = await _userManager.FindByEmailAsync(request.Email);
                 if(user == null)

@@ -12,30 +12,12 @@ import { AuthGuard } from './core/guards/auth.guard';
 import { CommentResolver } from './shared/_resolvers/comments.resolver';
 
 const routes: Routes = [
-  { path: '', runGuardsAndResolvers: 'always', component: PostComponent,  },
-  {
-    path: '',
-    component: HomeComponent,
-    children: [
-      { path: 'login', component: LoginComponent },
-      { path: 'signup', component: RegisterComponent }
-    ]
-  },
-  { path: 'forget-password', component: ForgetPasswordComponent},
-  {
-    path: '',
-    runGuardsAndResolvers: 'always',
-    canActivate: [AuthGuard],
-    children: [
-      { path: 'posts/:id', component: PostDetailsComponent, resolve: {comments: CommentResolver}  },
-      { path: 'create-post', component: CreateComponent },
-      { path: 'create-post/:id', component: CreateComponent },
-      { path: 'profile/:username', component: ProfileComponent }
-    ]
-  },
-
-
-  { path: '**', redirectTo: '', pathMatch: 'full' }
+  { path: 'posts', canActivate: [AuthGuard],
+    loadChildren: () => import('./post/post.module').then(mod => mod.PostModule)},
+  { path: 'account', loadChildren: () => import('./auth/auth.module').then(mod => mod.AuthModule)},
+  { path: 'profile', canActivate: [AuthGuard],
+    loadChildren: () => import('./profile/profile.module').then(mod => mod.ProfileModule)},
+  { path: '**', redirectTo: 'posts', pathMatch: 'full' }
 ];
 
 @NgModule({

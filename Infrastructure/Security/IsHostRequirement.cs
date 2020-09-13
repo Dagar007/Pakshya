@@ -30,7 +30,7 @@ namespace Infrastructure.Security
                 .SingleOrDefault(x => x.Key == "id").Value.ToString());
 
             var post = _context.Posts.FindAsync(postId).Result;
-            var host = post.UserPosts.FirstOrDefault(x => x.IsAuthor);
+            var host = post.UserPostLikes.FirstOrDefault(x => x.IsAuthor);
             if (host?.AppUser?.UserName == currentUserName)
                 context.Succeed(requirement);
             return Task.CompletedTask;

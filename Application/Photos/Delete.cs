@@ -22,8 +22,8 @@ namespace Application.Photos
         {
             private readonly DataContext _context;
             private readonly IUserAccessor _userAccessor;
-            private readonly IPhotoAccessor _photoAccessor;
-            public Handler(DataContext context, IUserAccessor userAccessor, IPhotoAccessor photoAccessor)
+            private readonly IPhotoS3Accessor _photoAccessor;
+            public Handler(DataContext context, IUserAccessor userAccessor, IPhotoS3Accessor photoAccessor)
             {
                 _photoAccessor = photoAccessor;
                 _userAccessor = userAccessor;
@@ -39,9 +39,7 @@ namespace Application.Photos
                 if (photo.IsMain)
                     throw new RestException(HttpStatusCode.BadRequest, new { Photo = "Can't delete main photo." });
 
-                var result = _photoAccessor.DeletePhoto(request.Id);
-                if (result == null)
-                    throw new Exception("Problem deleting photo");
+                await _photoAccessor.DeletePhoto(request.Id,"pakshya.bucket");
                 user.Photos.Remove(photo);
 
                 var success = await _context.SaveChangesAsync() > 0;

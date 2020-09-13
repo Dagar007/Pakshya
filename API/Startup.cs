@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Text;
 using System.Threading.Tasks;
+using Amazon.S3;
+using API.Extensions;
 using API.Middleware;
 using API.SignalR;
 using Application.Interfaces;
@@ -55,6 +57,7 @@ namespace API
             });
             services.AddMediatR(typeof(List.Handler).Assembly);
             services.AddAutoMapper(typeof(List.Handler));
+            services.AddSwaggerDocumentation();
             services.AddSignalR();
             services.AddControllers(opt =>
             {
@@ -129,10 +132,11 @@ namespace API
 
             services.AddScoped<IJwtGenerator, JwtGenerator>();
             services.AddScoped<IUserAccessor, UserAccessor>();
-            services.AddScoped<IPhotoAccessor, PhotoAccessor>();
+            services.AddScoped<IPhotoS3Accessor, PhotoAccessorS3>();
             services.AddScoped<IProfileReader, ProfileReader>();
             services.AddScoped<IFacebookAccessor, FacebookAccessor>();
             services.AddScoped<IEmailService, EmailServiceAWS>();
+            services.AddAWSService<IAmazonS3>();
             services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
             services.Configure<CloudinarySettings>(Configuration.GetSection("Cloudinary"));
             services.Configure<AwsSettings>(this.Configuration.GetSection("Aws"));
@@ -163,7 +167,7 @@ namespace API
             app.UseCors("CorsPolicy");
             app.UseAuthentication();
             app.UseAuthorization();
-
+            app.UseSwaggerDocumention();
             app.UseEndpoints(endpoints =>
             {
 

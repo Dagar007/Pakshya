@@ -20,9 +20,6 @@ import { LoadingInterceptor } from './core/interceptors/loading.interceptors';
 import { CoreModule } from './core/core.module';
 import { CommentResolver } from './shared/_resolvers/comments.resolver';
 import { PostResolver } from './shared/_resolvers/_post.resolver';
-import { AuthModule } from './auth/auth.module';
-import { PostModule } from './post/post.module';
-import { ProfileModule } from './profile/profile.module';
 import { LoginPopupComponent } from './shared/components/login-popup/login-popup.component';
 
 
@@ -47,14 +44,10 @@ export function provideConfig() {
   ],
   imports: [
     BrowserModule,
-
     AppRoutingModule,
     HttpClientModule,
     BrowserAnimationsModule,
     CoreModule,
-    AuthModule,
-    PostModule,
-    ProfileModule,
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,

@@ -24,10 +24,9 @@ export class ProfileComponent implements OnInit {
   profile: IProfile;
 
   ngOnInit() {
-
+    console.log('here');
     this.route.params.subscribe((params: Params) => {
-      // tslint:disable-next-line: triple-equals
-      if (this.authService.currentUser1.username == params['username']) {
+      if (this.authService.currentUser1.username === params['username']) {
         this.edit = true;
       }
       this.profileService.get(params['username']).subscribe((profile: IProfile) => {

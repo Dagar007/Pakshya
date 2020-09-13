@@ -101,9 +101,9 @@ namespace Persistence
                             For = 3,
                             Against = 10,
                             IsActive = true,
-                            UserPosts = new List<UserPost>
+                            UserPostLikes = new List<UserPostLike>
                             {
-                                new UserPost 
+                                new UserPostLike 
                                 {
                                     AppUserId = "a",
                                     IsAuthor = true,
@@ -122,15 +122,15 @@ namespace Persistence
                         For = 13,
                      Against = 2,
                      IsActive = true,
-                      UserPosts = new List<UserPost>
+                      UserPostLikes = new List<UserPostLike>
                             {
-                                new UserPost 
+                                new UserPostLike 
                                 {
                                     AppUserId = "b",
                                     IsAuthor = true,
                                     DateLiked = DateTime.Now.AddMonths(-2)
                                 },
-                                new UserPost 
+                                new UserPostLike 
                                 {
                                     AppUserId = "c",
                                     IsAuthor = false,
@@ -148,15 +148,15 @@ namespace Persistence
                         For = 1400,
                     Against = 10,
                     IsActive = true,
-                     UserPosts = new List<UserPost>
+                     UserPostLikes = new List<UserPostLike>
                             {
-                                new UserPost 
+                                new UserPostLike 
                                 {
                                     AppUserId = "a",
                                     IsAuthor = true,
                                     DateLiked = DateTime.Now.AddMonths(-2)
                                 },
-                                new UserPost 
+                                new UserPostLike 
                                 {
                                     AppUserId = "c",
                                     IsAuthor = false,
@@ -174,15 +174,15 @@ namespace Persistence
                         IsActive = true,
                         For = 0,
                     Against = 1010,
-                     UserPosts = new List<UserPost>
+                     UserPostLikes = new List<UserPostLike>
                             {
-                                new UserPost 
+                                new UserPostLike 
                                 {
                                     AppUserId = "c",
                                     IsAuthor = true,
                                     DateLiked = DateTime.Now.AddMonths(-2)
                                 },
-                                new UserPost 
+                                new UserPostLike 
                                 {
                                     AppUserId = "a",
                                     IsAuthor = false,
@@ -200,15 +200,15 @@ namespace Persistence
                         IsActive = true,
                         For = 30,
                     Against = 31,
-                     UserPosts = new List<UserPost>
+                     UserPostLikes = new List<UserPostLike>
                             {
-                                new UserPost 
+                                new UserPostLike 
                                 {
                                     AppUserId = "b",
                                     IsAuthor = true,
                                     DateLiked = DateTime.Now.AddMonths(-2)
                                 },
-                                new UserPost 
+                                new UserPostLike 
                                 {
                                     AppUserId = "c",
                                     IsAuthor = false,
@@ -226,15 +226,15 @@ namespace Persistence
                         For = 3,
                     Against = 10,
                     IsActive = true,
-                     UserPosts = new List<UserPost>
+                     UserPostLikes = new List<UserPostLike>
                             {
-                                new UserPost 
+                                new UserPostLike 
                                 {
                                     AppUserId = "b",
                                     IsAuthor = true,
                                     DateLiked = DateTime.Now.AddMonths(-2)
                                 },
-                                new UserPost 
+                                new UserPostLike 
                                 {
                                     AppUserId = "c",
                                     IsAuthor = false,
@@ -252,15 +252,15 @@ namespace Persistence
                         For = 113,
                     Against = 10,
                     IsActive = true,
-                     UserPosts = new List<UserPost>
+                     UserPostLikes = new List<UserPostLike>
                             {
-                                new UserPost 
+                                new UserPostLike 
                                 {
                                     AppUserId = "a",
                                     IsAuthor = true,
                                     DateLiked = DateTime.Now.AddMonths(-2)
                                 },
-                                new UserPost 
+                                new UserPostLike 
                                 {
                                     AppUserId = "b",
                                     IsAuthor = false,
@@ -277,9 +277,9 @@ namespace Persistence
                        // Url = "https://dummyimage.com/200x200/000/fff",
                         For = 37,
                     Against = 13,
-                     UserPosts = new List<UserPost>
+                     UserPostLikes = new List<UserPostLike>
                             {
-                                new UserPost 
+                                new UserPostLike 
                                 {
                                     AppUserId = "a",
                                     IsAuthor = true,

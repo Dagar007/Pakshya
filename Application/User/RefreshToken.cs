@@ -13,14 +13,14 @@ namespace Application.User
 {
     public class RefreshToken
     {
-        public class Query : IRequest<User>
+        public class RefreshTokenQuery : IRequest<User>
         {
             public string Username { get; set; }
             public string Token { get; set; }
             public string RefreshToken { get; set; }
         }
 
-        public class Handler : IRequestHandler<Query, User>
+        public class Handler : IRequestHandler<RefreshTokenQuery, User>
         {
             private readonly UserManager<AppUser> _userManager;
             private readonly IJwtGenerator _jwtGenerator;
@@ -30,7 +30,7 @@ namespace Application.User
                 _userManager = userManager;
             }
 
-            public async Task<User> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<User> Handle(RefreshTokenQuery request, CancellationToken cancellationToken)
             {
                 var user = await _userManager.FindByNameAsync(request.Username);
                 if (user == null || user.RefreshToken != request.RefreshToken || user.RefreshTokenExpiry < DateTime.Now)

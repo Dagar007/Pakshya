@@ -28,8 +28,8 @@ namespace Application.Profiles
             var user = await _context.Users.SingleOrDefaultAsync(u => u.UserName == username);
             if (user == null)
                 throw new RestException(HttpStatusCode.NotFound, new { User = "User not found." });
-            var userPosts = await _context.UserPosts.Where(u => u.AppUser.UserName == user.UserName && u.IsAuthor == true).Take(5).ToListAsync();
-            var userComments = await _context.UserComments.Where(u => u.AppUser.UserName == user.UserName && u.IsAuthor == true).Take(5).ToListAsync();
+            var userPosts = await _context.UserPostLikes.Where(u => u.AppUser.UserName == user.UserName && u.IsAuthor == true).Take(5).ToListAsync();
+            var userComments = await _context.UserCommentLikes.Where(u => u.AppUser.UserName == user.UserName && u.IsAuthor == true).Take(5).ToListAsync();
             var currentUser = await _context.Users.SingleOrDefaultAsync(u => u.UserName == _userAccessor.GetUserName());
 
             
@@ -47,8 +47,8 @@ namespace Application.Profiles
                 FollowingCount = user.Followings.Count(),
                 Interests = _mapper.Map<ICollection<UserInterest>,ICollection<InterestDTO>>(user.UserInterests),
                 Views = userPosts.Sum(u => u.Post.Views),
-                Posts = _mapper.Map<List<UserPost>, List<PostPostedByUserDto>>(userPosts),
-                Comments = _mapper.Map<List<UserComment>, List<CommentPostedByUserDto>>(userComments),
+                Posts = _mapper.Map<List<UserPostLike>, List<PostPostedByUserDto>>(userPosts),
+                Comments = _mapper.Map<List<UserCommentLike>, List<CommentPostedByUserDto>>(userComments),
                 Followers = await GetFollowingList(user.UserName, "followers"),
                 Followings = await GetFollowingList(user.UserName, "following")
             };

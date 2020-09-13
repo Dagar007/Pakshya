@@ -18,12 +18,12 @@ namespace Application.User
 {
     public class ForgetPassword
     {
-        public class Query : IRequest<Unit>
+        public class ForgetPasswordQuery : IRequest<Unit>
         {
             public string Email { get; set; }
         }
 
-        public class QueryValidator : AbstractValidator<Query>
+        public class QueryValidator : AbstractValidator<ForgetPasswordQuery>
         {
             public QueryValidator()
             {
@@ -31,7 +31,7 @@ namespace Application.User
             }
         }
 
-        public class Handler : IRequestHandler<Query, Unit>
+        public class Handler : IRequestHandler<ForgetPasswordQuery, Unit>
         {
             private readonly UserManager<AppUser> _userManager;
             private readonly SignInManager<AppUser> _signInManager;
@@ -57,7 +57,7 @@ namespace Application.User
                 _emailService = emailService;
             }
 
-            public async Task<Unit> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<Unit> Handle(ForgetPasswordQuery request, CancellationToken cancellationToken)
             {
                 var user = await _userManager.FindByEmailAsync(request.Email);
                 if (user == null)

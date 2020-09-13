@@ -59,19 +59,18 @@ namespace Application.Comments
                     Date = DateTime.Now,
                     For = request.For,
                     Against = request.Against,
-                    Liked = 0,
                     IsActive = true,
                 };
 
                 post.Comments.Add(comment);
 
-                 var isHost = new UserComment
+                 var isHost = new UserCommentLike
                 {
                     AppUser = user,
                     Comment = comment,
                     IsAuthor = true
                 };
-                _context.UserComments.Add(isHost);
+                _context.UserCommentLikes.Add(isHost);
 
                 var success = await _context.SaveChangesAsync() > 0;
                 if (success) return _mapper.Map<CommentDto>(comment);

@@ -19,14 +19,6 @@ namespace Application.Posts
     {
         public class Command : IRequest
         {
-            // public Guid Id { get; set; }
-            // public string Heading { get; set; }
-            // public string Description { get; set; }
-            // public Category Category { get; set; }
-            // public DateTime Date { get; set; }
-
-            // public IFormFile File { get; set; }
-
             public IFormFile File { get; set; }
             public string JsonPost { get; set; }
 
@@ -45,22 +37,14 @@ namespace Application.Posts
         public class CommandValidator : AbstractValidator<Command>
         {
 
-            // public CommandValidator()
-            // {
-            //     RuleFor(x => x.JsonPost.).NotEmpty();
-            //     RuleFor(x => x.Description).NotEmpty();
-            //     RuleFor(x => x.Category).NotEmpty();
-            //     RuleFor(x => x.Date).NotEmpty();
-
-            // }
         }
 
         public class Handler : IRequestHandler<Command>
         {
             private readonly DataContext _context;
             private readonly IUserAccessor _userAccessor;
-            private readonly IPhotoAccessor _photoAccessor;
-            public Handler(DataContext context, IUserAccessor userAccessor, IPhotoAccessor photoAccessor)
+            private readonly IPhotoS3Accessor _photoAccessor;
+            public Handler(DataContext context, IUserAccessor userAccessor, IPhotoS3Accessor photoAccessor)
             {
                 _photoAccessor = photoAccessor;
                 _userAccessor = userAccessor;
@@ -88,24 +72,25 @@ namespace Application.Posts
                 };
                 if (request.File != null && request.File.Length > 0)
                 {
-                    var photoUploadResult = _photoAccessor.AddPhoto(request.File);
+                    var photoUploadResult = await _photoAccessor.UploadFileAsync("pakshya.bucket",request.File);
                     var photo = new Photo
                     {
                         Url = photoUploadResult.Url,
-                        Id = photoUploadResult.PublicId
+                        Id = photoUploadResult.Key
                     };
                     post.Photos.Add(photo);
                 }
                 _context.Posts.Add(post);
                 var user = await _context.Users.SingleOrDefaultAsync(x => x.UserName == _userAccessor.GetUserName());
 
-                var isHost = new UserPost
-                {
-                    AppUser = user,
-                    Post = post,
-                    IsAuthor = true
-                };
-                _context.UserPosts.Add(isHost);
+                // Will remove the following as we don't want user liking there own posts.
+                // var isHost = new UserPostLike
+                // {
+                //     AppUser = user,
+                //     Post = post,
+                //     IsAuthor = true
+                // };
+                // _context.UserPostLikes.Add(isHost);
 
                 var success = await _context.SaveChangesAsync() > 0;
                 if (success) return Unit.Value;

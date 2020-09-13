@@ -34,7 +34,7 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit() {
     if (this.authService.loggedIn()) {
-      this.router.navigate(['/']);
+      this.router.navigate(['/posts']);
     }
     this.createRegisterForm();
     this.maxDate = new Date();

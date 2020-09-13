@@ -7,7 +7,7 @@ import {
 } from '@microsoft/signalr';
 import { AlertifyService } from 'src/app/core/services/alertify.service';
 import { AuthService } from 'src/app/auth/auth.service';
-import { CommentService } from 'src/app/_services/comment.service';
+import { CommentService } from 'src/app/post/comment.service';
 import { environment } from 'src/environments/environment';
 import { ActivatedRoute } from '@angular/router';
 import { IComment } from 'src/app/shared/_models/post';
@@ -52,19 +52,18 @@ export class PostDelailsCommentsComponent implements OnInit, OnDestroy {
       if (params['id']) {
         this.postId = params['id'];
       }
-     // console.log(this.postId);
     });
     this.createHubConnection();
 
-    this.route.data.subscribe(data => {
-      this.pagination = data['comments'].pagination;
-      this.allComments = data['comments'].result;
-    });
+    // this.route.data.subscribe(data => {
+    //   this.pagination = data['comments'].pagination;
+    //   this.allComments = data['comments'].result;
+    // });
 
-    // this.commentService.getComments(this.post.id).subscribe((res: PaginatedResult<IComment[]>) => {
-    //   this.allComments = res.result;
-    //   console.log(this.allComments);
-    // })
+    this.commentService.getComments(this.postId).subscribe((res: PaginatedResult<IComment[]>) => {
+      this.allComments = res.result;
+      console.log(this.allComments);
+    });
 
   }
 
@@ -84,6 +83,7 @@ export class PostDelailsCommentsComponent implements OnInit, OnDestroy {
 
       })
       .catch(err => this.alertify.error(err));
+
 
     this._hubConnection.on('ReceiveComment', (comment: IComment) => {
       this.allComments.unshift(comment);

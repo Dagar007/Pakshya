@@ -1,19 +1,20 @@
 using Domain;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Persistence.EntitiesConfiguration
 {
-    public class UserPostConfigurations : IEntityTypeConfiguration<UserPost>
+    public class UserPostConfigurations : IEntityTypeConfiguration<UserPostLike>
     {
-        public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<UserPost> builder)
+        public void Configure(EntityTypeBuilder<UserPostLike> builder)
         {
             builder.HasKey(ua => new { ua.AppUserId, ua.PostId });
             builder.HasOne(u => u.AppUser)
-                    .WithMany(p => p.UserPosts)
+                    .WithMany(p => p.UserPostLikes)
                     .HasForeignKey(u => u.AppUserId);
 
             builder.HasOne(p => p.Post)
-                    .WithMany(u => u.UserPosts)
+                    .WithMany(u => u.UserPostLikes)
                     .HasForeignKey(a => a.PostId);
         }
     }

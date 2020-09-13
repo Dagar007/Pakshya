@@ -19,8 +19,8 @@ namespace Domain
         public string Education { get; set; }
         public string Work { get; set; }
         public virtual Address Address { get; set; }
-        public virtual ICollection<UserPost> UserPosts { get; set; }
-        public virtual ICollection<UserComment> UserComments { get; set; }
+        public virtual ICollection<UserPostLike> UserPostLikes { get; set; }
+        public virtual ICollection<UserCommentLike> UserCommentLikes { get; set; }
         public virtual ICollection<Photo> Photos { get; set; }
         public virtual ICollection<UserFollowing> Followings { get; set; }
         public virtual ICollection<UserFollowing> Followers { get; set; }

@@ -5,9 +5,9 @@ import {
   OnChanges,
   SimpleChanges
 } from '@angular/core';
-import { AuthService } from 'src/app/_services/auth.service';
-import { IProfile } from 'src/app/_models/profile';
-import { ProfileService } from 'src/app/_services/profile.service';
+import { AuthService } from 'src/app/auth/auth.service';
+import { ProfileService } from 'src/app/profile/profile.service';
+import { IProfile } from 'src/app/shared/_models/profile';
 
 @Component({
   selector: 'app-profile-header',

@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ICategory, IPostConcise } from 'src/app/_models/post';
 import { ActivatedRoute, Router, ParamMap, Params } from '@angular/router';
-import { PostService } from 'src/app/_services/post.service';
+import { PostService } from 'src/app/post/post.service';
 import { switchMap } from 'rxjs/operators';
 import { v4 as uuid } from 'uuid';
-import { AlertifyService } from 'src/app/_services/alertify.service';
+import { AlertifyService } from 'src/app/core/services/alertify.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { IPostConcise, ICategory } from 'src/app/shared/_models/post';
 
 @Component({
   selector: 'app-create',

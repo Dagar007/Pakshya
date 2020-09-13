@@ -25,7 +25,6 @@ namespace Application.User
         public class Command : IRequest<Unit>
         {
             public string DisplayName { get; set; }
-            public string Username { get; set; }
             public string Email { get; set; }
             public string Password { get; set; }
             public DateTime Birthday { get; set; }
@@ -38,7 +37,6 @@ namespace Application.User
             public CommandValidator()
             {
                 RuleFor(x => x.DisplayName).NotEmpty();
-                RuleFor(x => x.Username).NotEmpty();
                 RuleFor(x => x.Email).NotEmpty().EmailAddress();
                 RuleFor(x => x.Password).Password();
                 RuleFor(x => x.Birthday.Year).LessThan(DateTime.Now.Year - 17);
@@ -81,16 +79,11 @@ namespace Application.User
                 {
                     throw new RestException(HttpStatusCode.BadRequest, new { Email = "Email already exists" });
                 }
-                if (await _context.Users.Where(x => x.UserName.ToLower() == request.Username.ToLower()).AnyAsync())
-                {
-                    throw new RestException(HttpStatusCode.BadRequest, new { Username = "Username already exists" });
-                }
-
                 var user = new AppUser
                 {
                     DisplayName = request.DisplayName,
                     Email = request.Email,
-                    UserName = request.Username,
+                    UserName = request.Email,
                     Gender = request.Gender,
                     Birthday = request.Birthday,
                     IsActive = true,

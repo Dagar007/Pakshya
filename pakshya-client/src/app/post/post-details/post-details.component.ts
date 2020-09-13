@@ -1,19 +1,19 @@
-import { Component, OnInit} from "@angular/core";
-import { Observable } from "rxjs";
-import { IPost, IPostConcise} from "src/app/_models/post";
-import { ActivatedRoute, Router, ParamMap } from "@angular/router";
-import { PostService } from "src/app/_services/post.service";
-import { switchMap } from "rxjs/operators";
-import { AlertifyService } from "src/app/_services/alertify.service";
+import { Component, OnInit} from '@angular/core';
+import { Observable } from 'rxjs';
+import { ActivatedRoute, Router, ParamMap } from '@angular/router';
+import { PostService } from 'src/app/post/post.service';
+import { switchMap } from 'rxjs/operators';
+import { AlertifyService } from 'src/app/core/services/alertify.service';
+import { IPostConcise } from 'src/app/shared/_models/post';
 
 
 @Component({
-  selector: "app-post-details",
-  templateUrl: "./post-details.component.html",
-  styleUrls: ["./post-details.component.scss"]
+  selector: 'app-post-details',
+  templateUrl: './post-details.component.html',
+  styleUrls: ['./post-details.component.scss']
 })
-export class PostDetailsComponent implements OnInit{
-  
+export class PostDetailsComponent implements OnInit {
+
 
   post$: Observable<IPostConcise>;
   post: IPostConcise;
@@ -26,7 +26,7 @@ export class PostDetailsComponent implements OnInit{
   ngOnInit() {
     this.post$ = this.route.paramMap.pipe(
       switchMap((params: ParamMap) =>
-        this.postService.getPost(params.get("id"))
+        this.postService.getPost(params.get('id'))
       )
     );
     this.post$.subscribe(
@@ -40,12 +40,12 @@ export class PostDetailsComponent implements OnInit{
   }
 
   commentsModified(modification: string) {
-    if(modification == 'added') {
+    if (modification === 'added') {
       this.post.noOfComments++;
-    } else if(modification == 'deleted') {
+    } else if (modification === 'deleted') {
       this.post.noOfComments--;
     }
   }
 
- 
+
 }

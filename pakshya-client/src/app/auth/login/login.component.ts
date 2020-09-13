@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from 'src/app/_services/auth.service';
+import { AuthService } from 'src/app/auth/auth.service';
 import { Router } from '@angular/router';
-import { AlertifyService } from 'src/app/_services/alertify.service';
-import { IUserLoginFormValues } from 'src/app/_models/user';
+import { AlertifyService } from 'src/app/core/services/alertify.service';
+import { IUserLoginFormValues } from 'src/app/shared/_models/user';
 // import { AuthService as FacebookAuth } from 'angularx-social-login';
 // import { FacebookLoginProvider} from 'angularx-social-login';
 

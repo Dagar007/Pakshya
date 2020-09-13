@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from 'src/app/_services/auth.service';
-import { IUserRegisterFormValues } from 'src/app/_models/user';
-import { AlertifyService } from 'src/app/_services/alertify.service';
+import { AuthService } from 'src/app/auth/auth.service';
+import { AlertifyService } from 'src/app/core/services/alertify.service';
 import { Router } from '@angular/router';
 import {
   FormGroup,
@@ -9,7 +8,9 @@ import {
   Validators,
   FormBuilder
 } from '@angular/forms';
-import { CrossFieldErrorMatcher } from 'src/app/_helper/CrossFieldErrorMatcher';
+import { CrossFieldErrorMatcher } from 'src/app/shared/_helper/CrossFieldErrorMatcher';
+import { IUserRegisterFormValues } from 'src/app/shared/_models/user';
+
 
 @Component({
   selector: 'app-register',
@@ -44,7 +45,6 @@ export class RegisterComponent implements OnInit {
     this.registerForm = this.fb.group(
       {
         gender: ['other',  Validators.required],
-        username: ['', Validators.required],
         displayName: ['', Validators.required],
         email: ['', [Validators.required, Validators.email]],
         birthday: [null, Validators.required],

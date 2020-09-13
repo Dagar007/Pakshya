@@ -1,8 +1,8 @@
-import { Component, OnInit, Input, Output, EventEmitter, SimpleChanges, OnChanges } from '@angular/core';
-import { IPost, IEngagers, IPostConcise } from 'src/app/_models/post';
-import { PostService } from 'src/app/_services/post.service';
-import { AlertifyService } from 'src/app/_services/alertify.service';
-import { AuthService } from 'src/app/_services/auth.service';
+import { Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
+import { PostService } from 'src/app/post/post.service';
+import { AlertifyService } from 'src/app/core/services/alertify.service';
+import { AuthService } from 'src/app/auth/auth.service';
+import { IPostConcise, IEngagers } from 'src/app/shared/_models/post';
 
 @Component({
   selector: 'app-post-card',
@@ -12,8 +12,7 @@ import { AuthService } from 'src/app/_services/auth.service';
 export class PostCardComponent implements OnInit {
   constructor(
     private postService: PostService,
-    private alertify: AlertifyService,
-    private authService: AuthService
+    private alertify: AlertifyService
   ) {}
 
   @Input() post: IPostConcise;

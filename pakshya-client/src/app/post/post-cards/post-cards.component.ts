@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { PostService } from 'src/app/_services/post.service';
-import { IPostConcise } from 'src/app/_models/post';
-import { AlertifyService } from 'src/app/_services/alertify.service';
-import { Pagination, PaginatedResult } from 'src/app/_models/pagination';
+import { PostService } from 'src/app/post/post.service';
+import { AlertifyService } from 'src/app/core/services/alertify.service';
+import { IPostConcise } from 'src/app/shared/_models/post';
+import { Pagination, PaginatedResult } from 'src/app/shared/_models/pagination';
+
 
 @Component({
   selector: 'app-post-cards',
@@ -25,6 +26,7 @@ export class PostCardsComponent implements OnInit {
 
     this.getPosts();
     this.postService.catgorySelectedEmitter.subscribe(category => {
+      console.log(category);
       this.userParams.category = category;
       this.setPage(1);
       this.posts = null;

@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ProfileService } from '../_services/profile.service';
+import { ProfileService } from './profile.service';
 import { ActivatedRoute,  Params } from '@angular/router';
-import { IProfile } from '../_models/profile';
-import { AlertifyService } from '../_services/alertify.service';
-import { AuthService } from '../_services/auth.service';
+import { AlertifyService } from '../core/services/alertify.service';
+import { AuthService } from '../auth/auth.service';
+import { IProfile } from '../shared/_models/profile';
 
 @Component({
   selector: 'app-profile',

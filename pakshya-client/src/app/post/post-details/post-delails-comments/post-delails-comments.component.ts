@@ -1,16 +1,17 @@
 import { Component, OnInit, Input, OnDestroy, Output, EventEmitter } from '@angular/core';
-import { IPost, IComment } from 'src/app/_models/post';
+
 import {
   HubConnection,
   HubConnectionBuilder,
   LogLevel
 } from '@microsoft/signalr';
-import { AlertifyService } from 'src/app/_services/alertify.service';
-import { AuthService } from 'src/app/_services/auth.service';
+import { AlertifyService } from 'src/app/core/services/alertify.service';
+import { AuthService } from 'src/app/auth/auth.service';
 import { CommentService } from 'src/app/_services/comment.service';
 import { environment } from 'src/environments/environment';
-import { PaginatedResult, Pagination } from 'src/app/_models/pagination';
 import { ActivatedRoute } from '@angular/router';
+import { IComment } from 'src/app/shared/_models/post';
+import { Pagination, PaginatedResult } from 'src/app/shared/_models/pagination';
 
 
 @Component({

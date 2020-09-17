@@ -10,20 +10,20 @@ namespace API.Controllers
     [Route("api/profile/")]
     public class FollowersController : BaseController
     {
-        [HttpPost("{username}/follow")]
-        public async Task<ActionResult<Unit>> Follow(string username)
+        [HttpPost("{email}/follow")]
+        public async Task<ActionResult<Unit>> Follow(string email)
         {
-             return await Mediator.Send(new Add.Command{Username = username});
+             return await Mediator.Send(new Add.Command{Email = email});
         }
-        [HttpDelete("{username}/follow")]
-        public async Task<ActionResult<Unit>> Unfollow(string username)
+        [HttpDelete("{email}/follow")]
+        public async Task<ActionResult<Unit>> Unfollow(string email)
         {
-             return await Mediator.Send(new Delete.Command{Username = username});
+             return await Mediator.Send(new Delete.Command{Email = email});
         }
-        [HttpGet("{username}/follow")]
-        public async Task<ActionResult<List<Profile>>> GetFollowings(string username, string predicate)
+        [HttpGet("{email}/follow")]
+        public async Task<ActionResult<List<Profile>>> GetFollowings(string email, string predicate)
         {
-            return await Mediator.Send(new List.Query{Username = username, Predicate = predicate});
+            return await Mediator.Send(new List.Query{Email = email, Predicate = predicate});
         }
     }
 }

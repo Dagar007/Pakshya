@@ -46,7 +46,7 @@ namespace Application.Profiles
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-                var user = await _context.Users.FirstOrDefaultAsync(u => u.UserName == _userAccessor.GetUserName());
+                var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == _userAccessor.GetEmail());
 
                 StringBuilder sb = new StringBuilder();
                 foreach (var i in request.Interests)

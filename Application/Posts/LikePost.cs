@@ -31,23 +31,27 @@ namespace Application.Posts
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
                 var post = await _context.Posts.FindAsync(request.Id);
-                if(post == null)
-                    throw new RestException(HttpStatusCode.NotFound, new {Post = "Cann't find post."});
-                var user = await _context.Users.SingleOrDefaultAsync( x=> x.UserName == _userAccessor.GetUserName());
+                if (post == null)
+                    throw new RestException(HttpStatusCode.NotFound, new { Post = "Cann't find post." });
+                var user = await _context.Users.SingleOrDefaultAsync(x => x.Email == _userAccessor.GetEmail());
 
-                var like = await _context.UserPostLikes.SingleOrDefaultAsync(x => x.PostId == post.Id && x.AppUserId == user.Id);
+                var userLikeOrPost = await _context.UserPostLikes.SingleOrDefaultAsync(x => x.PostId == post.Id && x.AppUserId == user.Id);
 
-                if(like != null)
-                    throw new RestException(HttpStatusCode.BadRequest, new {Attendence = "Already Liked."});
-
-                var newLike  = new UserPostLike {
-                    Post = post,
-                    AppUser = user,
-                    IsAuthor = false
-                };
-
-                _context.UserPostLikes.Add(newLike);
-
+                if (userLikeOrPost?.IsLiked == true)
+                    throw new RestException(HttpStatusCode.BadRequest, new { Attendence = "Already Liked." });
+                else if (userLikeOrPost?.IsLiked == false)
+                    userLikeOrPost.IsLiked = true;
+                else
+                {
+                    var newLike = new UserPostLike
+                    {
+                        Post = post,
+                        AppUser = user,
+                        IsAuthor = false,
+                        IsLiked = true
+                    };
+                    _context.UserPostLikes.Add(newLike);
+                }
                 var success = await _context.SaveChangesAsync() > 0;
                 if (success) return Unit.Value;
 

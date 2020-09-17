@@ -23,7 +23,7 @@ namespace Infrastructure.Security
         public string CreateToken(AppUser user)
         {
             var claims = new List<Claim> {
-                new Claim(JwtRegisteredClaimNames.NameId, user.UserName)
+                new Claim(JwtRegisteredClaimNames.Email, user.Email)
             };
 
             // gererate signincredendials

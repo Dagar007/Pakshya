@@ -23,14 +23,14 @@ namespace Application.Profiles
             _context = context;
         }
 
-        public async Task<Profile> ReadProfile(string username)
+        public async Task<Profile> ReadProfile(string email)
         {
-            var user = await _context.Users.SingleOrDefaultAsync(u => u.UserName == username);
+            var user = await _context.Users.SingleOrDefaultAsync(u => u.Email == email);
             if (user == null)
                 throw new RestException(HttpStatusCode.NotFound, new { User = "User not found." });
-            var userPosts = await _context.UserPostLikes.Where(u => u.AppUser.UserName == user.UserName && u.IsAuthor == true).Take(5).ToListAsync();
-            var userComments = await _context.UserCommentLikes.Where(u => u.AppUser.UserName == user.UserName && u.IsAuthor == true).Take(5).ToListAsync();
-            var currentUser = await _context.Users.SingleOrDefaultAsync(u => u.UserName == _userAccessor.GetUserName());
+            var userPosts = await _context.UserPostLikes.Where(u => u.AppUser.Email == user.Email && u.IsAuthor == true).Take(5).ToListAsync();
+            var userComments = await _context.UserCommentLikes.Where(u => u.AppUser.Email == user.Email && u.IsAuthor == true).Take(5).ToListAsync();
+            var currentUser = await _context.Users.SingleOrDefaultAsync(u => u.Email == _userAccessor.GetEmail());
 
             
             var profile = new Profile

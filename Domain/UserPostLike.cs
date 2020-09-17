@@ -10,5 +10,6 @@ namespace Domain
         public virtual Post Post { get; set; }
         public DateTime DateLiked { get; set; }
         public bool IsAuthor { get; set; }
+        public bool IsLiked { get; set; }
     }
 }

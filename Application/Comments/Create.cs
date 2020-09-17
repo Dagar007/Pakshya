@@ -64,13 +64,14 @@ namespace Application.Comments
 
                 post.Comments.Add(comment);
 
-                 var isHost = new UserCommentLike
+                 var isCommentAuthor = new UserCommentLike
                 {
                     AppUser = user,
                     Comment = comment,
-                    IsAuthor = true
+                    IsAuthor = true,
+                    IsLiked = false
                 };
-                _context.UserCommentLikes.Add(isHost);
+                _context.UserCommentLikes.Add(isCommentAuthor);
 
                 var success = await _context.SaveChangesAsync() > 0;
                 if (success) return _mapper.Map<CommentDto>(comment);

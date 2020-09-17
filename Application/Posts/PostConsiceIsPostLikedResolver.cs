@@ -22,10 +22,10 @@ namespace Application.Posts
         public bool Resolve(Post source, PostConcise destination, bool destMember, ResolutionContext context)
         {
             var currentUser = _context.Users
-                .SingleOrDefaultAsync(u => u.UserName == _userAccessor.GetUserName()).Result;
+                .SingleOrDefaultAsync(u => u.Email == _userAccessor.GetEmail()).Result;
             if (currentUser == null)
                 return false;
-            if (source.UserPostLikes.Any(p => p.AppUser.UserName == currentUser.UserName))
+            if (source.UserPostLikes.Any(p => p.AppUser.Email == currentUser.Email && p.IsLiked == true))
             {
                 return true;
             }

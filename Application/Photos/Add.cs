@@ -34,7 +34,7 @@ namespace Application.Photos
             public async Task<Photo> Handle(Command request, CancellationToken cancellationToken)
             {
                 var photoUploadResult = await _photoAccessor.UploadFileAsync("pakshya.bucket",request.File);
-                var user = await _context.Users.SingleOrDefaultAsync(x=> x.UserName == _userAccessor.GetUserName());
+                var user = await _context.Users.SingleOrDefaultAsync(x=> x.Email == _userAccessor.GetEmail());
 
                 var photo = new Photo
                 {

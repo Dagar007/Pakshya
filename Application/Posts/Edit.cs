@@ -17,40 +17,25 @@ namespace Application.Posts
     {
         public class Command : IRequest<Unit>
         {
-            public Command(Guid id, IFormFile file, string jsonPost)
-            {
-                Id = id;
-                File = file;
-                JsonPost = jsonPost;
-                this.jsonPostDeserialized = JsonConvert.DeserializeObject<JsonPostDeseroalized>(jsonPost);
-            }
-
-            public Guid Id { get; private set; }
-            public IFormFile File { get; private set; }
-            public string JsonPost { get; private set; }
-            public JsonPostDeseroalized jsonPostDeserialized { get; private set; }
-        }
-
-        public class JsonPostDeseroalized
-        {
             public Guid Id { get; set; }
             public string Heading { get; set; }
             public string Description { get; set; }
-            public Category Category { get; set; }
-            public DateTime Date { get; set; }
+            public Guid CategoryId { get; set; }
+            public IFormFile File { get; set; }
             public bool IsImageEdited { get; set; }
-
         }
-        public class CommandValidator : AbstractValidator<JsonPostDeseroalized>
+
+
+        public class CommandValidator : AbstractValidator<Command>
         {
             public CommandValidator()
             {
                 RuleFor(x => x.Heading).NotEmpty().WithMessage("Heading of post can't be empty");
-                RuleFor(x => x.Category).NotEmpty().WithMessage("Category of post can't be empty"); 
+                RuleFor(x => x.CategoryId).NotEmpty().WithMessage("Category of post can't be empty");
             }
         }
 
-        public class Handler : IRequestHandler<Command,Unit>
+        public class Handler : IRequestHandler<Command, Unit>
         {
             private readonly DataContext _context;
             private readonly IPhotoS3Accessor _photoAccessor;
@@ -66,23 +51,19 @@ namespace Application.Posts
                 var post = await _context.Posts.FindAsync(request.Id);
                 if (post == null)
                     throw new RestException(HttpStatusCode.NotFound, new { post = "Not found" });
-                var jsonPostDeseroalized = request.jsonPostDeserialized;
-                if (jsonPostDeseroalized.Category != null)
-                {
-                    var category = await _context.Categories.FindAsync(jsonPostDeseroalized.Category.Id);
-                    if (category == null)
-                        throw new RestException(HttpStatusCode.NotFound, new { Category = "Not found" });
-                    post.Category = category;
-                }
 
-                post.Heading = jsonPostDeseroalized.Heading ?? post.Heading;
-                post.Description = jsonPostDeseroalized.Description ?? post.Description;
+                var category = await _context.Categories.FindAsync(request.CategoryId);
+                if (category == null)
+                    throw new RestException(HttpStatusCode.NotFound, new { Category = "Not found" });
+
+                post.Category = category;
+                post.Heading = request.Heading ?? post.Heading;
+                post.Description = request.Description ?? post.Description;
                 post.IsActive = true;
-
                 post.Date = DateTime.Now;
 
                 // Remove all posts photos
-                if (jsonPostDeseroalized.IsImageEdited)
+                if (request.IsImageEdited)
                 {
                     var photos = post.Photos;
                     foreach (var ph in photos)
@@ -94,7 +75,7 @@ namespace Application.Posts
                     if (request.File != null && request.File.Length > 0)
                     {
                         // Start fresh upload
-                        var photoUploadResult = await _photoAccessor.UploadFileAsync("pakshya.bucket",request.File);
+                        var photoUploadResult = await _photoAccessor.UploadFileAsync("pakshya.bucket", request.File);
                         var photo = new Photo
                         {
                             Url = photoUploadResult.Url,
@@ -107,7 +88,7 @@ namespace Application.Posts
                 var success = await _context.SaveChangesAsync() > 0;
                 if (success) return Unit.Value;
 
-                throw new Exception($"Problem saving {jsonPostDeseroalized.Id} post");
+                throw new Exception($"Problem saving {request.Id} post");
             }
         }
     }

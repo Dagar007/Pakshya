@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Amazon.S3;
 using Amazon.S3.Model;
 using Amazon.S3.Transfer;
-using Amazon.S3.Util;
 using Application.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
@@ -76,6 +75,7 @@ namespace Infrastructure.Photos
                     {
                         InputStream = newMemoryStream,
                         Key = key,
+                        StorageClass = S3StorageClass.Standard,
                         BucketName = BUCKET_NAME,
                         CannedACL = S3CannedACL.PublicRead
                     };
@@ -89,7 +89,7 @@ namespace Infrastructure.Photos
             return new S3Response
             {
                 Key = key,
-                Url = $"https://{bucketName}.s3.{_region}.amazonaws.com/{file.FileName}"
+                Url = $"https://{bucketName}.s3.{_region}.amazonaws.com/{key}"
             };
 
         }

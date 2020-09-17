@@ -31,18 +31,18 @@ namespace Application.Comments
                 var comment = await _context.Comments.FindAsync(request.Id);
                 if (comment == null)
                     throw new RestException(HttpStatusCode.NotFound, new { Comment = "Cann't find comment." });
-                var user = await _context.Users.SingleOrDefaultAsync(x => x.UserName == _userAccessor.GetUserName());
+                var user = await _context.Users.SingleOrDefaultAsync(x => x.Email == _userAccessor.GetEmail());
 
-                var like = await _context.UserCommentLikes.SingleOrDefaultAsync(x => x.CommentId == comment.Id && x.AppUserId == user.Id);
+                var like = await _context.UserCommentLikes.SingleOrDefaultAsync(x => x.CommentId == comment.Id && x.AppUserId == user.Id && x.IsLiked == true);
 
                 if (like == null)
                 {
-                    return Unit.Value;
+                    throw new RestException(HttpStatusCode.BadRequest, new { Post = "You can only unlike after liking a comment."} );
                 }
-                if (like.IsAuthor)
-                    throw new RestException(HttpStatusCode.BadRequest, new { Post = "You cann't unlike your own comment"} );
+                
 
-                _context.UserCommentLikes.Remove(like);
+                //_context.UserCommentLikes.Remove(like);
+                like.IsLiked = false;
 
                 var success = await _context.SaveChangesAsync() > 0;
                 if (success) return Unit.Value;

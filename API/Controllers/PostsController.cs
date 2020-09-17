@@ -24,17 +24,17 @@ namespace API.Controllers
       return await Mediator.Send(new Details.Query { Id = id });
     }
     [HttpPost]
-    public async Task<ActionResult<Unit>> Create([FromForm] IFormFile File, [FromForm] string jsonPost)
+    public async Task<ActionResult<Unit>> Create([FromForm] Create.Command command)
     {
-      return await Mediator.Send(new Create.Command {File = File, JsonPost = jsonPost});
+      return await Mediator.Send(command);
     }
 
-    [HttpPost("{id}")]
+    [HttpPut("{id}")]
     [Authorize(Policy = "IsPostHost")]
-    public async Task<ActionResult<Unit>> Edit (Guid id, [FromForm] IFormFile File, [FromForm] string jsonPost)
+    public async Task<ActionResult<Unit>> Edit (Guid id, [FromForm] Edit.Command command)
     {
-      // return await Mediator.Send(new Edit.Command{Id = id, File = File, JsonPost = jsonPost});
-      return await Mediator.Send(new Edit.Command(id, File, jsonPost));
+      command.Id = id;
+      return await Mediator.Send(command);
     }
 
     [HttpDelete("{id}")]

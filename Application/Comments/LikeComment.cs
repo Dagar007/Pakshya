@@ -32,7 +32,7 @@ namespace Application.Comments
                 var comment = await _context.Comments.FindAsync(request.Id);
                 if(comment == null)
                     throw new RestException(HttpStatusCode.NotFound, new {Comment = "Cann't find comment."});
-                var user = await _context.Users.SingleOrDefaultAsync( x=> x.UserName == _userAccessor.GetUserName());
+                var user = await _context.Users.SingleOrDefaultAsync( x=> x.Email == _userAccessor.GetEmail());
 
                 var like = await _context.UserCommentLikes.SingleOrDefaultAsync(x => x.CommentId == comment.Id && x.AppUserId == user.Id);
 
@@ -42,7 +42,9 @@ namespace Application.Comments
                 var newLike  = new UserCommentLike {
                     Comment = comment,
                     AppUser = user,
-                    IsAuthor = false
+                    IsAuthor = false,
+                    IsLiked = true
+                    
                 };
 
                 _context.UserCommentLikes.Add(newLike);

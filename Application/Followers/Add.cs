@@ -15,7 +15,7 @@ namespace Application.Followers
     {
         public class Command : IRequest
         {
-            public string Username { get; set; }
+            public string Email { get; set; }
         }
 
 
@@ -32,9 +32,9 @@ namespace Application.Followers
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
                 // Current user would be observer.
-                var observer = await _context.Users.SingleOrDefaultAsync(x => x.UserName == _userAccessor.GetUserName());
+                var observer = await _context.Users.SingleOrDefaultAsync(x => x.Email == _userAccessor.GetEmail());
 
-                var target = await _context.Users.SingleOrDefaultAsync(x => x.UserName == request.Username);
+                var target = await _context.Users.SingleOrDefaultAsync(x => x.Email == request.Email);
                 if(target == null)
                     throw new RestException(HttpStatusCode.NotFound, new { User = "Not Found"});
                 var following = await _context.Followings

@@ -20,7 +20,7 @@ namespace Application.Posts
         public bool Resolve(UserPostLike source, LikeDto destination, bool destMember, ResolutionContext context)
         {
             var currentUser = _context.Users
-                .SingleOrDefaultAsync(u => u.UserName == _userAccessor.GetUserName()).Result;
+                .SingleOrDefaultAsync(u => u.Email == _userAccessor.GetEmail()).Result;
             if(currentUser.Followings.Any(c => c.TargetId == source.AppUser.Id))
             {
                 return true;

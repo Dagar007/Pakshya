@@ -10,10 +10,9 @@ namespace Persistence
     public class Seed
     {
         public static async Task SeedData(DataContext context, 
-        UserManager<AppUser> userManager, RoleManager<Role> roleManager)
+        UserManager<AppUser> userManager, 
+        RoleManager<Role> roleManager)
         {
-            
-
             if (!userManager.Users.Any())
             {
                  var roles = new List<Role>
@@ -25,7 +24,7 @@ namespace Persistence
 
                 foreach(var role in roles)
                 {
-                     roleManager.CreateAsync(role).Wait();
+                    roleManager.CreateAsync(role).Wait();
                      
                 }
                 var users = new List<AppUser>
@@ -34,8 +33,9 @@ namespace Persistence
                     {
                         Id = "a",
                         DisplayName = "Bob",
-                        UserName = "bob",
                         Email = "bob@test.com",
+                        UserName = "bob@test.com",
+                        EmailConfirmed = true,
                         Birthday = DateTime.Now.AddYears(-18),
                         Gender = "male",
                         IsActive = true
@@ -44,8 +44,9 @@ namespace Persistence
                     {
                         Id = "b",
                         DisplayName = "Tom",
-                        UserName = "tom",
                         Email = "tom@test.com",
+                        UserName= "tom@test.com",
+                        EmailConfirmed = true,
                         Birthday = DateTime.Now.AddYears(-20),
                         Gender = "male",
                         IsActive = true
@@ -54,9 +55,10 @@ namespace Persistence
                     {
                         Id="c",
                         DisplayName = "Jane",
-                        UserName = "jane",
                         Email = "jane@test.com",
-                         Birthday = DateTime.Now.AddYears(-22),
+                        UserName = "jane@test.com",
+                        EmailConfirmed = true,
+                        Birthday = DateTime.Now.AddYears(-22),
                         Gender = "female",
                         IsActive = true
                     },
@@ -64,16 +66,20 @@ namespace Persistence
                 };
                 foreach(var user in users)
                 {
-                    await userManager.CreateAsync(user, "Pa$$w0rd");
-                    await userManager.AddToRoleAsync(user, "User");
+                    userManager.CreateAsync(user, "Pa$$w0rd").Wait();
                 }
+                foreach(var user in userManager.Users)
+                {
+                    userManager.AddToRolesAsync(user, new[] {"User"}).Wait();
+                }
+               
 
                  var adminUser = new AppUser 
                 {
                     Id= "d",
                     DisplayName= "Pakshya",
-                    UserName = "Admin",
                     Email = "admin@test.com",
+                    UserName = "admin@test.com",
                     EmailConfirmed = true,
                     IsActive = true
                 };
@@ -81,9 +87,10 @@ namespace Persistence
                 var result = userManager.CreateAsync(adminUser, "Pa$$w0rd").Result;
                 if(result.Succeeded) 
                 {
-                    var admin = userManager.FindByNameAsync("Admin").Result;
+                    var admin = userManager.FindByEmailAsync("admin@test.com").Result;
                     await userManager.AddToRolesAsync(admin, new[] {"Admin"});
                 }
+
             }
 
             if (!context.Posts.Any())
@@ -134,6 +141,7 @@ namespace Persistence
                                 {
                                     AppUserId = "c",
                                     IsAuthor = false,
+                                     IsLiked = true,
                                     DateLiked = DateTime.Now.AddMonths(-2)
                                 },
                             }
@@ -160,6 +168,7 @@ namespace Persistence
                                 {
                                     AppUserId = "c",
                                     IsAuthor = false,
+                                     IsLiked = true,
                                     DateLiked = DateTime.Now.AddMonths(-2)
                                 },
                             }
@@ -186,6 +195,7 @@ namespace Persistence
                                 {
                                     AppUserId = "a",
                                     IsAuthor = false,
+                                     IsLiked = true,
                                     DateLiked = DateTime.Now.AddMonths(-2)
                                 },
                             }
@@ -212,6 +222,7 @@ namespace Persistence
                                 {
                                     AppUserId = "c",
                                     IsAuthor = false,
+                                     IsLiked = true,
                                     DateLiked = DateTime.Now.AddMonths(-2)
                                 },
                             }
@@ -238,6 +249,7 @@ namespace Persistence
                                 {
                                     AppUserId = "c",
                                     IsAuthor = false,
+                                    IsLiked = true,
                                     DateLiked = DateTime.Now.AddMonths(-2)
                                 },
                             }
@@ -264,6 +276,7 @@ namespace Persistence
                                 {
                                     AppUserId = "b",
                                     IsAuthor = false,
+                                    IsLiked = true,
                                     DateLiked = DateTime.Now.AddMonths(-2)
                                 },
                             }
@@ -276,8 +289,8 @@ namespace Persistence
                         IsActive = true,
                        // Url = "https://dummyimage.com/200x200/000/fff",
                         For = 37,
-                    Against = 13,
-                     UserPostLikes = new List<UserPostLike>
+                        Against = 13,
+                        UserPostLikes = new List<UserPostLike>
                             {
                                 new UserPostLike 
                                 {

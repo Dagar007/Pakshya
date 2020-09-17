@@ -21,7 +21,7 @@ namespace Application.Comments
         public bool Resolve(Comment source, CommentDto destination, bool destMember, ResolutionContext context)
         {
            var currentUser = _context.Users
-                .SingleOrDefaultAsync(u => u.UserName == _userAccessor.GetUserName()).Result;
+                .SingleOrDefaultAsync(u => u.Email == _userAccessor.GetEmail()).Result;
             if(_context.UserCommentLikes.Any(x=> x.AppUserId == currentUser.Id && x.CommentId == source.Id))
             {
                 return true;

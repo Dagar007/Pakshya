@@ -31,7 +31,7 @@ namespace Application.Posts
             {
                 var post = await _context.Posts
                 .FindAsync(request.Id);
-                if (post == null)
+                if (post == null || !post.IsActive)
                     throw new RestException(HttpStatusCode.NotFound, new { post = "Not found" });
                 var postToReturn = _mapper.Map<Post,PostConcise>(post);
                 post.Views ++;

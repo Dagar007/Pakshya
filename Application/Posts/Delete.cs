@@ -30,14 +30,14 @@ namespace Application.Posts
                 var post = await _context.Posts.FindAsync(request.Id);
                 if (post == null)
                     throw new RestException(HttpStatusCode.NotFound, new { post = "Not found" });
-                //_context.Remove(post);
+                _context.Remove(post);
                 
-                var comments = await _context.Comments.Where(c => c.PostId == post.Id).ToListAsync();
-                foreach(var comment in comments)
-                {
-                    comment.IsActive = false;
-                }
-                post.IsActive = false;
+                // var comments = await _context.Comments.Where(c => c.PostId == post.Id).ToListAsync();
+                // foreach(var comment in comments)
+                // {
+                //     comment.IsActive = false;
+                // }
+                // post.IsActive = false;
                 var success = await _context.SaveChangesAsync() > 0;
                 if (success) return Unit.Value;
 

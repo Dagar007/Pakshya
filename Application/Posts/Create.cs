@@ -19,24 +19,20 @@ namespace Application.Posts
     {
         public class Command : IRequest
         {
-            public IFormFile File { get; set; }
-            public string JsonPost { get; set; }
-
-        }
-
-        public class JsonPostDeseroalized 
-        {
             public Guid Id { get; set; }
             public string Heading { get; set; }
             public string Description { get; set; }
-            public Category Category { get; set; }
-            public DateTime Date { get; set; }
-
+            public Guid CategoryId { get; set; }
+            public IFormFile File { get; set; }
         }
 
         public class CommandValidator : AbstractValidator<Command>
         {
-
+            public CommandValidator()
+            {
+                RuleFor(x => x.Heading).Empty();
+                RuleFor(x => x.Description).Empty();
+            }
         }
 
         public class Handler : IRequestHandler<Command>
@@ -53,15 +49,15 @@ namespace Application.Posts
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-                var jsonPostDeseroalized = JsonConvert.DeserializeObject<JsonPostDeseroalized>(request.JsonPost);
-                var category = await _context.Categories.FindAsync(jsonPostDeseroalized.Category.Id);
+                //var jsonPostDeseroalized = JsonConvert.DeserializeObject<JsonPostDeseroalized>(request.JsonPost);
+                var category = await _context.Categories.FindAsync(request.CategoryId);
                 if (category == null)
                     throw new RestException(HttpStatusCode.NotFound, new { Category = "Not found" });
                 var post = new Post
                 {
-                    Id = jsonPostDeseroalized.Id,
-                    Heading = jsonPostDeseroalized.Heading,
-                    Description = jsonPostDeseroalized.Description,
+                    Id = request.Id,
+                    Heading = request.Heading,
+                    Description = request.Description,
                     Category = category,
                     Date = DateTime.Now,
                     For = 0,
@@ -81,16 +77,16 @@ namespace Application.Posts
                     post.Photos.Add(photo);
                 }
                 _context.Posts.Add(post);
-                var user = await _context.Users.SingleOrDefaultAsync(x => x.UserName == _userAccessor.GetUserName());
+                var user = await _context.Users.SingleOrDefaultAsync(x => x.Email == _userAccessor.GetEmail());
 
-                // Will remove the following as we don't want user liking there own posts.
-                // var isHost = new UserPostLike
-                // {
-                //     AppUser = user,
-                //     Post = post,
-                //     IsAuthor = true
-                // };
-                // _context.UserPostLikes.Add(isHost);
+                var isHost = new UserPostLike
+                {
+                    AppUser = user,
+                    Post = post,
+                    IsAuthor = true,
+                    IsLiked = false
+                };
+                _context.UserPostLikes.Add(isHost);
 
                 var success = await _context.SaveChangesAsync() > 0;
                 if (success) return Unit.Value;

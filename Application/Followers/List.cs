@@ -14,7 +14,7 @@ namespace Application.Followers
     {
         public class Query : IRequest<List<Profile>>
         {
-            public string Username { get; set; }
+            public string Email { get; set; }
             public string Predicate { get; set; }
         }
         public class Handler : IRequestHandler<Query, List<Profile>>
@@ -40,23 +40,23 @@ namespace Application.Followers
                     case "followers":
                         {
                             userFollowing = await queryable
-                                .Where(x => x.Target.UserName == request.Username).ToListAsync(); 
-                                // List of users current user is following. User who ate in target of username
-
+                                .Where(x => x.Target.Email == request.Email).ToListAsync(); 
+                                // to get the followers where this user is a target.
                             foreach (var follower in userFollowing)
                             {
-                                profiles.Add(await _profileReader.ReadProfile(follower.Observer.UserName));
+                                profiles.Add(await _profileReader.ReadProfile(follower.Observer.Email));
                             }
                             break;
                         }
                     case "following":
                         {
                             userFollowing = await queryable
-                                .Where(x => x.Observer.UserName == request.Username).ToListAsync();
+                                .Where(x => x.Observer.Email == request.Email).ToListAsync();
+                            // to get the observer, where current user is an observer.
 
                             foreach (var follower in userFollowing)
                             {
-                                profiles.Add(await _profileReader.ReadProfile(follower.Target.UserName));
+                                profiles.Add(await _profileReader.ReadProfile(follower.Target.Email));
                             }
                             break;
                         }

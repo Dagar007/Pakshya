@@ -31,7 +31,7 @@ namespace Application.Photos
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-                var user = await _context.Users.SingleOrDefaultAsync(u => u.UserName == _userAccessor.GetUserName());
+                var user = await _context.Users.SingleOrDefaultAsync(u => u.Email == _userAccessor.GetEmail());
                 var photo = user.Photos.FirstOrDefault(x => x.Id == request.Id);
                 if (photo == null)
                     throw new RestException(HttpStatusCode.NotFound, new { Photo = "Not Found." });

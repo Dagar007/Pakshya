@@ -10,5 +10,7 @@ namespace Domain
         public virtual Comment Comment { get; set; }
         public DateTime DateLiked { get; set; }
         public bool IsAuthor { get; set; }
+        public bool IsLiked { get; set; }
+        
     }
 }

@@ -40,7 +40,7 @@ namespace Application.User
             IJwtGenerator jwtGenerator)
             {
                 _userManager = userManager;
-               _signInManager = signInManager;
+                _signInManager = signInManager;
                 _jwtGenerator = jwtGenerator;
             }
 
@@ -49,8 +49,12 @@ namespace Application.User
                 var user = await _userManager.FindByEmailAsync(request.Email);
                 if(user == null)
                     throw new RestException(HttpStatusCode.Unauthorized);
+                // will put the logic for deleting the registration for unconfirmed users after 12 hours here.
                 if(!user.EmailConfirmed)
+                {
                     throw new RestException(HttpStatusCode.BadRequest, new {Login = "Email not confirmed yet."});
+                }
+                    
                 var result = await _signInManager.CheckPasswordSignInAsync(user,request.Password, false);
                 
                 if(result.Succeeded)

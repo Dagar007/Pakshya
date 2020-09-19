@@ -6,11 +6,17 @@ using Application.Helpers;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using static Application.Comments.Create;
 
 namespace API.Controllers
 {
     public class CommentController : BaseController
     {
+        [HttpPost]
+        public async Task<ActionResult<CommentDto>> Create(CommentCreateCommand command)
+        {
+            return await Mediator.Send(command);
+        }
         [HttpGet("{postId}")]
         public async Task<ActionResult<List<CommentDto>>> List(Guid postId, [FromQuery]Params  commentParams)
         {

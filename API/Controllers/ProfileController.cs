@@ -8,10 +8,10 @@ namespace API.Controllers
 {
     public class ProfileController : BaseController
     {
-        [HttpGet("{email}")]
-        public async Task<ActionResult<Profile>> Get(string email)
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Profile>> Get(string id)
         {
-            return await Mediator.Send(new Details.Query { Email = email });
+            return await Mediator.Send(new Details.Query { Id = id });
         }
 
         [HttpPut]

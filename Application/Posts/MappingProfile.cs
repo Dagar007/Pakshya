@@ -25,7 +25,7 @@ namespace Application.Posts
                .ForMember(d => d.IsAuthor, o => o.MapFrom<PostConsiceAuthorResolver>())
                .ForMember(d => d.IsPostLiked, o => o.MapFrom<PostConsiceIsPostLikedResolver>());
 
-            CreateMap<Category, CategoryDto>();
+            CreateMap<Category, PostCategoryDto>();
 
 
 

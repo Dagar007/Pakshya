@@ -22,7 +22,7 @@ namespace Application.Comments
         {
            var currentUser = _context.Users
                 .SingleOrDefaultAsync(u => u.Email == _userAccessor.GetEmail()).Result;
-            if(_context.UserCommentLikes.Any(x=> x.AppUserId == currentUser.Id && x.CommentId == source.Id))
+            if(_context.UserCommentLikes.Any(x=> x.AppUserId == currentUser.Id && x.CommentId == source.Id && x.IsLiked))
             {
                 return true;
             }

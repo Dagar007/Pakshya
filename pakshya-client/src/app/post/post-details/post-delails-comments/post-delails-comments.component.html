@@ -30,7 +30,7 @@
             [(ngModel)]="type"
             [ngModelOptions]="{ standalone: true }"
           >
-            <mat-radio-button value="for">For</mat-radio-button>
+            <mat-radio-button value="support">For</mat-radio-button>
             <mat-radio-button value="against">Against</mat-radio-button>
           </mat-radio-group>
           <button
@@ -51,27 +51,27 @@
   <div
     class=" mb-medium"
     *ngFor="let comment of allComments"
-    [ngClass]="comment.for ? 'comments__for' : 'comments__against'"
+    [ngClass]="comment.support ? 'comments__for' : 'comments__against'"
   >
     <!-- User Placement for For Comment -->
-    <div class="comments__user" *ngIf="comment?.for">
+    <div class="comments__user" *ngIf="comment?.support">
       <img
-        [src]="comment?.image ? comment?.image : '../assets/user.png'"
+        [src]="comment?.authorImage ? comment?.authorImage : '../assets/user.png'"
         alt="UserName"
         class="avatar"
       />
-      <h2 class="comments__user--name">{{ comment?.displayName }}</h2>
+      <h2 class="comments__user--name">{{ comment?.authorDisplayName }}</h2>
     </div>
 
     <!-- Comment Text depending on for or against -->
     <div
       [ngClass]="
-        comment.for ? 'comments__for--text' : 'comments__against--text'
+        comment.support ? 'comments__for--text' : 'comments__against--text'
       "
     >
       <div class="comment-header">
         <h3 class="comments__user--datetime">{{ comment.date | timeAgo }}</h3>
-        <div *ngIf="currentUserName == comment.username">
+        <div *ngIf="currentUserName == comment.authorDisplayName">
           <button
             mat-icon-button
             [matMenuTriggerFor]="menu"
@@ -95,16 +95,16 @@
           mat-button
           aria-label="heart icon"
           class="card__footer--icon"
-          [ngClass]="{'fav_comment': comment.isLikedByUser}"
+          [ngClass]="{'fav_comment': comment.hasLoggedInUserLiked}"
           (click)="likeComment(comment)">
           <mat-icon>favorite</mat-icon>
-          {{comment.liked}}
+          {{comment.totalLikes}}
         </button>
         <button
           mat-button
           aria-label="reply icon"
           class="card__footer--icon"
-          (click)="onReply(comment?.displayName)"
+          (click)="onReply(comment?.authorDisplayName)"
         >
           <mat-icon>reply</mat-icon>
           Reply
@@ -115,11 +115,11 @@
     <!-- User info if Comment is against -->
     <div class="comments__user" *ngIf="comment.against">
       <img
-        [src]="comment?.image ? comment?.image : '../assets/user.png'"
-        alt="{{ comment?.displayName }}"
+        [src]="comment?.authorImage ? comment?.authorImage : '../assets/user.png'"
+        alt="{{ comment?.authorDisplayName }}"
         class="avatar"
       />
-      <h2 class="comments__user--name">{{ comment?.displayName }}</h2>
+      <h2 class="comments__user--name">{{ comment?.authorDisplayName }}</h2>
     </div>
   </div>
   <div class="comments__seemore">

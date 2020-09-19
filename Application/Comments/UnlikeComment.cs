@@ -12,7 +12,7 @@ namespace Application.Comments
 {
     public class UnlikeComment
     {
-          public class Command : IRequest
+        public class Command : IRequest
         {
             public Guid Id { get; set; }
         }
@@ -33,16 +33,16 @@ namespace Application.Comments
                     throw new RestException(HttpStatusCode.NotFound, new { Comment = "Cann't find comment." });
                 var user = await _context.Users.SingleOrDefaultAsync(x => x.Email == _userAccessor.GetEmail());
 
-                var like = await _context.UserCommentLikes.SingleOrDefaultAsync(x => x.CommentId == comment.Id && x.AppUserId == user.Id && x.IsLiked == true);
+                var userCommentOrLike = await _context.UserCommentLikes.SingleOrDefaultAsync(x => x.CommentId == comment.Id && x.AppUserId == user.Id);
 
-                if (like == null)
-                {
-                    throw new RestException(HttpStatusCode.BadRequest, new { Post = "You can only unlike after liking a comment."} );
-                }
-                
 
-                //_context.UserCommentLikes.Remove(like);
-                like.IsLiked = false;
+                if (userCommentOrLike == null || !userCommentOrLike.IsLiked)
+                    throw new RestException(HttpStatusCode.BadRequest, new { Post = "You can only unlike after liking a post." });
+                else if (!userCommentOrLike.IsAuthor)
+                    _context.UserCommentLikes.Remove(userCommentOrLike);
+                else
+                    userCommentOrLike.IsLiked = false;
+
 
                 var success = await _context.SaveChangesAsync() > 0;
                 if (success) return Unit.Value;

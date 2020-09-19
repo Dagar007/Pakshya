@@ -22,7 +22,7 @@ namespace Application.Posts
             public string Description { get; set; }
             public Guid CategoryId { get; set; }
             public IFormFile File { get; set; }
-            public bool IsImageEdited { get; set; }
+            public string IsImageEdited { get; set; }
         }
 
 
@@ -63,7 +63,7 @@ namespace Application.Posts
                 post.Date = DateTime.Now;
 
                 // Remove all posts photos
-                if (request.IsImageEdited)
+                if (request.IsImageEdited == "y")
                 {
                     var photos = post.Photos;
                     foreach (var ph in photos)

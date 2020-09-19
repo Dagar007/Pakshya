@@ -13,7 +13,7 @@ namespace Application.Profiles
     {
         public class Query : IRequest<Profile>
         {
-            public string Email { get; set; }
+            public string Id { get; set; }
         }
 
         public class Handler : IRequestHandler<Query, Profile>
@@ -28,7 +28,7 @@ namespace Application.Profiles
 
             public async Task<Profile> Handle(Query request, CancellationToken cancellationToken)
             {
-               return await _profileReader.ReadProfile(request.Email);
+               return await _profileReader.ReadProfile(request.Id);
             }
         }
     }

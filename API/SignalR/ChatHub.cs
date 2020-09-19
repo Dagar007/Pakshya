@@ -15,30 +15,30 @@ namespace API.SignalR
             _mediator = mediator;
         }
 
-        public async Task SendComment(Create.Command command)
+        public async Task SendComment(Create.CommentCreateCommand command)
         {
-            string username = GetUsername();
-            command.Username = username;
+            string email = GetEmail();
+            command.Email = email;
 
             var comment = await _mediator.Send(command);
 
             await Clients.Group(command.PostId.ToString()).SendAsync("ReceiveComment", comment);
         }
 
-        private string GetUsername()
+        private string GetEmail()
         {
-            return Context.User?.Claims?.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+            return Context.User?.Claims?.FirstOrDefault(x => x.Type == ClaimTypes.Email)?.Value;
         }
 
         public async Task AddToGroup(string groupName)
         {
-            var username = GetUsername();
+            var username = GetEmail();
             await Groups.AddToGroupAsync(Context.ConnectionId, groupName);
-            await Clients.Group(groupName).SendAsync("Send", $"{username} has joinedx the group." );
+            await Clients.Group(groupName).SendAsync("Send", $"{username} has joined the group." );
         }
         public async Task RemoveFromGroup(string groupName)
         {
-            var username = GetUsername();
+            var username = GetEmail();
             await Groups.RemoveFromGroupAsync(Context.ConnectionId, groupName);
             await Clients.Group(groupName).SendAsync("Send", $"{username} has the left group." );
         }

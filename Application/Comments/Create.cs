@@ -15,24 +15,25 @@ namespace Application.Comments
 {
     public class Create
     {
-        public class Command : IRequest<CommentDto>
+        public class CommentCreateCommand : IRequest<CommentDto>
         {
             public string Body { get; set; }
             public Guid PostId { get; set; }
-            public string Username { get; set; }
-            public bool For { get; set; }
-            public bool Against { get; set; }   
+            public string Email { get; set; }
+            public  bool Support { get; set; }
+            public bool Against { get; set; }
         }
 
-        public class CommandValidator : AbstractValidator<Command>
+        public class CommandValidator : AbstractValidator<CommentCreateCommand>
         {
             public CommandValidator()
             {
+                RuleFor(x => x.Body).NotEmpty().WithMessage("Comment can't be empty.");
 
             }
         }
 
-        public class Handler : IRequestHandler<Command, CommentDto>
+        public class Handler : IRequestHandler<CommentCreateCommand, CommentDto>
         {
             private readonly DataContext _context;
             private readonly IUserAccessor _userAccessor;
@@ -44,12 +45,17 @@ namespace Application.Comments
                 _context = context;
             }
 
-            public async Task<CommentDto> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<CommentDto> Handle(CommentCreateCommand request, CancellationToken cancellationToken)
             {
                 var post = await _context.Posts.FindAsync(request.PostId);
+                if(request.Against == request.Support && request.Support)
+                    throw new RestException(HttpStatusCode.BadRequest, new {Comment = "Comment can't be both in support and against."}); 
+                if(request.Against == request.Support && !request.Support)
+                    throw new RestException(HttpStatusCode.BadRequest, new {Comment = "Comment need to be either in support or against the post."}); 
+                
                 if(post == null)
                     throw new RestException(HttpStatusCode.NotFound, new {Post = "Not Found"});
-                var user = await _context.Users.SingleOrDefaultAsync(u => u.UserName == request.Username);
+                var user = await _context.Users.SingleOrDefaultAsync(u => u.Email == request.Email);
 
                 var comment = new Comment 
                 {
@@ -57,7 +63,7 @@ namespace Application.Comments
                     Post = post,
                     Body = request.Body,
                     Date = DateTime.Now,
-                    For = request.For,
+                    Support = request.Support,
                     Against = request.Against,
                     IsActive = true,
                 };
@@ -76,7 +82,7 @@ namespace Application.Comments
                 var success = await _context.SaveChangesAsync() > 0;
                 if (success) return _mapper.Map<CommentDto>(comment);
 
-                throw new Exception("problem saving new post.");
+                throw new Exception("problem saving new comment.");
             }
         }
     }

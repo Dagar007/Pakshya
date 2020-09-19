@@ -41,7 +41,7 @@ export class PostDelailsCommentsComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute) { }
 
 
-  type = 'for';
+  type = 'support';
 
   ngOnInit() {
     if (this.authService.currentUser1) {
@@ -110,7 +110,7 @@ export class PostDelailsCommentsComponent implements OnInit, OnDestroy {
       this.commentToPost = {
         postId: this.postId,
         body : this.comment,
-        for : this.type === 'for' ? true : false,
+        support : this.type === 'support' ? true : false,
         against: this.type === 'against' ? true : false,
       };
       this._hubConnection.invoke('SendComment', this.commentToPost);
@@ -138,17 +138,17 @@ export class PostDelailsCommentsComponent implements OnInit, OnDestroy {
     });
   }
   likeComment(comment: IComment) {
-    if (comment.isLikedByUser) {
+    if (comment.hasLoggedInUserLiked) {
       this.commentService.unlikeComment(comment.id).subscribe(() => {
-        --comment.liked;
-        comment.isLikedByUser = false;
+        --comment.totalLikes;
+        comment.hasLoggedInUserLiked = false;
       }, err => {
         this.alertify.error(err);
       });
     } else {
       this.commentService.likeComment(comment.id).subscribe(() => {
-        ++comment.liked;
-        comment.isLikedByUser = true;
+        ++comment.totalLikes;
+        comment.hasLoggedInUserLiked = true;
       }, err => {
         this.alertify.error(err);
       });

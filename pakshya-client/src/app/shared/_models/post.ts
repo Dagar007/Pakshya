@@ -26,19 +26,17 @@ export interface IEngagers {
   // following: boolean
 }
 export interface IComment {
-  id: string;
-  postId: string;
-  body: string;
-  for: boolean;
-  against: boolean;
-  liked: number;
-  isLikedByUser: boolean;
-  date: Date;
-  username: string;
-  displayName: string;
-  image: string;
-  commentors: ICommentor[];
-}
+    id: string;
+    body: string;
+    support: boolean;
+    against: boolean;
+    totalLikes: number;
+    hasLoggedInUserLiked: boolean;
+    date: string;
+    authorEmail: string;
+    authorDisplayName: string;
+    authorImage: string;
+  }
 
 export interface ICommentor {
   username: string;

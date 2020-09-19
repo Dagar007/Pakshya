@@ -46,7 +46,8 @@ export class PostService {
     return this.http.get<IPostConcise>(this.baseUrl + 'posts/' + id);
   }
   updatePost(id: string, post: any) {
-    return this.http.post(this.baseUrl + 'posts/' + id, post);
+    console.log(post);
+    return this.http.put(this.baseUrl + 'posts/' + id, post);
   }
   createPost(post: any) {
     return this.http.post(this.baseUrl + 'posts/', post);

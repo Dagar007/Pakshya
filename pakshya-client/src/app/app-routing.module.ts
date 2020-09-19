@@ -12,7 +12,7 @@ import { AuthGuard } from './core/guards/auth.guard';
 import { CommentResolver } from './shared/_resolvers/comments.resolver';
 
 const routes: Routes = [
-  { path: 'posts', canActivate: [AuthGuard],
+  { path: 'posts',
     loadChildren: () => import('./post/post.module').then(mod => mod.PostModule)},
   { path: 'account', loadChildren: () => import('./auth/auth.module').then(mod => mod.AuthModule)},
   { path: 'profile', canActivate: [AuthGuard],

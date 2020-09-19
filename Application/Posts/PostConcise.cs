@@ -9,7 +9,7 @@ namespace Application.Posts
         public Guid Id { get; set; }
         public string Heading { get; set; }
         public string  Description  { get; set; }
-        public CategoryDto Category { get; set; }
+        public PostCategoryDto Category { get; set; }
         public DateTime Date { get; set; }
         public virtual ICollection<Photo> Photos { get; set; }
         public string HostUsername {get; set;}

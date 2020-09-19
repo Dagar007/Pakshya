@@ -34,12 +34,15 @@ namespace Application.Comments
                     throw new RestException(HttpStatusCode.NotFound, new {Comment = "Cann't find comment."});
                 var user = await _context.Users.SingleOrDefaultAsync( x=> x.Email == _userAccessor.GetEmail());
 
-                var like = await _context.UserCommentLikes.SingleOrDefaultAsync(x => x.CommentId == comment.Id && x.AppUserId == user.Id);
+                var userLikeOrComment = await _context.UserCommentLikes.SingleOrDefaultAsync(x => x.CommentId == comment.Id && x.AppUserId == user.Id);
 
-                if(like != null)
-                    throw new RestException(HttpStatusCode.BadRequest, new {Attendence = "Already Liked."});
-
-                var newLike  = new UserCommentLike {
+                if (userLikeOrComment?.IsLiked == true)
+                    throw new RestException(HttpStatusCode.BadRequest, new { Attendence = "Already Liked." });
+                else if (userLikeOrComment?.IsLiked == false)
+                    userLikeOrComment.IsLiked = true;
+                else
+                {
+                    var newLike  = new UserCommentLike {
                     Comment = comment,
                     AppUser = user,
                     IsAuthor = false,
@@ -48,6 +51,8 @@ namespace Application.Comments
                 };
 
                 _context.UserCommentLikes.Add(newLike);
+                }
+               
 
                 var success = await _context.SaveChangesAsync() > 0;
                 if (success) return Unit.Value;

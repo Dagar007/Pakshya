@@ -30,8 +30,8 @@ namespace Application.Posts
         {
             public CommandValidator()
             {
-                RuleFor(x => x.Heading).Empty();
-                RuleFor(x => x.Description).Empty();
+                RuleFor(x => x.Heading).NotEmpty();
+                RuleFor(x => x.Description).NotEmpty();
             }
         }
 

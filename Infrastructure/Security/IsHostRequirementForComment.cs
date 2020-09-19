@@ -24,15 +24,15 @@ namespace Infrastructure.Security
 
         protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, IsHostRequirementForComment requirement)
         {
-            var currentUserName = _httpContextAccessor.HttpContext
-            .User?.Claims?.SingleOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+            var currentEmail = _httpContextAccessor.HttpContext
+            .User?.Claims?.SingleOrDefault(x => x.Type == ClaimTypes.Email)?.Value;
 
             var commentId = Guid.Parse(_httpContextAccessor.HttpContext.Request.RouteValues
                 .SingleOrDefault(x => x.Key == "id").Value.ToString());
 
             var comment = _context.Comments.FindAsync(commentId).Result;
-            var host = comment.Author.UserName;
-            if (host == currentUserName)
+            var host = comment?.Author.Email;
+            if (host == currentEmail)
                 context.Succeed(requirement);
             return Task.CompletedTask;
         }

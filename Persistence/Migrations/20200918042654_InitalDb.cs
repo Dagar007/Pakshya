@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Persistence.Migrations
 {
-    public partial class InitialDb : Migration
+    public partial class InitalDb : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -279,7 +279,7 @@ namespace Persistence.Migrations
                     Id = table.Column<Guid>(nullable: false),
                     Body = table.Column<string>(nullable: true),
                     AuthorId = table.Column<string>(nullable: true),
-                    For = table.Column<bool>(nullable: false),
+                    Support = table.Column<bool>(nullable: false),
                     Against = table.Column<bool>(nullable: false),
                     PostId = table.Column<Guid>(nullable: false),
                     Date = table.Column<DateTime>(nullable: false),
@@ -336,7 +336,8 @@ namespace Persistence.Migrations
                     AppUserId = table.Column<string>(nullable: false),
                     PostId = table.Column<Guid>(nullable: false),
                     DateLiked = table.Column<DateTime>(nullable: false),
-                    IsAuthor = table.Column<bool>(nullable: false)
+                    IsAuthor = table.Column<bool>(nullable: false),
+                    IsLiked = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -362,7 +363,8 @@ namespace Persistence.Migrations
                     AppUserId = table.Column<string>(nullable: false),
                     CommentId = table.Column<Guid>(nullable: false),
                     DateLiked = table.Column<DateTime>(nullable: false),
-                    IsAuthor = table.Column<bool>(nullable: false)
+                    IsAuthor = table.Column<bool>(nullable: false),
+                    IsLiked = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -384,62 +386,62 @@ namespace Persistence.Migrations
             migrationBuilder.InsertData(
                 table: "Categories",
                 columns: new[] { "Id", "IsActive", "Value" },
-                values: new object[] { new Guid("956d1ef1-4281-47f4-a80b-34e94c78ef02"), false, "Politics" });
+                values: new object[] { new Guid("b33acbfc-142f-4d26-8e96-d3457f802368"), true, "Politics" });
 
             migrationBuilder.InsertData(
                 table: "Categories",
                 columns: new[] { "Id", "IsActive", "Value" },
-                values: new object[] { new Guid("d488cedf-213b-49e8-818b-64eaa3d3bc9e"), false, "Economics" });
+                values: new object[] { new Guid("1f83f4e3-5c6b-4827-bd1f-2135c76f223c"), true, "Economics" });
 
             migrationBuilder.InsertData(
                 table: "Categories",
                 columns: new[] { "Id", "IsActive", "Value" },
-                values: new object[] { new Guid("851dd67d-a418-422b-ac52-d72904c5dd01"), false, "India" });
+                values: new object[] { new Guid("416a1823-4d9d-4d43-8f0c-c4dbbf5e249f"), true, "India" });
 
             migrationBuilder.InsertData(
                 table: "Categories",
                 columns: new[] { "Id", "IsActive", "Value" },
-                values: new object[] { new Guid("c3a244f6-589b-4f8e-a21f-94c564b8a11a"), false, "World" });
+                values: new object[] { new Guid("6c5a372d-9041-471c-bff7-b5d3c9c643a0"), true, "World" });
 
             migrationBuilder.InsertData(
                 table: "Categories",
                 columns: new[] { "Id", "IsActive", "Value" },
-                values: new object[] { new Guid("ef754ff5-b7fb-4c60-b654-63cbe60aa4ed"), false, "Sports" });
+                values: new object[] { new Guid("971af4b6-a953-499d-8814-5db829e21eea"), true, "Sports" });
 
             migrationBuilder.InsertData(
                 table: "Categories",
                 columns: new[] { "Id", "IsActive", "Value" },
-                values: new object[] { new Guid("9ad9515a-4a47-4df2-9ade-4902315e3014"), false, "Random" });
+                values: new object[] { new Guid("358ba3af-7875-4a7e-bb99-9e1641118f69"), true, "Random" });
 
             migrationBuilder.InsertData(
                 table: "Categories",
                 columns: new[] { "Id", "IsActive", "Value" },
-                values: new object[] { new Guid("6beff27e-32b7-4b31-bf91-c74181dc3910"), false, "Entertainment" });
+                values: new object[] { new Guid("50956cdb-e98b-45b2-b52b-596e287a5014"), true, "Entertainment" });
 
             migrationBuilder.InsertData(
                 table: "Categories",
                 columns: new[] { "Id", "IsActive", "Value" },
-                values: new object[] { new Guid("287243c9-583b-4638-9e5a-87afeda23530"), false, "Good Life" });
+                values: new object[] { new Guid("17fe28b9-9b48-471b-bc98-102bb20957ab"), true, "Good Life" });
 
             migrationBuilder.InsertData(
                 table: "Categories",
                 columns: new[] { "Id", "IsActive", "Value" },
-                values: new object[] { new Guid("e7614950-eb39-4764-b276-95f0eb4d6411"), false, "Fashion And Style" });
+                values: new object[] { new Guid("f68c34c8-7a2c-461a-8d2f-b0c730e3cdc8"), true, "Fashion And Style" });
 
             migrationBuilder.InsertData(
                 table: "Categories",
                 columns: new[] { "Id", "IsActive", "Value" },
-                values: new object[] { new Guid("7c0efb9c-bcd8-438e-8eb6-f65c3f86854d"), false, "Writing" });
+                values: new object[] { new Guid("0e7f41d0-0cfa-4502-97d5-6a66fee702e5"), true, "Writing" });
 
             migrationBuilder.InsertData(
                 table: "Categories",
                 columns: new[] { "Id", "IsActive", "Value" },
-                values: new object[] { new Guid("6dca59d8-1348-4c0c-8b80-adf0ccc742cd"), false, "Computers" });
+                values: new object[] { new Guid("56c85f1f-5031-4622-916f-e4764bf0ff94"), true, "Computers" });
 
             migrationBuilder.InsertData(
                 table: "Categories",
                 columns: new[] { "Id", "IsActive", "Value" },
-                values: new object[] { new Guid("12563110-0d8c-417c-b539-7ae4854f3b83"), false, "Philosophy" });
+                values: new object[] { new Guid("fcae3314-07d6-435c-b2cd-05e85a5f50d5"), true, "Philosophy" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Addresses_AppUserId",

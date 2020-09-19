@@ -10,11 +10,11 @@ namespace Application.Comments
         {
              //CreateMap<Comment,CommentDto>();
             CreateMap<Comment, CommentDto>()
-                .ForMember(d => d.Username, o => o.MapFrom(s => s.Author.UserName))
-                .ForMember(d => d.DisplayName, o => o.MapFrom(s => s.Author.DisplayName))
-                .ForMember(d => d.Image, o => o.MapFrom(s => s.Author.Photos.FirstOrDefault(x => x.IsMain).Url))
-                .ForMember(d => d.Liked, o=> o.MapFrom(s => s.UserCommentLikes.Count))
-                .ForMember(d => d.IsLikedByUser, o =>o.MapFrom<CommentLikeResolver>());
+                .ForMember(d => d.AuthorEmail, o => o.MapFrom(s => s.Author.UserName))
+                .ForMember(d => d.AuthorDisplayName, o => o.MapFrom(s => s.Author.DisplayName))
+                .ForMember(d => d.AuthorImage, o => o.MapFrom(s => s.Author.Photos.FirstOrDefault(x => x.IsMain).Url))
+                .ForMember(d => d.TotalLikes, o=> o.MapFrom(s => s.UserCommentLikes.Count(x => x.IsLiked)))
+                .ForMember(d => d.HasLoggedInUserLiked, o =>o.MapFrom<CommentLikeResolver>());
                 
             CreateMap<UserCommentLike,LikeDto>()
                 .ForMember(d => d.Username, o=> o.MapFrom(s => s.AppUser.UserName))

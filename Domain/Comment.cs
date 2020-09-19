@@ -8,7 +8,7 @@ namespace Domain
         public Guid Id { get; set; }
         public string Body { get; set; }
         public virtual AppUser Author { get; set; }
-        public bool For { get; set; }
+        public  bool Support { get; set; }
         public bool Against { get; set; }
         public virtual Post Post { get; set; }
         public Guid PostId {get; set;}

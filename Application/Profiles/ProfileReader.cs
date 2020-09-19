@@ -23,9 +23,9 @@ namespace Application.Profiles
             _context = context;
         }
 
-        public async Task<Profile> ReadProfile(string email)
+        public async Task<Profile> ReadProfile(string id)
         {
-            var user = await _context.Users.SingleOrDefaultAsync(u => u.Email == email);
+            var user = await _context.Users.SingleOrDefaultAsync(u => u.Id == id);
             if (user == null)
                 throw new RestException(HttpStatusCode.NotFound, new { User = "User not found." });
             var userPosts = await _context.UserPostLikes.Where(u => u.AppUser.Email == user.Email && u.IsAuthor == true).Take(5).ToListAsync();
@@ -49,15 +49,15 @@ namespace Application.Profiles
                 Views = userPosts.Sum(u => u.Post.Views),
                 Posts = _mapper.Map<List<UserPostLike>, List<PostPostedByUserDto>>(userPosts),
                 Comments = _mapper.Map<List<UserCommentLike>, List<CommentPostedByUserDto>>(userComments),
-                Followers = await GetFollowingList(user.UserName, "followers"),
-                Followings = await GetFollowingList(user.UserName, "following")
+                Followers = await GetFollowingList(user.Id, "followers"),
+                Followings = await GetFollowingList(user.Id, "following")
             };
             if (currentUser.Followings.Any(x => x.TargetId == user.Id))
                 profile.IsFollowed = true;
             return profile;
 
         }
-        private async Task<List<FollowingUsersDTO>> GetFollowingList(string username, string predicate)
+        private async Task<List<FollowingUsersDTO>> GetFollowingList(string id, string predicate)
         {
             var queryable = _context.Followings.AsQueryable();
 
@@ -69,7 +69,7 @@ namespace Application.Profiles
                 case "followers":
                     {
                         userFollowing = await queryable
-                            .Where(x => x.Target.UserName == username).ToListAsync();
+                            .Where(x => x.Target.Id == id).ToListAsync();
                         // List of users current user is following. User who ate in target of username
 
                         foreach (var follower in userFollowing)
@@ -88,7 +88,7 @@ namespace Application.Profiles
                 case "following":
                     {
                         userFollowing = await queryable
-                            .Where(x => x.Observer.UserName == username).ToListAsync();
+                            .Where(x => x.Observer.Id == id).ToListAsync();
 
                         foreach (var follower in userFollowing)
                         {

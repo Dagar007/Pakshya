@@ -9,8 +9,8 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200914044817_AddedLikeColum")]
-    partial class AddedLikeColum
+    [Migration("20200918042654_InitalDb")]
+    partial class InitalDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -163,74 +163,74 @@ namespace Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("2374f24f-cfa3-4331-ba58-6d2a0a083a63"),
-                            IsActive = false,
+                            Id = new Guid("b33acbfc-142f-4d26-8e96-d3457f802368"),
+                            IsActive = true,
                             Value = "Politics"
                         },
                         new
                         {
-                            Id = new Guid("c62e7abc-76e2-491f-8863-002731d3e3f0"),
-                            IsActive = false,
+                            Id = new Guid("1f83f4e3-5c6b-4827-bd1f-2135c76f223c"),
+                            IsActive = true,
                             Value = "Economics"
                         },
                         new
                         {
-                            Id = new Guid("1149ae42-6988-4219-88e2-4f13a2695c34"),
-                            IsActive = false,
+                            Id = new Guid("416a1823-4d9d-4d43-8f0c-c4dbbf5e249f"),
+                            IsActive = true,
                             Value = "India"
                         },
                         new
                         {
-                            Id = new Guid("983ea53e-9d91-44f9-b1a2-695852134982"),
-                            IsActive = false,
+                            Id = new Guid("6c5a372d-9041-471c-bff7-b5d3c9c643a0"),
+                            IsActive = true,
                             Value = "World"
                         },
                         new
                         {
-                            Id = new Guid("3d19102a-ca17-4fbe-8898-35af03d3a543"),
-                            IsActive = false,
+                            Id = new Guid("971af4b6-a953-499d-8814-5db829e21eea"),
+                            IsActive = true,
                             Value = "Sports"
                         },
                         new
                         {
-                            Id = new Guid("c6e2cc57-3480-476d-9049-931048b62d53"),
-                            IsActive = false,
+                            Id = new Guid("358ba3af-7875-4a7e-bb99-9e1641118f69"),
+                            IsActive = true,
                             Value = "Random"
                         },
                         new
                         {
-                            Id = new Guid("c2c7074b-120b-43de-96ad-c3566d8792b9"),
-                            IsActive = false,
+                            Id = new Guid("50956cdb-e98b-45b2-b52b-596e287a5014"),
+                            IsActive = true,
                             Value = "Entertainment"
                         },
                         new
                         {
-                            Id = new Guid("7e139316-0173-46ca-9a71-2c862dabdad8"),
-                            IsActive = false,
+                            Id = new Guid("17fe28b9-9b48-471b-bc98-102bb20957ab"),
+                            IsActive = true,
                             Value = "Good Life"
                         },
                         new
                         {
-                            Id = new Guid("4d4c1a00-2437-43b8-8c3f-a095b6cf98e1"),
-                            IsActive = false,
+                            Id = new Guid("f68c34c8-7a2c-461a-8d2f-b0c730e3cdc8"),
+                            IsActive = true,
                             Value = "Fashion And Style"
                         },
                         new
                         {
-                            Id = new Guid("e047042f-b266-4051-bf63-62e3e89738f4"),
-                            IsActive = false,
+                            Id = new Guid("0e7f41d0-0cfa-4502-97d5-6a66fee702e5"),
+                            IsActive = true,
                             Value = "Writing"
                         },
                         new
                         {
-                            Id = new Guid("456d694e-3990-4f11-8acb-82f0658c5066"),
-                            IsActive = false,
+                            Id = new Guid("56c85f1f-5031-4622-916f-e4764bf0ff94"),
+                            IsActive = true,
                             Value = "Computers"
                         },
                         new
                         {
-                            Id = new Guid("eb3e0cfc-8485-48c9-bcd8-d4e7e6228feb"),
-                            IsActive = false,
+                            Id = new Guid("fcae3314-07d6-435c-b2cd-05e85a5f50d5"),
+                            IsActive = true,
                             Value = "Philosophy"
                         });
                 });
@@ -253,14 +253,14 @@ namespace Persistence.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("TEXT");
 
-                    b.Property<bool>("For")
-                        .HasColumnType("INTEGER");
-
                     b.Property<bool>("IsActive")
                         .HasColumnType("INTEGER");
 
                     b.Property<Guid>("PostId")
                         .HasColumnType("TEXT");
+
+                    b.Property<bool>("Support")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 

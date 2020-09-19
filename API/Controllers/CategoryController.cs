@@ -12,7 +12,7 @@ namespace API.Controllers
     public class CategoryController : BaseController
     {
         [HttpGet("category")]
-        public async Task<List<Category>> List ()
+        public async Task<List<CategoryDto>> List ()
         {
            return await Mediator.Send(new List.Query());
         }

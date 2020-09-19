@@ -1,6 +1,6 @@
 using System;
 
-namespace Application.Posts
+namespace Application.Categories
 {
     public class CategoryDto
     {

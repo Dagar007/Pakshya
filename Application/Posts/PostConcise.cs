@@ -12,7 +12,7 @@ namespace Application.Posts
         public PostCategoryDto Category { get; set; }
         public DateTime Date { get; set; }
         public virtual ICollection<Photo> Photos { get; set; }
-        public string HostUsername {get; set;}
+        public string HostId {get; set;}
         public string HostDisplayName {get; set;}
         public string HostImage {get; set;}
         public bool IsAuthor { get; set; }

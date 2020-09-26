@@ -19,7 +19,7 @@ namespace Application.Posts
             CreateMap<Post, PostConcise>().
                 ForMember(d => d.NoOfComments, o => o.MapFrom(s => s.Comments.Count()))
                 .ForMember(d => d.NoOfLikes, o => o.MapFrom(s => s.UserPostLikes.Count(x => x.IsLiked == true)))
-                .ForMember(d => d.HostUsername, o => o.MapFrom(s => s.UserPostLikes.SingleOrDefault(s => s.IsAuthor == true).AppUser.UserName))
+                .ForMember(d => d.HostId, o => o.MapFrom(s => s.UserPostLikes.SingleOrDefault(s => s.IsAuthor == true).AppUser.Id))
                 .ForMember(d => d.HostDisplayName, o => o.MapFrom(s => s.UserPostLikes.SingleOrDefault(s => s.IsAuthor == true).AppUser.DisplayName))
                 .ForMember(d => d.HostImage, o => o.MapFrom(s => s.UserPostLikes.SingleOrDefault(s => s.IsAuthor == true).AppUser.Photos.SingleOrDefault(p=> p.IsMain).Url))
                .ForMember(d => d.IsAuthor, o => o.MapFrom<PostConsiceAuthorResolver>())

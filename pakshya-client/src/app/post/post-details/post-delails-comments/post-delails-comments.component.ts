@@ -12,6 +12,8 @@ import { environment } from 'src/environments/environment';
 import { ActivatedRoute } from '@angular/router';
 import { IComment } from 'src/app/shared/_models/post';
 import { Pagination, PaginatedResult } from 'src/app/shared/_models/pagination';
+import { Observable } from 'rxjs';
+import { IUser } from 'src/app/shared/_models/user';
 
 
 @Component({
@@ -26,7 +28,7 @@ export class PostDelailsCommentsComponent implements OnInit, OnDestroy {
   formatedDate: string;
   comment: string;
   commentToPost: any;
-  currentUserName: string;
+  currentUser$: Observable<IUser>;
   private _hubConnection: HubConnection;
   baseUrl = environment.chatUrl;
 
@@ -44,9 +46,11 @@ export class PostDelailsCommentsComponent implements OnInit, OnDestroy {
   type = 'support';
 
   ngOnInit() {
-    if (this.authService.currentUser1) {
-    this.currentUserName = this.authService.currentUser1.username;
-    }
+    // if (this.authService.currentUser$) {
+
+    // this.currentUserName = this.authService.currentUser$.username;
+    // }
+    this.currentUser$ = this.authService.currentUser$;
 
     this.route.params.subscribe(params => {
       if (params['id']) {

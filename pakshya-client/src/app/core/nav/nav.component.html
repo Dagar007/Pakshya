@@ -9,7 +9,7 @@
       <button mat-button routerLink="/posts">
         Posts
       </button>
-      <button mat-button [routerLink]="['/posts/create']" *ngIf="loggedIn()">
+      <button mat-button [routerLink]="['/posts/create']" *ngIf="(currentUser$ | async) as currentUser">
         <i class="material-icons" style="margin-right: 5px;">
           create
         </i>
@@ -17,23 +17,34 @@
       </button>
     </div>
     <div class="nav-right">
-      <button mat-button [matMenuTriggerFor]="menu" *ngIf="loggedIn()"> 
-        <!-- <img [src]="authService.currentUser1?.image? authService.currentUser1?.image : '../assets/user.png'" onerror="this.src ='../assets/user.png'" [alt]="authService.currentUser1?.username" class="avatar"> -->
-        <img src={{photoUrl}} onerror="this.src ='../assets/user.png'" [alt]="authService.currentUser1?.username" class="avatar">
-        {{ authService.currentUser1?.displayName | titlecase}}
-       
-        <mat-icon aria-hidden="true" role="img" class="mat-icon notranslate material-icons mat-icon-no-color">arrow_drop_down</mat-icon>
+      <button mat-icon-button >
+        <mat-icon>notifications</mat-icon>
       </button>
-      <mat-menu #menu="matMenu" >
-        <button mat-menu-item [routerLink]="['/profile', authService.currentUser1?.username]">
-          <div class="select-wrapper">
-            <i class="material-icons">
-              brush
-              </i>
-              <span>Profile</span>
-          </div>
-          
-          </button>
+      <button mat-icon-button >
+        <mat-icon>chat</mat-icon>
+      </button>
+
+      <button mat-button [matMenuTriggerFor]="menu" *ngIf="(currentUser$ | async) as currentUser"> 
+        <!-- <img [src]="authService.currentUser1?.image? authService.currentUser1?.image : '../assets/user.png'" onerror="this.src ='../assets/user.png'" [alt]="authService.currentUser1?.username" class="avatar"> -->
+        <img src={{currentUser.image}} 
+          onerror="this.src ='../assets/user.png'" 
+          [alt]="currentUser.displayName" class="avatar">
+        {{ currentUser.displayName | titlecase}}
+       
+      <mat-icon aria-hidden="true" role="img" class="mat-icon notranslate material-icons mat-icon-no-color">arrow_drop_down</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <ng-container *ngIf="(currentUser$ | async) as currentUser">
+          <button mat-menu-item [routerLink]="['/profile', currentUser.id]">
+            <div class="select-wrapper">
+              <i class="material-icons">
+                brush
+                </i>
+                <span>Profile</span>
+            </div> 
+            </button>
+        </ng-container>
+        
         <button mat-menu-item (click) = "logout()">
           <div class="select-wrapper">
             <i class="material-icons">
@@ -45,10 +56,10 @@
           </button>
       </mat-menu>
       
-      <button mat-button routerLink="/account/login" *ngIf="!loggedIn()">
+      <button mat-button routerLink="/account/login" *ngIf="(currentUser$ | async) === null">
         Login
       </button>
-      <button mat-button routerLink="/account/signup" *ngIf="!loggedIn()">
+      <button mat-button routerLink="/account/signup" *ngIf="(currentUser$ | async) === null">
         Signup
       </button>
 

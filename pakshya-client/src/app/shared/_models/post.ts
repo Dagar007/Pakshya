@@ -51,7 +51,7 @@ export interface IPostConcise {
   description: string;
   category: ICategory;
   date: Date;
-  hostUsername: string;
+  hostId: string;
   hostDisplayName: string;
   hostImage: string;
   isAuthor: boolean;

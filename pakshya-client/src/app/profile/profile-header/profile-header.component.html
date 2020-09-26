@@ -2,7 +2,7 @@
   <div class="profile__header">
     <div class="profile--left">
       <img
-        src="{{photoUrl || '../../assets/user.png'}}"
+        src="{{currentUser.image || '../../assets/user.png'}}"
         alt="{{ profile?.displayName }}"
         class="profile__header__img"
       />
@@ -19,7 +19,7 @@
           'button-primary': !profile?.following,
           'button-secondary': profile?.following
         }"
-        (click) ="onFollow(profile.following, profile.username)">
+        (click) ="onFollow(profile.following, profile.email)">
           {{profile?.following? 'Unfollow': 'Follow'}}
         </button>
       </div>

@@ -1,5 +1,5 @@
 export interface IUser {
-    username: string;
+    id: string;
     displayName: string;
     token: string;
     image?: string;

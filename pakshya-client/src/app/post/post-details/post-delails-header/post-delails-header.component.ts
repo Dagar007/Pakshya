@@ -3,6 +3,8 @@ import { PostService } from 'src/app/post/post.service';
 import { AlertifyService } from 'src/app/core/services/alertify.service';
 import { AuthService } from 'src/app/auth/auth.service';
 import { IPostConcise, IEngagers } from 'src/app/shared/_models/post';
+import { Observable } from 'rxjs';
+import { IUser } from 'src/app/shared/_models/user';
 
 @Component({
   selector: 'app-post-delails-header',
@@ -15,7 +17,8 @@ export class PostDelailsHeaderComponent implements OnInit {
   host: IEngagers;
   color: string;
   isAuthor1: boolean;
-  currentUserName: string;
+  // currentUserName: string;
+  currentUser$: Observable<IUser>;
 
   like = false;
   constructor(private postService: PostService,
@@ -23,6 +26,7 @@ export class PostDelailsHeaderComponent implements OnInit {
     private authService: AuthService) { }
 
   ngOnInit() {
+    this.currentUser$ = this.authService.currentUser$;
     this.isPostLiked();
   }
 
@@ -53,9 +57,9 @@ export class PostDelailsHeaderComponent implements OnInit {
   }
 
   isPostLiked() {
-    if (this.authService.currentUser1) {
-      this.currentUserName = this.authService.currentUser1.username;
-    }
+    // if (this.authService.currentUser1) {
+    //   this.currentUserName = this.authService.currentUser1.username;
+    // }
     if (this.post.isPostLiked) {
       this.color = 'primary';
       this.like = true;

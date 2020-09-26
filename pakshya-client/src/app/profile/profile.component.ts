@@ -4,6 +4,8 @@ import { ActivatedRoute,  Params } from '@angular/router';
 import { AlertifyService } from '../core/services/alertify.service';
 import { AuthService } from '../auth/auth.service';
 import { IProfile } from '../shared/_models/profile';
+import { Observable } from 'rxjs';
+import { IUser } from '../shared/_models/user';
 
 @Component({
   selector: 'app-profile',
@@ -22,21 +24,24 @@ export class ProfileComponent implements OnInit {
   userFromParams: string;
   edit = false;
   profile: IProfile;
+  currentUser$: Observable<IUser>;
+  id = '';
 
   ngOnInit() {
-    console.log('here');
+
     this.route.params.subscribe((params: Params) => {
-      if (this.authService.currentUser1.username === params['username']) {
-        this.edit = true;
-      }
-      this.profileService.get(params['username']).subscribe((profile: IProfile) => {
-        this.profile = profile;
-      },
-      err => {
-        this.alertify.error(err);
+      this.authService.currentUser$.subscribe((user: IUser) => {
+        if (user.id === params['id']) {
+          this.edit = true;
+        }
+        this.profileService.get(params['id']).subscribe((profile: IProfile) => {
+          this.profile = profile;
+          console.log(profile);
+        },
+        err => {
+          this.alertify.error(err);
+        });
       });
     });
   }
-
-
 }

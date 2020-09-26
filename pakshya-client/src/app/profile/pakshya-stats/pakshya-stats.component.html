@@ -25,26 +25,33 @@
           </div>
         </mat-list>
       </mat-tab>
-      <mat-tab label="Following">
-       <div class="following-tab">
-         <div class="follow-box" *ngFor="let follow of profile.followings">
-          <img [src]="follow?.url ? follow?.url : '../assets/user.png'" alt="" class="follow-box-image">
-           <div class="follow-box-info">
-              {{follow.displayName}}
-           </div>
-         </div>
-       </div>
-      </mat-tab>
-      <mat-tab label="Followers">
-        <div class="following-tab">
-          <div class="follow-box" *ngFor="let follow of profile.followers">
-           <img [src]="follow?.url ? follow?.url : '../assets/user.png'" alt="" class="follow-box-image">
-            <div class="follow-box-info">
-               {{follow.displayName}}
+      <ng-container *ngIf="followings$ | async as followings">
+        <mat-tab label="Following">
+          <div class="following-tab">
+            <div class="follow-box" *ngFor="let follow of followings">
+             <img [src]="follow?.url ? follow?.url : '../assets/user.png'" alt="" class="follow-box-image">
+              <div class="follow-box-info">
+                 {{follow.displayName}}
+              </div>
             </div>
           </div>
-        </div>
-      </mat-tab>
+         </mat-tab>
+        </ng-container>
+        <ng-container  *ngIf="followers$ | async as followers">
+          <mat-tab label="Followers">
+            <div class="following-tab">
+              <div class="follow-box" *ngFor="let follow of followers">
+               <img [src]="follow?.url ? follow?.url : '../assets/user.png'" alt="" class="follow-box-image">
+                <div class="follow-box-info">
+                   {{follow.displayName}}
+                </div>
+              </div>
+            </div>
+          </mat-tab>
+        </ng-container>
+        
+     
+    
       <mat-tab label="Active Since">
         <p class="sub-heading-para">20 Aug, 2010</p>
       </mat-tab>

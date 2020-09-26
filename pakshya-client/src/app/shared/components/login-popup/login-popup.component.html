@@ -1,4 +1,7 @@
-<div class="login__conatiner card">
+<div class="login__dialog">
+  <button mat-dialog-close class="login__dialog--button" mat-mini-fab color="primary">
+    <mat-icon>close</mat-icon>
+  </button>
     <form class="form" #loginForm="ngForm" (ngSubmit)="onSubmit()">
       <h1 class="card__headline mb-medium">Please login to continue...</h1>
   
@@ -36,13 +39,13 @@
         </button>
   
         <div class="link">
-          <a [routerLink]="['/forget-password']">Forget Password?</a>
+          <a mat-dialog-close [routerLink]="['/account/forget-password']">Forget Password?</a>
         </div>
   
         <div class="link">
           Don't have an account?
-          <a [routerLink]="['/signup']">Signup</a> here.
+          <a mat-dialog-close [routerLink]="['/account/signup']">Signup</a> here.
         </div>
       </div>
     </form>
-    </div>
+</div>

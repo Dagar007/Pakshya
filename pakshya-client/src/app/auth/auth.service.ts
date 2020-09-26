@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { BehaviorSubject, of, ReplaySubject } from 'rxjs';
 import { map } from 'rxjs/operators';
-import {JwtHelperService} from '@auth0/angular-jwt';
+import { JwtHelperService } from '@auth0/angular-jwt';
 import { environment } from 'src/environments/environment';
 import { IUser, IUserLoginFormValues, IUserRegisterFormValues } from '../shared/_models/user';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,10 @@ import { IUser, IUserLoginFormValues, IUserRegisterFormValues } from '../shared/
 export class AuthService {
   baseUrl = environment.apiUrl;
   jwtHelper = new JwtHelperService();
-  currentUser1: IUser;
+
+  private currentUserSource = new ReplaySubject<IUser>(1);
+  currentUser$ = this.currentUserSource.asObservable();
+
   decodedToken: any;
   photoUrl = new BehaviorSubject<string>('../../assets/user.png');
   currentPhotoUrl = this.photoUrl.asObservable();
@@ -21,7 +25,26 @@ export class AuthService {
     this.photoUrl.next(photoUrl);
   }
 
-  constructor(private http: HttpClient) { }
+  changeCurrentUser(currentUser: IUser) {
+    this.currentUserSource.next(currentUser);
+  }
+
+  loadCurrentUser() {
+    if (localStorage.getItem('token') == null) {
+      this.currentUserSource.next(null);
+      return of(null);
+    }
+    return this.http.get(this.baseUrl + 'user').pipe(
+      map((user: IUser) => {
+        if (user) {
+          localStorage.setItem('token', user.token);
+          this.currentUserSource.next(user);
+        }
+      })
+    );
+  }
+
+  constructor(private http: HttpClient, private router: Router) { }
 
   login(loginFormValues: IUserLoginFormValues) {
     return this.http.post<IUser>(this.baseUrl + 'user/' + 'login', loginFormValues).pipe(
@@ -29,10 +52,7 @@ export class AuthService {
         const user = res;
         if (user) {
           localStorage.setItem('token', user.token);
-          localStorage.setItem('user', JSON.stringify(user));
-          this.decodedToken = this.jwtHelper.decodeToken(user.token);
-          this.currentUser1 = user;
-          this.changeMainPhoto(this.currentUser1.image);
+          this.currentUserSource.next(user);
         }
       })
     );
@@ -44,17 +64,6 @@ export class AuthService {
 
   register(register: IUserRegisterFormValues) {
     return this.http.post(this.baseUrl + 'user/' + 'register', register);
-    // .pipe(
-    //   map((response: IUser) => {
-    //     const user = response;
-    //     if (user) {
-    //       localStorage.setItem('token', user.token);
-    //       localStorage.setItem('user', JSON.stringify(user));
-    //       this.decodedToken = this.jwtHelper.decodeToken(user.token);
-    //       this.currentUser1 = user;
-    //     }
-    //   })
-    // );
   }
 
   fbLogin(accessToken: string) {
@@ -63,9 +72,7 @@ export class AuthService {
         const user = response;
         if (user) {
           localStorage.setItem('token', user.token);
-          localStorage.setItem('user', JSON.stringify(user));
-          this.decodedToken = this.jwtHelper.decodeToken(user.token);
-          this.currentUser1 = user;
+          this.currentUserSource.next(user);
         }
       })
     );
@@ -80,4 +87,9 @@ export class AuthService {
     return !this.jwtHelper.isTokenExpired(token);
   }
 
+  logout() {
+    localStorage.removeItem('token');
+    this.currentUserSource.next(null);
+    this.router.navigate(['/login']);
+  }
 }

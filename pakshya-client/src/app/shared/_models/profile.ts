@@ -2,7 +2,7 @@ import { ICategory } from './post';
 
 export interface IProfile {
     displayName: string;
-    username: string;
+    email: string;
     image: string;
     bio: string;
     education: string;

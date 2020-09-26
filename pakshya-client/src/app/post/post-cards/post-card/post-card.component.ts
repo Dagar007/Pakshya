@@ -21,7 +21,7 @@ export class PostCardComponent implements OnInit {
   isAuthor1: boolean;
   host: IEngagers;
   noOfLikes: number;
-  currentUserName: string;
+  // currentUserName: string;
 
   like = false;
 

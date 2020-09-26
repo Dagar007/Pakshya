@@ -1,7 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { Observable } from 'rxjs';
 
 import { ProfileService } from 'src/app/profile/profile.service';
-import { IProfile } from 'src/app/shared/_models/profile';
+import { IFollow, IProfile } from 'src/app/shared/_models/profile';
 
 @Component({
   selector: 'app-pakshya-stats',
@@ -11,9 +12,13 @@ import { IProfile } from 'src/app/shared/_models/profile';
 export class PakshyaStatsComponent implements OnInit {
 
   @Input() profile: IProfile;
-  constructor() { }
 
+  constructor(private profileService: ProfileService) { }
+  followings$: Observable<IFollow[]>;
+  followers$: Observable<IFollow[]>;
   ngOnInit() {
+    this.followings$ = this.profileService.followings$;
+    this.followers$ = this.profileService.followers$;
   }
 
 }

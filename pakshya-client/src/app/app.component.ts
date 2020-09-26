@@ -10,11 +10,15 @@ import { IUser } from './shared/_models/user';
 })
 export class AppComponent implements OnInit {
   ngOnInit() {
-    const user: IUser = JSON.parse(localStorage.getItem('user'));
-    if (user) {
-      this.authService.currentUser1 = user;
-      this.authService.changeMainPhoto(user.image);
-    }
+    this.loadCurrentUser();
   }
   constructor( private authService: AuthService) {}
+
+  loadCurrentUser() {
+    this.authService.loadCurrentUser().subscribe(() => {
+        console.log('loaded user');
+      }, err => {
+        console.log(err);
+      });
+  }
 }

@@ -71,21 +71,24 @@
     >
       <div class="comment-header">
         <h3 class="comments__user--datetime">{{ comment.date | timeAgo }}</h3>
-        <div *ngIf="currentUserName == comment.authorDisplayName">
-          <button
-            mat-icon-button
-            [matMenuTriggerFor]="menu"
-            aria-label="Example icon-button with a menu"
-          >
-            <mat-icon>more_vert</mat-icon>
-          </button>
-          <mat-menu #menu="matMenu">
-            <button mat-menu-item (click)="commentDelete(comment)">
-              <mat-icon>delete</mat-icon>
-              <span>Delete</span>
+        <ng-container *ngIf="(currentUser$ | async) as currentUser">
+          <div *ngIf="currentUser.id == comment.id">
+            <button
+              mat-icon-button
+              [matMenuTriggerFor]="menu"
+              aria-label="Example icon-button with a menu"
+            >
+              <mat-icon>more_vert</mat-icon>
             </button>
-          </mat-menu>
-        </div>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item (click)="commentDelete(comment)">
+                <mat-icon>delete</mat-icon>
+                <span>Delete</span>
+              </button>
+            </mat-menu>
+          </div>
+        </ng-container>
+        
       </div>
 
       {{ comment.body }}

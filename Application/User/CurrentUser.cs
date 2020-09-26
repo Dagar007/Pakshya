@@ -37,7 +37,7 @@ namespace Application.User
                var user = await _userManager.FindByEmailAsync(_userAccessor.GetEmail());
                return new User {
                    DisplayName = user.DisplayName,
-                   Username = user.UserName,
+                   Id = user.Id,
                    RefreshToken = _jwtGenertor.GenerateRefreshToken(),
                    Token = _jwtGenertor.CreateToken(user),
                    Image = user.Photos.FirstOrDefault(x => x.IsMain)?.Url

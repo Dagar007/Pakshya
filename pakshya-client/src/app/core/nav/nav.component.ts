@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
+import { IUser } from 'src/app/shared/_models/user';
 
 @Component({
   selector: 'app-nav',
@@ -8,23 +10,14 @@ import { AuthService } from 'src/app/auth/auth.service';
   styleUrls: ['./nav.component.scss']
 })
 export class NavComponent implements OnInit {
-  photoUrl: string;
+  currentUser$: Observable<IUser>;
   constructor(private router: Router, public authService: AuthService) {}
   ngOnInit() {
-    this.authService.currentPhotoUrl.subscribe(
-      photoUrl => (this.photoUrl = photoUrl)
-    );
+    this.currentUser$ = this.authService.currentUser$;
   }
 
-  loggedIn() {
-    return this.authService.loggedIn();
-  }
 
   logout() {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
-    this.authService.decodedToken = null;
-    this.authService.currentUser1 = null;
-    this.router.navigate(['/login']);
+   this.authService.logout();
   }
 }

@@ -4,6 +4,8 @@ import { AlertifyService } from 'src/app/core/services/alertify.service';
 import { AuthService } from 'src/app/auth/auth.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { IProfile, IPhoto } from 'src/app/shared/_models/profile';
+import { Observable } from 'rxjs';
+import { IUser } from 'src/app/shared/_models/user';
 
 @Component({
   selector: 'app-photo',
@@ -15,6 +17,8 @@ export class PhotoComponent implements OnInit {
   @Input() edit: boolean;
   uploadForm: FormGroup;
   currentMainPhoto: IPhoto;
+  currentUser$: Observable<IUser>;
+  currentUser: IUser;
 
   constructor(
     private profileService: ProfileService,
@@ -27,6 +31,9 @@ export class PhotoComponent implements OnInit {
     this.uploadForm = this.formBuilder.group({
       profile: ['']
     });
+    this.authService.currentUser$.subscribe((user: IUser) => {
+      this.currentUser = user;
+    });
   }
 
   setMainPhoto(photo: IPhoto) {
@@ -37,13 +44,8 @@ export class PhotoComponent implements OnInit {
         )[0];
         this.currentMainPhoto.isMain = false;
         photo.isMain = true;
-        this.authService.changeMainPhoto(photo.url);
-        this.authService.currentUser1.image = photo.url;
-        localStorage.setItem(
-          'user',
-          JSON.stringify(this.authService.currentUser1)
-        );
-
+        this.currentUser.image = photo.url;
+        this.authService.changeCurrentUser(this.currentUser);
         this.alertify.success('Photo set as main photo');
       },
       err => {
@@ -81,11 +83,13 @@ export class PhotoComponent implements OnInit {
       if (this.profile.photos.length === 0) {
         res.isMain = true;
         this.authService.changeMainPhoto(res.url);
-        this.authService.currentUser1.image = res.url;
-        localStorage.setItem(
-          'user',
-          JSON.stringify(this.authService.currentUser1)
-        );
+        // this.authService.currentUser1.image = res.url;
+        // this.currentUser.image = res.url;
+        // localStorage.setItem(
+        //   'user',
+        //   // JSON.stringify(this.authService.currentUser1)
+        //   JSON.stringify(this.currentUser)
+        // );
       }
       this.profile.photos.push(res);
       this.alertify.success('Photo Uploaded Successfully.');

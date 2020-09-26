@@ -2,14 +2,28 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { environment } from 'src/environments/environment';
-import { IProfile, IPhoto } from '../shared/_models/profile';
+import { IProfile, IPhoto, IFollow } from '../shared/_models/profile';
+import { ReplaySubject } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProfileService {
   private baseUrl = environment.apiUrl;
+  private followingSource = new ReplaySubject<IFollow[]>(1);
+  followings$ = this.followingSource.asObservable();
+  private followersSource = new ReplaySubject<IFollow[]>(1);
+  followers$ = this.followersSource.asObservable();
+
   constructor(private httpService: HttpClient) { }
+
+  setFollowers(followers: IFollow[]) {
+    this.followersSource.next(followers);
+  }
+  setFollowings(followings: IFollow[]) {
+    this.followingSource.next(followings);
+  }
 
   get(username: string) {
     return this.httpService.get<IProfile>(this.baseUrl + 'profile/' + username);

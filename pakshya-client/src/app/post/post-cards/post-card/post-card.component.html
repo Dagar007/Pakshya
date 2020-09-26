@@ -2,13 +2,13 @@
   <div class="card__header">
     <img
       [src]="post.hostImage? post.hostImage : '../assets/user.png'"
-      alt={{post.hostUsername}}
+      alt={{post.hostId}}
       class="avatar"
     />
     <div class="user-info-box">
       <a
         class="user-info-box--link"
-        [routerLink]="['/profile', post.hostUsername]"
+        [routerLink]="['/profile', post.hostId]"
         >{{ post.hostDisplayName}}</a
       >
       <span>{{ post.date | timeAgo }}</span>

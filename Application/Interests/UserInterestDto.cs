@@ -1,6 +1,6 @@
-namespace Application.Profiles
+namespace Application.Interests
 {
-    public class InterestDTO
+   public class UserInterestDto
     {
         public string Id { get; set; }
         public string Value { get; set; }

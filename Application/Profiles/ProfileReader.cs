@@ -40,7 +40,6 @@ namespace Application.Profiles
                 Image = user.Photos?.FirstOrDefault(x => x.IsMain)?.Url,
                 Photos = user.Photos,
                 Bio = user.Bio,
-                Address = user.Address,
                 Education = user.Education,
                 Work = user.Work,
                 FollowersCount = user.Followers.Count(),
@@ -77,7 +76,7 @@ namespace Application.Profiles
                             profiles.Add
                             (
                                 new FollowingUsersDTO {
-                                    Username = follower.Observer.UserName,
+                                    Id = follower.Observer.Id,
                                     DisplayName = follower .Observer.DisplayName,
                                     Url = follower.Observer.Photos?.FirstOrDefault(x => x.IsMain)?.Url
                                 }
@@ -95,7 +94,7 @@ namespace Application.Profiles
                             profiles.Add
                             (
                             new FollowingUsersDTO {
-                                    Username = follower.Target.UserName,
+                                    Id = follower.Target.Id,
                                     DisplayName = follower.Target.DisplayName,
                                     Url = follower.Target.Photos?.FirstOrDefault(x => x.IsMain)?.Url
                                 }

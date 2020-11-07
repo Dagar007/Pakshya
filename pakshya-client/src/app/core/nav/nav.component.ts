@@ -10,10 +10,10 @@ import { IUser } from 'src/app/shared/_models/user';
   styleUrls: ['./nav.component.scss']
 })
 export class NavComponent implements OnInit {
-  currentUser$: Observable<IUser>;
+  loggedInUser$: Observable<IUser>;
   constructor(private router: Router, public authService: AuthService) {}
   ngOnInit() {
-    this.currentUser$ = this.authService.currentUser$;
+    this.loggedInUser$ = this.authService.loggedInUser$;
   }
 
 

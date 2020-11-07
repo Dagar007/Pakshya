@@ -13,7 +13,6 @@ namespace Persistence
         }
 
         public DbSet<Post> Posts { get; set; }
-        public DbSet<Address> Addresses {get; set;}
         public DbSet<UserInterest> UserInterests { get; set; }
         public DbSet<UserPostLike> UserPostLikes { get; set; }
         public DbSet<Photo> Photos { get; set; }

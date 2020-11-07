@@ -4,10 +4,8 @@
      
         <mat-checkbox
           [disabled]="!edit"
-          [(ngModel)]="interest.doesUser"
-          [ngModelOptions]="{standalone: true}"
           color="primary"
-          *ngFor="let interest of profile.interests; let i = index"
+          *ngFor="let interest of allInterests"
         >
           {{ interest.value }}
         </mat-checkbox>

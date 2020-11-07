@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Persistence.Migrations
 {
-    public partial class InitalDb : Migration
+    public partial class InitialDB : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -46,6 +46,8 @@ namespace Persistence.Migrations
                     Bio = table.Column<string>(nullable: true),
                     Education = table.Column<string>(nullable: true),
                     Work = table.Column<string>(nullable: true),
+                    City = table.Column<string>(nullable: true),
+                    Country = table.Column<string>(nullable: true),
                     RefreshToken = table.Column<string>(nullable: true),
                     RefreshTokenExpiry = table.Column<DateTime>(nullable: false),
                     IsActive = table.Column<bool>(nullable: false)
@@ -87,31 +89,6 @@ namespace Persistence.Migrations
                         principalTable: "AspNetRoles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Addresses",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    FirstName = table.Column<string>(nullable: true),
-                    LastName = table.Column<string>(nullable: true),
-                    Street = table.Column<string>(nullable: true),
-                    City = table.Column<string>(nullable: true),
-                    State = table.Column<string>(nullable: true),
-                    Zipcode = table.Column<string>(nullable: true),
-                    AppUserId = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Addresses", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Addresses_AspNetUsers_AppUserId",
-                        column: x => x.AppUserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -383,72 +360,6 @@ namespace Persistence.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.InsertData(
-                table: "Categories",
-                columns: new[] { "Id", "IsActive", "Value" },
-                values: new object[] { new Guid("b33acbfc-142f-4d26-8e96-d3457f802368"), true, "Politics" });
-
-            migrationBuilder.InsertData(
-                table: "Categories",
-                columns: new[] { "Id", "IsActive", "Value" },
-                values: new object[] { new Guid("1f83f4e3-5c6b-4827-bd1f-2135c76f223c"), true, "Economics" });
-
-            migrationBuilder.InsertData(
-                table: "Categories",
-                columns: new[] { "Id", "IsActive", "Value" },
-                values: new object[] { new Guid("416a1823-4d9d-4d43-8f0c-c4dbbf5e249f"), true, "India" });
-
-            migrationBuilder.InsertData(
-                table: "Categories",
-                columns: new[] { "Id", "IsActive", "Value" },
-                values: new object[] { new Guid("6c5a372d-9041-471c-bff7-b5d3c9c643a0"), true, "World" });
-
-            migrationBuilder.InsertData(
-                table: "Categories",
-                columns: new[] { "Id", "IsActive", "Value" },
-                values: new object[] { new Guid("971af4b6-a953-499d-8814-5db829e21eea"), true, "Sports" });
-
-            migrationBuilder.InsertData(
-                table: "Categories",
-                columns: new[] { "Id", "IsActive", "Value" },
-                values: new object[] { new Guid("358ba3af-7875-4a7e-bb99-9e1641118f69"), true, "Random" });
-
-            migrationBuilder.InsertData(
-                table: "Categories",
-                columns: new[] { "Id", "IsActive", "Value" },
-                values: new object[] { new Guid("50956cdb-e98b-45b2-b52b-596e287a5014"), true, "Entertainment" });
-
-            migrationBuilder.InsertData(
-                table: "Categories",
-                columns: new[] { "Id", "IsActive", "Value" },
-                values: new object[] { new Guid("17fe28b9-9b48-471b-bc98-102bb20957ab"), true, "Good Life" });
-
-            migrationBuilder.InsertData(
-                table: "Categories",
-                columns: new[] { "Id", "IsActive", "Value" },
-                values: new object[] { new Guid("f68c34c8-7a2c-461a-8d2f-b0c730e3cdc8"), true, "Fashion And Style" });
-
-            migrationBuilder.InsertData(
-                table: "Categories",
-                columns: new[] { "Id", "IsActive", "Value" },
-                values: new object[] { new Guid("0e7f41d0-0cfa-4502-97d5-6a66fee702e5"), true, "Writing" });
-
-            migrationBuilder.InsertData(
-                table: "Categories",
-                columns: new[] { "Id", "IsActive", "Value" },
-                values: new object[] { new Guid("56c85f1f-5031-4622-916f-e4764bf0ff94"), true, "Computers" });
-
-            migrationBuilder.InsertData(
-                table: "Categories",
-                columns: new[] { "Id", "IsActive", "Value" },
-                values: new object[] { new Guid("fcae3314-07d6-435c-b2cd-05e85a5f50d5"), true, "Philosophy" });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Addresses_AppUserId",
-                table: "Addresses",
-                column: "AppUserId",
-                unique: true);
-
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -534,9 +445,6 @@ namespace Persistence.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "Addresses");
-
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 

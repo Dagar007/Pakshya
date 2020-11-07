@@ -1,0 +1,11 @@
+ .form__input {
+      width: 100%;
+      color: var(--color-grey-dark-3);
+      font-weight: 400;
+      border-bottom: var(--color-grey-dark-3);
+
+      &--withHint {
+        margin-bottom: 1rem;
+      }
+ }
+ 

@@ -9,7 +9,7 @@
       <button mat-button routerLink="/posts">
         Posts
       </button>
-      <button mat-button [routerLink]="['/posts/create']" *ngIf="(currentUser$ | async) as currentUser">
+      <button mat-button [routerLink]="['/posts/create']" *ngIf="(loggedInUser$ | async) as currentUser">
         <i class="material-icons" style="margin-right: 5px;">
           create
         </i>
@@ -24,7 +24,7 @@
         <mat-icon>chat</mat-icon>
       </button>
 
-      <button mat-button [matMenuTriggerFor]="menu" *ngIf="(currentUser$ | async) as currentUser"> 
+      <button mat-button [matMenuTriggerFor]="menu" *ngIf="(loggedInUser$ | async) as currentUser"> 
         <!-- <img [src]="authService.currentUser1?.image? authService.currentUser1?.image : '../assets/user.png'" onerror="this.src ='../assets/user.png'" [alt]="authService.currentUser1?.username" class="avatar"> -->
         <img src={{currentUser.image}} 
           onerror="this.src ='../assets/user.png'" 
@@ -34,7 +34,7 @@
       <mat-icon aria-hidden="true" role="img" class="mat-icon notranslate material-icons mat-icon-no-color">arrow_drop_down</mat-icon>
       </button>
       <mat-menu #menu="matMenu">
-        <ng-container *ngIf="(currentUser$ | async) as currentUser">
+        <ng-container *ngIf="(loggedInUser$ | async) as currentUser">
           <button mat-menu-item [routerLink]="['/profile', currentUser.id]">
             <div class="select-wrapper">
               <i class="material-icons">
@@ -56,10 +56,10 @@
           </button>
       </mat-menu>
       
-      <button mat-button routerLink="/account/login" *ngIf="(currentUser$ | async) === null">
+      <button mat-button routerLink="/account/login" *ngIf="(loggedInUser$ | async) === null">
         Login
       </button>
-      <button mat-button routerLink="/account/signup" *ngIf="(currentUser$ | async) === null">
+      <button mat-button routerLink="/account/signup" *ngIf="(loggedInUser$ | async) === null">
         Signup
       </button>
 

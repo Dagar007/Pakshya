@@ -30,13 +30,15 @@ export class ProfileComponent implements OnInit {
   ngOnInit() {
 
     this.route.params.subscribe((params: Params) => {
-      this.authService.currentUser$.subscribe((user: IUser) => {
+      this.authService.loggedInUser$.subscribe((user: IUser) => {
         if (user.id === params['id']) {
           this.edit = true;
         }
         this.profileService.get(params['id']).subscribe((profile: IProfile) => {
           this.profile = profile;
-          console.log(profile);
+          this.profileService.changeProfilePhoto(this.profile.image);
+          this.profileService.setFollowers(this.profile.followers);
+          this.profileService.setFollowings(this.profile.followings);
         },
         err => {
           this.alertify.error(err);

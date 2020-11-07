@@ -18,7 +18,7 @@ export class PostDelailsHeaderComponent implements OnInit {
   color: string;
   isAuthor1: boolean;
   // currentUserName: string;
-  currentUser$: Observable<IUser>;
+  loggedInUser$: Observable<IUser>;
 
   like = false;
   constructor(private postService: PostService,
@@ -26,7 +26,7 @@ export class PostDelailsHeaderComponent implements OnInit {
     private authService: AuthService) { }
 
   ngOnInit() {
-    this.currentUser$ = this.authService.currentUser$;
+    this.loggedInUser$ = this.authService.loggedInUser$;
     this.isPostLiked();
   }
 

@@ -1,16 +1,10 @@
 <div class="card">
   <h2 class="section-heading">
     About User
-    <i class="material-icons">
-      perm_identity
-      </i>
+    <i class="material-icons">perm_identity</i>
   </h2>
   <mat-tab-group>
     <mat-tab label="Personal Info">
-      <app-bio [profile] ="profile" [edit] = "edit"></app-bio>
-    </mat-tab>
-
-    <mat-tab label="Address">
       <app-bio [profile] ="profile" [edit] = "edit"></app-bio>
     </mat-tab>
 
@@ -21,6 +15,5 @@
     <mat-tab label="Interests/ Followed Topic">
       <app-interests *ngIf="profile" [profile] ="profile" [edit] = "edit"></app-interests>
     </mat-tab>
-
   </mat-tab-group>
 </div>

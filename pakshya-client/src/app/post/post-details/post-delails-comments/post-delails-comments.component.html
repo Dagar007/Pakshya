@@ -71,7 +71,7 @@
     >
       <div class="comment-header">
         <h3 class="comments__user--datetime">{{ comment.date | timeAgo }}</h3>
-        <ng-container *ngIf="(currentUser$ | async) as currentUser">
+        <ng-container *ngIf="(loggedInUser$ | async) as currentUser">
           <div *ngIf="currentUser.id == comment.id">
             <button
               mat-icon-button

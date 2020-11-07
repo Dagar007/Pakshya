@@ -17,6 +17,7 @@ export class CreateComponent implements OnInit {
   categories: ICategory[];
   post: IPostConcise;
   id = '';
+  generatedId: string;
   page = 'Create';
   isImageEdited = 'n';
 
@@ -94,7 +95,8 @@ export class CreateComponent implements OnInit {
             }
           );
       } else {
-        formData.append('id', uuid());
+        this.generatedId = uuid();
+        formData.append('id', this.generatedId);
         formData.append('heading', this.createPostForm.get('heading').value);
         formData.append(
           'description',
@@ -107,7 +109,7 @@ export class CreateComponent implements OnInit {
         formData.append('file', this.createPostForm.get('file').value);
         this.postService.createPost(formData).subscribe(
           () => {
-            this.router.navigate(['/posts', this.post.id]);
+            this.router.navigate(['/posts', this.generatedId]);
           },
           (err) => {
             this.alertify.error(err);

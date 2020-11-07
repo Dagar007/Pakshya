@@ -7,7 +7,6 @@ export interface IProfile {
     bio: string;
     education: string;
     work: string;
-    address: string;
     following: boolean;
     followersCount: number;
     followingCount: number;
@@ -38,7 +37,7 @@ export interface IUserCommented {
     noOfLikes: number;
 }
 export interface IFollow {
-    username: string;
+    id: string;
     displayName: string;
     url: string;
 }

@@ -17,7 +17,7 @@ export class PhotoComponent implements OnInit {
   @Input() edit: boolean;
   uploadForm: FormGroup;
   currentMainPhoto: IPhoto;
-  currentUser$: Observable<IUser>;
+  loggedInUser$: Observable<IUser>;
   currentUser: IUser;
 
   constructor(
@@ -31,7 +31,7 @@ export class PhotoComponent implements OnInit {
     this.uploadForm = this.formBuilder.group({
       profile: ['']
     });
-    this.authService.currentUser$.subscribe((user: IUser) => {
+    this.authService.loggedInUser$.subscribe((user: IUser) => {
       this.currentUser = user;
     });
   }
@@ -46,6 +46,7 @@ export class PhotoComponent implements OnInit {
         photo.isMain = true;
         this.currentUser.image = photo.url;
         this.authService.changeCurrentUser(this.currentUser);
+        this.profileService.changeProfilePhoto(photo.url);
         this.alertify.success('Photo set as main photo');
       },
       err => {
@@ -83,6 +84,7 @@ export class PhotoComponent implements OnInit {
       if (this.profile.photos.length === 0) {
         res.isMain = true;
         this.authService.changeMainPhoto(res.url);
+        this.profileService.changeProfilePhoto(res.url);
         // this.authService.currentUser1.image = res.url;
         // this.currentUser.image = res.url;
         // localStorage.setItem(

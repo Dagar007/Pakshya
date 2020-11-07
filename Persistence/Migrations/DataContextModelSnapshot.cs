@@ -16,41 +16,6 @@ namespace Persistence.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "3.1.1");
 
-            modelBuilder.Entity("Domain.Address", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("AppUserId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("City")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("FirstName")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("LastName")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("State")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Street")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Zipcode")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AppUserId")
-                        .IsUnique();
-
-                    b.ToTable("Addresses");
-                });
-
             modelBuilder.Entity("Domain.AppUser", b =>
                 {
                     b.Property<string>("Id")
@@ -65,8 +30,14 @@ namespace Persistence.Migrations
                     b.Property<DateTime>("Birthday")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("City")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Country")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("DisplayName")
@@ -157,80 +128,6 @@ namespace Persistence.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("b33acbfc-142f-4d26-8e96-d3457f802368"),
-                            IsActive = true,
-                            Value = "Politics"
-                        },
-                        new
-                        {
-                            Id = new Guid("1f83f4e3-5c6b-4827-bd1f-2135c76f223c"),
-                            IsActive = true,
-                            Value = "Economics"
-                        },
-                        new
-                        {
-                            Id = new Guid("416a1823-4d9d-4d43-8f0c-c4dbbf5e249f"),
-                            IsActive = true,
-                            Value = "India"
-                        },
-                        new
-                        {
-                            Id = new Guid("6c5a372d-9041-471c-bff7-b5d3c9c643a0"),
-                            IsActive = true,
-                            Value = "World"
-                        },
-                        new
-                        {
-                            Id = new Guid("971af4b6-a953-499d-8814-5db829e21eea"),
-                            IsActive = true,
-                            Value = "Sports"
-                        },
-                        new
-                        {
-                            Id = new Guid("358ba3af-7875-4a7e-bb99-9e1641118f69"),
-                            IsActive = true,
-                            Value = "Random"
-                        },
-                        new
-                        {
-                            Id = new Guid("50956cdb-e98b-45b2-b52b-596e287a5014"),
-                            IsActive = true,
-                            Value = "Entertainment"
-                        },
-                        new
-                        {
-                            Id = new Guid("17fe28b9-9b48-471b-bc98-102bb20957ab"),
-                            IsActive = true,
-                            Value = "Good Life"
-                        },
-                        new
-                        {
-                            Id = new Guid("f68c34c8-7a2c-461a-8d2f-b0c730e3cdc8"),
-                            IsActive = true,
-                            Value = "Fashion And Style"
-                        },
-                        new
-                        {
-                            Id = new Guid("0e7f41d0-0cfa-4502-97d5-6a66fee702e5"),
-                            IsActive = true,
-                            Value = "Writing"
-                        },
-                        new
-                        {
-                            Id = new Guid("56c85f1f-5031-4622-916f-e4764bf0ff94"),
-                            IsActive = true,
-                            Value = "Computers"
-                        },
-                        new
-                        {
-                            Id = new Guid("fcae3314-07d6-435c-b2cd-05e85a5f50d5"),
-                            IsActive = true,
-                            Value = "Philosophy"
-                        });
                 });
 
             modelBuilder.Entity("Domain.Comment", b =>
@@ -536,13 +433,6 @@ namespace Persistence.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
-                });
-
-            modelBuilder.Entity("Domain.Address", b =>
-                {
-                    b.HasOne("Domain.AppUser", "AppUser")
-                        .WithOne("Address")
-                        .HasForeignKey("Domain.Address", "AppUserId");
                 });
 
             modelBuilder.Entity("Domain.Comment", b =>

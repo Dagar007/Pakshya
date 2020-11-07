@@ -1,28 +1,6 @@
 <div class="home__container">
   <div class="home__container--left">
-    <div>
-     
-      <p class="intro-text">
-        <span class="open">&ldquo;</span>
-          हम पक्ष लेते हैं ...। 
-          <br><br>
-          क्योंकि धरम और अधर्म के बीच लड़ाई होने पर तटस्थ रहने का कोई विकल्प नहीं होता !
-          के श्री कृष्ण ने कहा था, हे पार्थ ... के तुम युद् करो, इसलिए नही के तुम्हे मृतु से कोइ भय है याकि तुम्हे संसरिक सुक की कोइ लालसा है 
-          तुम युध करो ताकि जब इतिहास तुमसे पूछे, के धरम और अधर्म के संघर्ष तुम कहां थे, तो तुम्हारे पास जवाब देने के लिए हो ...
-          <br><br>
-          इस लिये हम पक्ष लेते हैं। 
-      </p>
-      <p class="intro-text">
-        <span class="open">&ldquo;</span>
-        We take sides.<br><br>
-        Because in the struggle between Right and Wrong, there is no option of remaining neural.
-        Lord Krishna has said that, Hey Parth, You need to fight, not because you afraid of dying or 
-        has any love for worldly things.
-        Its because when generations ask where were you in the fight between Right and Wrong, You have an answer to give.
-        <br><br>
-        So, we take sides.
-      </p>
-    </div>
+    <app-pakshya-infro></app-pakshya-infro>
   </div>
   <div class="home__container--right">
     <div class="login__conatiner card">
@@ -30,7 +8,11 @@
         <h1 class="card__headline mb-medium">Login</h1>
     
         <mat-form-field class="form__input">
-          <input matInput placeholder="Email" name="email"   [(ngModel)] = "loginFormValues.email" required />
+          <input matInput placeholder="Email" 
+           name="email"   
+           [(ngModel)] = "loginFormValues.email"
+           autocomplete="off"
+           required />
           <mat-error>Email is required.</mat-error>
         </mat-form-field>
         <mat-form-field class="form__input">
@@ -54,9 +36,8 @@
             color="primary"
             class="form__action"
             type="submit"
-            [disabled]="loginForm.invalid"
-          >
-           
+            [disabled]="loginForm.invalid">
+            
             <div  class="loading-indicator">
               Login
             </div>

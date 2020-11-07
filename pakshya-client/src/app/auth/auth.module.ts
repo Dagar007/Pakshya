@@ -6,6 +6,7 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { SharedModule } from '../shared/shared.module';
 import { AuthRoutingModule } from './auth-routing.module';
+import { CoreModule } from '../core/core.module';
 
 
 
@@ -19,7 +20,8 @@ import { AuthRoutingModule } from './auth-routing.module';
   imports: [
     CommonModule,
     SharedModule,
-    AuthRoutingModule
+    AuthRoutingModule,
+    CoreModule
   ],
   exports: [
     HomeComponent,

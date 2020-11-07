@@ -14,7 +14,6 @@ namespace Application.Profiles
         // Personal Section
         public string Bio { get; set; }
         public string Education { get; set; }
-        public Address Address { get; set; }
         public string Work { get; set; }
         [JsonPropertyName("following")]
         public bool IsFollowed { get; set; }

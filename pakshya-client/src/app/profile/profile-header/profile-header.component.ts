@@ -1,9 +1,7 @@
 import {
   Component,
   OnInit,
-  Input,
-  OnChanges,
-  SimpleChanges
+  Input
 } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
@@ -24,21 +22,24 @@ export class ProfileHeaderComponent implements OnInit {
   currentUser: IUser;
   currentFollower: IFollow;
 
+  profilePhoto$: Observable<string>;
+
   constructor(
     private authService: AuthService,
     private profileService: ProfileService
   ) {}
 
   ngOnInit() {
-     this.authService.currentUser$.subscribe((user: IUser) => {
-       this.currentUser = user;
-     }, err => {
-       console.log(err);
-     });
+      this.authService.loggedInUser$.subscribe((user: IUser) => {
+        this.currentUser = user;
+      }, err => {
+        console.log(err);
+      });
+    this.profilePhoto$ = this.profileService.profilePhoto$;
      this.profileService.setFollowers(this.profile.followers);
      this.profileService.setFollowings(this.profile.followings);
      this.currentFollower = {
-       username: this.currentUser.id,
+       id: this.currentUser.id,
        displayName: this.currentUser.displayName,
        url: this.currentUser.image
      };
@@ -57,18 +58,18 @@ export class ProfileHeaderComponent implements OnInit {
 
   // }
 
-  onFollow(following: boolean, email: string) {
+  onFollow(following: boolean, id: string) {
     if (following) {
-      this.profileService.unfollow(email).subscribe(() => {
+      this.profileService.unfollow(id).subscribe(() => {
         this.profile.following = false;
         --this.profile.followersCount;
-        this.profileService.setFollowings(this.profile.followings.filter(x => x.username !== email));
+        this.profileService.setFollowers(this.profile.followers.filter(x => x.id !== id));
       });
     } else {
-      this.profileService.follow(email).subscribe(() => {
+      this.profileService.follow(id).subscribe(() => {
         this.profile.following = true;
         ++this.profile.followersCount;
-        this.profileService.setFollowings(this.profile.followings.concat(this.currentFollower));
+        this.profileService.setFollowers(this.profile.followers.concat(this.currentFollower));
       });
     }
   }

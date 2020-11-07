@@ -28,7 +28,7 @@ export class PostDelailsCommentsComponent implements OnInit, OnDestroy {
   formatedDate: string;
   comment: string;
   commentToPost: any;
-  currentUser$: Observable<IUser>;
+  loggedInUser$: Observable<IUser>;
   private _hubConnection: HubConnection;
   baseUrl = environment.chatUrl;
 
@@ -50,7 +50,7 @@ export class PostDelailsCommentsComponent implements OnInit, OnDestroy {
 
     // this.currentUserName = this.authService.currentUser$.username;
     // }
-    this.currentUser$ = this.authService.currentUser$;
+    this.loggedInUser$ = this.authService.loggedInUser$;
 
     this.route.params.subscribe(params => {
       if (params['id']) {

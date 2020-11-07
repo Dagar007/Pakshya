@@ -14,8 +14,8 @@ export class AuthService {
   baseUrl = environment.apiUrl;
   jwtHelper = new JwtHelperService();
 
-  private currentUserSource = new ReplaySubject<IUser>(1);
-  currentUser$ = this.currentUserSource.asObservable();
+  private loggedInUserSource = new ReplaySubject<IUser>(1);
+  loggedInUser$ = this.loggedInUserSource.asObservable();
 
   decodedToken: any;
   photoUrl = new BehaviorSubject<string>('../../assets/user.png');
@@ -25,20 +25,20 @@ export class AuthService {
     this.photoUrl.next(photoUrl);
   }
 
-  changeCurrentUser(currentUser: IUser) {
-    this.currentUserSource.next(currentUser);
+  changeCurrentUser(loggedInUser: IUser) {
+    this.loggedInUserSource.next(loggedInUser);
   }
 
   loadCurrentUser() {
     if (localStorage.getItem('token') == null) {
-      this.currentUserSource.next(null);
+      this.loggedInUserSource.next(null);
       return of(null);
     }
     return this.http.get(this.baseUrl + 'user').pipe(
       map((user: IUser) => {
         if (user) {
           localStorage.setItem('token', user.token);
-          this.currentUserSource.next(user);
+          this.loggedInUserSource.next(user);
         }
       })
     );
@@ -52,7 +52,7 @@ export class AuthService {
         const user = res;
         if (user) {
           localStorage.setItem('token', user.token);
-          this.currentUserSource.next(user);
+          this.loggedInUserSource.next(user);
         }
       })
     );
@@ -72,7 +72,7 @@ export class AuthService {
         const user = response;
         if (user) {
           localStorage.setItem('token', user.token);
-          this.currentUserSource.next(user);
+          this.loggedInUserSource.next(user);
         }
       })
     );
@@ -89,7 +89,7 @@ export class AuthService {
 
   logout() {
     localStorage.removeItem('token');
-    this.currentUserSource.next(null);
+    this.loggedInUserSource.next(null);
     this.router.navigate(['/login']);
   }
 }

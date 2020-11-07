@@ -6,11 +6,12 @@ import { RouterModule } from '@angular/router';
 import { MaterialModule } from '../material.module';
 import { TimeAgoPipe } from 'time-ago-pipe';
 import { LoginPopupComponent } from './components/login-popup/login-popup.component';
+import { TextInputComponent } from './components/text-input/text-input.component';
 
 
 
 @NgModule({
-  declarations: [TimeAgoPipe, LoginPopupComponent],
+  declarations: [TimeAgoPipe, LoginPopupComponent, TextInputComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -27,7 +28,8 @@ import { LoginPopupComponent } from './components/login-popup/login-popup.compon
     MaterialModule,
     TimeAgoPipe,
     InfiniteScrollModule,
-    LoginPopupComponent
+    LoginPopupComponent,
+    TextInputComponent
   ]
 })
 export class SharedModule { }

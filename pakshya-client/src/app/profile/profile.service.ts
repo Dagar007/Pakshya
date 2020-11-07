@@ -3,8 +3,7 @@ import { HttpClient } from '@angular/common/http';
 
 import { environment } from 'src/environments/environment';
 import { IProfile, IPhoto, IFollow } from '../shared/_models/profile';
-import { ReplaySubject } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { BehaviorSubject, ReplaySubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +15,9 @@ export class ProfileService {
   private followersSource = new ReplaySubject<IFollow[]>(1);
   followers$ = this.followersSource.asObservable();
 
+  private profilePhotoUrlSoruce = new BehaviorSubject<string>('../../assets/user.png');
+  profilePhoto$ = this.profilePhotoUrlSoruce.asObservable();
+
   constructor(private httpService: HttpClient) { }
 
   setFollowers(followers: IFollow[]) {
@@ -23,6 +25,14 @@ export class ProfileService {
   }
   setFollowings(followings: IFollow[]) {
     this.followingSource.next(followings);
+  }
+
+  changeProfilePhoto(url: string) {
+    if (url) {
+      this.profilePhotoUrlSoruce.next(url);
+    } else {
+      this.profilePhotoUrlSoruce.next('../../assets/user.png');
+    }
   }
 
   get(username: string) {
@@ -47,11 +57,11 @@ export class ProfileService {
   deletePhoto(id: string) {
     return this.httpService.delete(this.baseUrl + 'photos/' + id);
   }
-
-  // Bio related
-
   updateBio(profile: IProfile) {
     return this.httpService.put(this.baseUrl + 'profile', profile);
   }
 
+  getAllInterests() {
+    return this.httpService.get(this.baseUrl + 'interest')
+  }
 }

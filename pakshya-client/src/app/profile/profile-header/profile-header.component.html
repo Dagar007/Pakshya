@@ -1,8 +1,8 @@
 <div class="card ">
   <div class="profile__header">
     <div class="profile--left">
-      <img
-        src="{{currentUser.image || '../../assets/user.png'}}"
+      <img *ngIf="profilePhoto$ | async as profilePhoto"
+        src="{{profilePhoto }}"
         alt="{{ profile?.displayName }}"
         class="profile__header__img"
       />

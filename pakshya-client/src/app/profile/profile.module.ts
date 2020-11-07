@@ -7,7 +7,6 @@ import { PakshyaStatsComponent } from './pakshya-stats/pakshya-stats.component';
 import { PhotoComponent } from './personal-about/photo/photo.component';
 import { InterestsComponent } from './personal-about/interests/interests.component';
 import { BioComponent } from './personal-about/bio/bio.component';
-import { AddressComponent } from './personal-about/address/address.component';
 import { SharedModule } from '../shared/shared.module';
 import { ProfileRoutingModule } from './profile-routing.module';
 
@@ -21,8 +20,7 @@ import { ProfileRoutingModule } from './profile-routing.module';
     PakshyaStatsComponent,
     PhotoComponent,
     InterestsComponent,
-    BioComponent,
-    AddressComponent
+    BioComponent
   ],
   imports: [
     CommonModule,

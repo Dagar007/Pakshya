@@ -21,8 +21,6 @@ namespace Application.Profiles
             CreateMap<UserInterest,InterestDTO>()
             .ForMember(x => x.Id, o => o.MapFrom(s => s.CategoryId))
             .ForMember(x => x.Value, o => o.MapFrom(x => x.Category.Value));
-            //.ForMember(x => x.DoesUser, o => o.MapFrom(x => x.))
-
         }
     }
 }

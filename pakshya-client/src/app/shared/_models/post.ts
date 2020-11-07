@@ -16,7 +16,6 @@ export interface IPost {
 export interface ICategory {
   id: string;
   value: string;
-  doesUser: boolean;
 }
 export interface IEngagers {
   username: string;

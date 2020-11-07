@@ -18,7 +18,8 @@ namespace Domain
         public string Bio { get; set; }
         public string Education { get; set; }
         public string Work { get; set; }
-        public virtual Address Address { get; set; }
+        public string City { get; set; }
+        public string Country { get; set; }
         public virtual ICollection<UserPostLike> UserPostLikes { get; set; }
         public virtual ICollection<UserCommentLike> UserCommentLikes { get; set; }
         public virtual ICollection<Photo> Photos { get; set; }

@@ -19,24 +19,29 @@ export class InterestsComponent implements OnInit {
   @Input() edit: boolean;
   categories: ICategory[];
   interestsOfUsers: ICategory[];
+  allInterests: ICategory[];
 
 
   constructor(
     private alertify: AlertifyService,
     private profileService: ProfileService,
-  ) {
-
-  }
+  ) {}
   ngOnInit() {
-    }
+    this.getAllInterests();
+  }
 
   onSubmit() {
-    // console.log(this.profile.interests);
     this.profileService.updateBio(this.profile).subscribe(() => {
       this.alertify.success('Interests updated successfully.');
     }, err => {
       this.alertify.error('error updating interests');
     });
   }
-
+  getAllInterests() {
+    this.profileService.getAllInterests().subscribe((allInterests: ICategory[]) => {
+      this.allInterests = allInterests;
+    }, err => {
+      this.alertify.error('Error occured while fetching the interests');
+    });
+  }
 }

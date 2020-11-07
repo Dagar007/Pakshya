@@ -12,27 +12,6 @@
     }
   
 }
-.intro-text {
-  position: relative;
-  margin: 3rem;
-  font-size: .9rem;
-  line-height: 1.6rem;
-  margin-bottom: 1rem;
-  font-weight: 400;
-  color: var(--color-grey-dark-1);
-
-  span.open {
-    position: absolute;
-    top: -4rem;
-    left: -2rem;
-    line-height: 1;
-    font-size: 15rem;
-    color: #999;
-    opacity: 0.2;
-    font-family: sans-serif;
-  }
-}
-
 .form {
     display: flex;
     flex-direction: column;

@@ -10,13 +10,21 @@ import { BehaviorSubject, ReplaySubject } from 'rxjs';
 })
 export class ProfileService {
   private baseUrl = environment.apiUrl;
+
   private followingSource = new ReplaySubject<IFollow[]>(1);
   followings$ = this.followingSource.asObservable();
+
   private followersSource = new ReplaySubject<IFollow[]>(1);
   followers$ = this.followersSource.asObservable();
 
   private profilePhotoUrlSoruce = new BehaviorSubject<string>('../../assets/user.png');
   profilePhoto$ = this.profilePhotoUrlSoruce.asObservable();
+
+  private profileIdSoruce = new ReplaySubject<string>(1);
+  profileId$ = this.profileIdSoruce.asObservable();
+
+  private canEditSource = new BehaviorSubject<boolean>(false);
+  canEdit$ = this.canEditSource.asObservable();
 
   constructor(private httpService: HttpClient) { }
 
@@ -33,6 +41,14 @@ export class ProfileService {
     } else {
       this.profilePhotoUrlSoruce.next('../../assets/user.png');
     }
+  }
+
+  changeId(id: string) {
+    this.profileIdSoruce.next(id);
+  }
+
+  setCanEdit(canEdit: boolean) {
+    this.canEditSource.next(canEdit);
   }
 
   get(username: string) {
@@ -62,6 +78,14 @@ export class ProfileService {
   }
 
   getAllInterests() {
-    return this.httpService.get(this.baseUrl + 'interest')
+    return this.httpService.get(this.baseUrl + 'interest');
+  }
+
+  getUserInterests(id: string) {
+    return this.httpService.get(this.baseUrl + 'interest/' + id + '/user');
+  }
+
+  updateUserInterests(interests: string[]) {
+    return this.httpService.post(this.baseUrl + 'interest', {ids : interests});
   }
 }

@@ -8,6 +8,9 @@ namespace Application.Interests
         public MappingProfile()
         {
             CreateMap<Category,UserInterestDto>();
+            CreateMap<UserInterest, UserInterestDto>()
+            .ForMember(s => s.Id, o=> o.MapFrom(x => x.CategoryId))
+            .ForMember(s => s.Value, o => o.MapFrom(x => x.Category.Value));
         }
     }
 }

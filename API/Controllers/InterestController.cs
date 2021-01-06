@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Application.Interests;
@@ -19,5 +20,12 @@ namespace API.Controllers
         {
             return await Mediator.Send(command);
         }
+
+        [HttpGet("{id}/user")]
+        public async Task<ActionResult<List<Guid>>> UserIntrests(string id)
+        {
+            return await Mediator.Send(new ListUserInterests.UserInterestsQuery{Id= id});
+        }
+
     }
 }

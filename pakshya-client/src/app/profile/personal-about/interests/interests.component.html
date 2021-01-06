@@ -1,19 +1,16 @@
 <div class="about-topic-wrapper">
   <form>
-    <div class="interest-box">
-     
-        <mat-checkbox
-          [disabled]="!edit"
-          color="primary"
-          *ngFor="let interest of allInterests"
-        >
-          {{ interest.value }}
-        </mat-checkbox>
-        <div class=button-container>
-          <button type="submit" color="primary"[disabled]="!edit" mat-raised-button (click)="onSubmit()">
-            Submit
-          </button>
-        </div>
+    <div class="interest-box" >
+        <mat-selection-list [disabled]="!edit" #list [(ngModel)]="interestsOfUsers" [ngModelOptions]="{standalone: true}">
+          <mat-list-option *ngFor="let inte of allInterests" [value]="inte.id">
+            {{inte.value}}
+          </mat-list-option>
+      </mat-selection-list>
+      <div class=button-container>
+        <button type="submit" color="primary"[disabled]="!edit" mat-raised-button (click)="updateUserInterests()">
+          Submit
+        </button>
+      </div>
     </div>
   </form>
 </div>

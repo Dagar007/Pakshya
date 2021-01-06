@@ -14,7 +14,7 @@ import { IUser } from 'src/app/shared/_models/user';
 })
 export class PhotoComponent implements OnInit {
   @Input() profile: IProfile;
-  @Input() edit: boolean;
+  edit$: Observable<boolean>;
   uploadForm: FormGroup;
   currentMainPhoto: IPhoto;
   loggedInUser$: Observable<IUser>;
@@ -34,6 +34,7 @@ export class PhotoComponent implements OnInit {
     this.authService.loggedInUser$.subscribe((user: IUser) => {
       this.currentUser = user;
     });
+    this.edit$ = this.profileService.canEdit$;
   }
 
   setMainPhoto(photo: IPhoto) {
@@ -85,13 +86,6 @@ export class PhotoComponent implements OnInit {
         res.isMain = true;
         this.authService.changeMainPhoto(res.url);
         this.profileService.changeProfilePhoto(res.url);
-        // this.authService.currentUser1.image = res.url;
-        // this.currentUser.image = res.url;
-        // localStorage.setItem(
-        //   'user',
-        //   // JSON.stringify(this.authService.currentUser1)
-        //   JSON.stringify(this.currentUser)
-        // );
       }
       this.profile.photos.push(res);
       this.alertify.success('Photo Uploaded Successfully.');

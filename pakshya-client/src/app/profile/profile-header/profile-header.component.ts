@@ -16,7 +16,7 @@ import { IUser } from 'src/app/shared/_models/user';
 })
 export class ProfileHeaderComponent implements OnInit {
   @Input() profile: IProfile;
-  @Input() edit: boolean;
+  edit$: Observable<boolean>;
 
   currentUser$: Observable<IUser>;
   currentUser: IUser;
@@ -38,6 +38,7 @@ export class ProfileHeaderComponent implements OnInit {
     this.profilePhoto$ = this.profileService.profilePhoto$;
      this.profileService.setFollowers(this.profile.followers);
      this.profileService.setFollowings(this.profile.followings);
+     this.edit$ = this.profileService.canEdit$;
      this.currentFollower = {
        id: this.currentUser.id,
        displayName: this.currentUser.displayName,

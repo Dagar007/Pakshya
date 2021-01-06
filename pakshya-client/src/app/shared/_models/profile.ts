@@ -1,6 +1,7 @@
 import { ICategory } from './post';
 
 export interface IProfile {
+    id: string;
     displayName: string;
     email: string;
     image: string;
@@ -13,7 +14,7 @@ export interface IProfile {
     photos: IPhoto[];
     views: number;
     interests: ICategory[];
-    posts: IUserPosed[];
+    posts: IUserPosted[];
     comments: IUserCommented[];
     followings: IFollow[];
     followers: IFollow[];
@@ -25,7 +26,7 @@ export interface IPhoto {
     isMain: boolean;
 }
 
-export interface IUserPosed {
+export interface IUserPosted {
     id: string;
     heading: string;
     noOfLikes: number;

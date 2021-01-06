@@ -16,9 +16,9 @@ namespace Infrastructure.Security
 
         public string GetEmail()
         {
-            var userName = _httpContextAccessor.HttpContext.User?.Claims?.FirstOrDefault(x => x.Type == ClaimTypes.Email)?.Value;
+            var userEmail = _httpContextAccessor.HttpContext.User?.Claims?.FirstOrDefault(x => x.Type == ClaimTypes.Email)?.Value;
 
-            return userName;
+            return userEmail;
         }
     }
 }

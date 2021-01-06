@@ -1,6 +1,6 @@
-<div class="about-topic-wrapper">
+<div class="about-topic-wrapper" >
   <button
-    *ngIf="edit"
+    *ngIf="edit$ | async as edit"
     mat-raised-button
     color="primary"
     (click)="fileinput.click()"
@@ -19,7 +19,7 @@
   <div class="user-about-details-img">
     <div class="img-wrapper" *ngFor="let photo of profile?.photos">
       <img class="user-photos" [src]="photo.url" alt="" />
-      <div class="button-wrapper" *ngIf="edit">
+      <div class="button-wrapper" *ngIf="edit$ | async as edit">
         <button
           mat-flat-button
           color="primary"

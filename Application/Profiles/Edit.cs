@@ -1,12 +1,7 @@
 using System;
-using System.Collections.Generic;
-using System.Net;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Application.Errors;
 using Application.Interfaces;
-using Domain;
 using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -22,7 +17,7 @@ namespace Application.Profiles
             public string Bio { get; set; }
             public string Education { get; set; }
             public string Work { get; set; }
-            public List<InterestDTO> Interests { get; set; }
+
         }
 
         public class CommandValidator : AbstractValidator<Command>

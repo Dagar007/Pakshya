@@ -35,6 +35,7 @@ namespace Application.Profiles
             
             var profile = new Profile
             {
+                Id = user.Id,
                 DisplayName = user.DisplayName,
                 Email = user.Email,
                 Image = user.Photos?.FirstOrDefault(x => x.IsMain)?.Url,

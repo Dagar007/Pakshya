@@ -22,7 +22,6 @@ export class ProfileComponent implements OnInit {
   ) {}
 
   userFromParams: string;
-  edit = false;
   profile: IProfile;
   currentUser$: Observable<IUser>;
   id = '';
@@ -32,13 +31,16 @@ export class ProfileComponent implements OnInit {
     this.route.params.subscribe((params: Params) => {
       this.authService.loggedInUser$.subscribe((user: IUser) => {
         if (user.id === params['id']) {
-          this.edit = true;
+          this.profileService.setCanEdit(true);
+        } else {
+          this.profileService.setCanEdit(false);
         }
         this.profileService.get(params['id']).subscribe((profile: IProfile) => {
           this.profile = profile;
           this.profileService.changeProfilePhoto(this.profile.image);
           this.profileService.setFollowers(this.profile.followers);
           this.profileService.setFollowings(this.profile.followings);
+          this.profileService.changeId(profile.id);
         },
         err => {
           this.alertify.error(err);

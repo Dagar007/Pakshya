@@ -95,7 +95,7 @@ export class PostCardsComponent implements OnInit {
       );
   }
   onScroll() {
-    if (this.pagination.currentPage < this.pagination.totalPages) {
+    if (this.pagination && this.pagination.currentPage < this.pagination.totalPages) {
       this.loadNextPosts();
     }
   }

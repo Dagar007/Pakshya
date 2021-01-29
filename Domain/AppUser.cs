@@ -7,11 +7,6 @@ namespace Domain
 {
     public class AppUser : IdentityUser
     {
-        public AppUser()
-        {
-            Photos = new Collection<Photo>();
-        }
-
         public string DisplayName { get; set; }
         public string Gender { get; set; }
         public DateTime Birthday { get; set; }
@@ -22,7 +17,7 @@ namespace Domain
         public string Country { get; set; }
         public virtual ICollection<UserPostLike> UserPostLikes { get; set; }
         public virtual ICollection<UserCommentLike> UserCommentLikes { get; set; }
-        public virtual ICollection<Photo> Photos { get; set; }
+        public virtual ICollection<Photo> Photos { get; set; } = new Collection<Photo>();
         public virtual ICollection<UserFollowing> Followings { get; set; }
         public virtual ICollection<UserFollowing> Followers { get; set; }
         public virtual ICollection<UserInterest> UserInterests {get; set;}

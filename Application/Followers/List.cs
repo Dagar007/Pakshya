@@ -32,36 +32,40 @@ namespace Application.Followers
             {
                 var queryable = _context.Followings.AsQueryable();
 
-                var userFollowing = new List<UserFollowing>();
+                List<UserFollowing> userFollowing;
                 var profiles = new List<Profile>();
 
                 switch (request.Predicate)
                 {
                     case "followers":
+                    {
+                        userFollowing = await queryable
+                            .Where(x => x.Target.Email == request.Email)
+                            .ToListAsync(cancellationToken: cancellationToken);
+                        // to get the followers where this user is a target.
+                        foreach (var follower in userFollowing)
                         {
-                            userFollowing = await queryable
-                                .Where(x => x.Target.Email == request.Email).ToListAsync(); 
-                                // to get the followers where this user is a target.
-                            foreach (var follower in userFollowing)
-                            {
-                                profiles.Add(await _profileReader.ReadProfile(follower.Observer.Email));
-                            }
-                            break;
+                            profiles.Add(await _profileReader.ReadProfile(follower.Observer.Email));
                         }
+
+                        break;
+                    }
                     case "following":
-                        {
-                            userFollowing = await queryable
-                                .Where(x => x.Observer.Email == request.Email).ToListAsync();
-                            // to get the observer, where current user is an observer.
+                    {
+                        userFollowing = await queryable
+                            .Where(x => x.Observer.Email == request.Email)
+                            .ToListAsync(cancellationToken: cancellationToken);
+                        // to get the observer, where current user is an observer.
 
-                            foreach (var follower in userFollowing)
-                            {
-                                profiles.Add(await _profileReader.ReadProfile(follower.Target.Email));
-                            }
-                            break;
+                        foreach (var follower in userFollowing)
+                        {
+                            profiles.Add(await _profileReader.ReadProfile(follower.Target.Email));
                         }
 
+                        break;
+                    }
                 }
+
                 return profiles;
             }
         }

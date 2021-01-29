@@ -26,7 +26,7 @@ namespace API.Extensions
                 };
 
                 c.AddSecurityDefinition("Bearer", securitySchema);
-                var securityRequiement = new OpenApiSecurityRequirement
+                var securityRequirement = new OpenApiSecurityRequirement
                 {
                     {securitySchema, new []
                     
@@ -35,12 +35,12 @@ namespace API.Extensions
                         }
                     }
                 };
-                c.AddSecurityRequirement(securityRequiement);
+                c.AddSecurityRequirement(securityRequirement);
             });
             return services;
         }
 
-        public static IApplicationBuilder UseSwaggerDocumention(this IApplicationBuilder app)
+        public static IApplicationBuilder UseSwaggerDocumentation(this IApplicationBuilder app)
         {
             app.UseSwagger();
 

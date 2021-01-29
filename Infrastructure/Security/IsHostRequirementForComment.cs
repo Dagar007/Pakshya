@@ -28,7 +28,7 @@ namespace Infrastructure.Security
             .User?.Claims?.SingleOrDefault(x => x.Type == ClaimTypes.Email)?.Value;
 
             var commentId = Guid.Parse(_httpContextAccessor.HttpContext.Request.RouteValues
-                .SingleOrDefault(x => x.Key == "id").Value.ToString());
+                .SingleOrDefault(x => x.Key == "id").Value.ToString() ?? string.Empty);
 
             var comment = _context.Comments.FindAsync(commentId).Result;
             var host = comment?.Author.Email;

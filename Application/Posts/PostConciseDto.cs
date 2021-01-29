@@ -14,9 +14,5 @@ namespace Application.Posts
         public bool IsPostLikedByUser { get; set; }
         public int NoOfComments { get; set; }
         public int NoOfLikes { get; set; }
-
-        // [JsonPropertyName("engagers")]
-        // public ICollection<LikeDto> UserPosts { get; set; }
-        // public ICollection<CommentDto> Comments { get; set; }
     }
 }

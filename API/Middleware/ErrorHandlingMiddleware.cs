@@ -27,11 +27,11 @@ namespace API.Middleware
             }
             catch (Exception ex)
             {
-                await HandleExceptionAsync(context, ex, _logger);
+                await HandleExceptionAsync(context, ex);
             }
         }
 
-        private async Task HandleExceptionAsync(HttpContext context, Exception ex, ILogger<ErrorHandlingMiddleware> logger)
+        private async Task HandleExceptionAsync(HttpContext context, Exception ex)
         {
             object errors = null;
             switch (ex)
@@ -41,7 +41,7 @@ namespace API.Middleware
                     errors = re.Errors;
                     context.Response.StatusCode = (int)re.Code;
                     break;
-                case Exception e:
+                case { } e:
                     _logger.LogError(ex, "SERVER ERROR");
                     errors = string.IsNullOrWhiteSpace(e.Message) ? "Error" : e.Message;
                     context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;

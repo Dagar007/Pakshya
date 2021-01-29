@@ -35,7 +35,7 @@ namespace Application.Posts
                     throw new RestException(HttpStatusCode.NotFound, new { post = "Not found" });
                 var postToReturn = _mapper.Map<Post,PostConcise>(post);
                 post.Views ++;
-                await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync(cancellationToken);
                 
 
                 return postToReturn;

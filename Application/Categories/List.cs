@@ -3,7 +3,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
-using Domain;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
@@ -29,7 +28,7 @@ namespace Application.Categories
 
             public async Task<List<CategoryDto>> Handle(Query request, CancellationToken cancellationToken)
             {
-             var categories = await _context.Categories.Where(x => x.IsActive).ToListAsync();
+             var categories = await _context.Categories.Where(x => x.IsActive).ToListAsync(cancellationToken: cancellationToken);
              return _mapper.Map<List<CategoryDto>>(categories);
             }
         }

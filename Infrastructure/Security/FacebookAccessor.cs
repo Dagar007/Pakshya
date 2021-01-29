@@ -18,7 +18,7 @@ namespace Infrastructure.Security
             _config = config;
             _httpClient = new HttpClient
             {
-                BaseAddress = new System.Uri("https://graph.facebook.com/")
+                BaseAddress = new Uri("https://graph.facebook.com/")
             };
             _httpClient.DefaultRequestHeaders
                 .Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));

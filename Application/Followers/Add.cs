@@ -32,32 +32,29 @@ namespace Application.Followers
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
                 // Current user would be observer.
-                var observer = await _context.Users.SingleOrDefaultAsync(x => x.Email == _userAccessor.GetEmail());
+                var observer = await _context.Users.SingleOrDefaultAsync(x => x.Email == _userAccessor.GetEmail(), cancellationToken: cancellationToken);
 
-                var target = await _context.Users.SingleOrDefaultAsync(x => x.Email == request.Email);
+                var target = await _context.Users.SingleOrDefaultAsync(x => x.Email == request.Email, cancellationToken: cancellationToken);
                 if(target == null)
                     throw new RestException(HttpStatusCode.NotFound, new { User = "Not Found"});
                 var following = await _context.Followings
-                    .SingleOrDefaultAsync(x => x.ObserverId == observer.Id && x.TargetId == target.Id);
+                    .SingleOrDefaultAsync(x => x.ObserverId == observer.Id && x.TargetId == target.Id, cancellationToken: cancellationToken);
                 
                 if(following!= null)
                     throw new RestException(HttpStatusCode.BadRequest, new {User ="You are already following this user."});
-                
-                if(following == null)
-                {
-                    following = new UserFollowing 
-                    {
-                        Observer = observer,
-                        Target = target
-                    };
-                     _context.Followings.Add(following);
-                }
-               
 
-                var success = await _context.SaveChangesAsync() > 0;
+                following = new UserFollowing 
+                {
+                    Observer = observer,
+                    Target = target
+                };
+                await _context.Followings.AddAsync(following, cancellationToken);
+
+
+                var success = await _context.SaveChangesAsync(cancellationToken) > 0;
                 if (success) return Unit.Value;
 
-                throw new Exception("problem following the user.");
+                throw new Exception("Problem following the user.");
             }
         }
     }

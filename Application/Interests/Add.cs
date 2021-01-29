@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using Application.Errors;
 using Application.Interfaces;
 using Domain;
-using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
@@ -31,8 +30,7 @@ namespace Application.Interests
 
         public async Task<Unit> Handle(AddUserInterestsCommand request, CancellationToken cancellationToken)
         {
-            var user = await _context.Users.SingleOrDefaultAsync(x => x.Email == _userAccessor.GetEmail());
-            List<Category> categories = new List<Category>();
+            var user = await _context.Users.SingleOrDefaultAsync(x => x.Email == _userAccessor.GetEmail(), cancellationToken: cancellationToken);
             if (_context.UserInterests.Any(x => x.AppUser.Id == user.Id))
                 _context.UserInterests.RemoveRange(_context.UserInterests.Where(x => x.AppUser == user));
             foreach (var interest in request.Ids)
@@ -44,9 +42,9 @@ namespace Application.Interests
                     AppUser = user,
                     CategoryId = interest
                 };
-                _context.UserInterests.Add(interestToAdd);
+                await _context.UserInterests.AddAsync(interestToAdd, cancellationToken);
             }
-            var success = await _context.SaveChangesAsync() > 0;
+            var success = await _context.SaveChangesAsync(cancellationToken) > 0;
             if (success) return Unit.Value;
 
             throw new Exception("problem saving new post.");

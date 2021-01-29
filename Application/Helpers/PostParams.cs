@@ -6,11 +6,11 @@ namespace Application.Helpers
     {
         private const int MaxPageSize = 20; 
         public int PageNumber { get; set; } = 1;
-        private int pageSize = 3;
+        private int _pageSize = 3;
         public int PageSize
         {
-            get { return pageSize; }
-            set { pageSize =(value> MaxPageSize ? MaxPageSize: value); }
+            get => _pageSize;
+            set => _pageSize =(value > MaxPageSize ? MaxPageSize: value);
         }
         public Guid Category { get; set; }
     }

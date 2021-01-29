@@ -18,7 +18,7 @@ namespace Application.Profiles
             .ForMember(d => d.Body, o => o.MapFrom(s => (s.Comment.Body.Count() < 50) ? s.Comment.Body : s.Comment.Body.Substring(0, 50)))
             .ForMember(d => d.NoLikes, o => o.MapFrom(s => s.Comment.UserCommentLikes.Count));
 
-            CreateMap<UserInterest,InterestDTO>()
+            CreateMap<UserInterest,InterestDto>()
             .ForMember(x => x.Id, o => o.MapFrom(s => s.CategoryId))
             .ForMember(x => x.Value, o => o.MapFrom(x => x.Category.Value));
         }

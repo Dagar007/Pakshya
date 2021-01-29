@@ -32,7 +32,7 @@ namespace Application.Photos
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-                var user = await _context.Users.SingleOrDefaultAsync(u => u.Email == _userAccessor.GetEmail());
+                var user = await _context.Users.SingleOrDefaultAsync(u => u.Email == _userAccessor.GetEmail(), cancellationToken: cancellationToken);
                 var photo = user.Photos.FirstOrDefault(x => x.Id == request.Id);
                 if (photo == null)
                     throw new RestException(HttpStatusCode.NotFound, new { Photo = "Not Found" });
@@ -42,7 +42,7 @@ namespace Application.Photos
                 await _photoAccessor.DeletePhoto(request.Id,"pakshya.bucket");
                 user.Photos.Remove(photo);
 
-                var success = await _context.SaveChangesAsync() > 0;
+                var success = await _context.SaveChangesAsync(cancellationToken) > 0;
                 if (success) return Unit.Value;
 
                 throw new Exception("Error deleting photo");

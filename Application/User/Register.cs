@@ -47,26 +47,23 @@ namespace Application.User
         public class Handler : IRequestHandler<RegisterCommand, Unit>
         {
             private readonly UserManager<AppUser> _userManager;
-            private readonly SignInManager<AppUser> _signInManager;
             private readonly IUrlHelperFactory _urlHelperFactory;
             private readonly IActionContextAccessor _actionContextAccessor;
             private readonly IHttpContextAccessor _contextAccessor;
             private readonly IConfiguration _configuration;
             private readonly IEmailService _emailService;
             private readonly DataContext _context;
-            public Handler(UserManager<AppUser> userManager, 
-            SignInManager<AppUser> signInManager, 
-            IUrlHelperFactory urlHelperFactory,
-            IActionContextAccessor actionContextAccessor,
-            IHttpContextAccessor contextAccessor,
-            IConfiguration configuration,
-            IEmailService emailService,
-            DataContext context)
+            public Handler(UserManager<AppUser> userManager,
+                IUrlHelperFactory urlHelperFactory,
+                IActionContextAccessor actionContextAccessor,
+                IHttpContextAccessor contextAccessor,
+                IConfiguration configuration,
+                IEmailService emailService,
+                DataContext context)
             {
                 _contextAccessor = contextAccessor;
                 _configuration = configuration;
                 _userManager = userManager;
-                _signInManager = signInManager;
                 _urlHelperFactory = urlHelperFactory;
                 _actionContextAccessor = actionContextAccessor;
                 _emailService = emailService;
@@ -97,7 +94,7 @@ namespace Application.User
                     var urlHelper = _urlHelperFactory.GetUrlHelper(_actionContextAccessor.ActionContext);
 
                     var passwordResetLink = urlHelper.Action("ConfirmEmail", "ConfirmEmail",
-                    new { user = user.Id, token = token }, _contextAccessor.HttpContext.Request.Scheme);
+                    new { user = user.Id, token }, _contextAccessor.HttpContext.Request.Scheme);
                     var email = new EmailDto
                     {
                         SenderAddress = _configuration["SenderAddress"],
@@ -109,11 +106,7 @@ namespace Application.User
                     return Unit.Value;
                 }
                 
-                string errors = "";
-                foreach(var error in result.Errors)
-                {
-                    errors+=error.Description;
-                }
+                var errors = result.Errors.Aggregate("", (current, error) => current + error.Description);
                 throw new Exception(errors);
             }
 

@@ -1,5 +1,3 @@
-using System.Net;
-
 namespace Application.Photos
 {
     public class S3Response

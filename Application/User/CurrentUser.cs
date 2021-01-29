@@ -1,14 +1,11 @@
 using System;
 using System.Linq;
-using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
-using Application.Errors;
 using Application.Interfaces;
 using Domain;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
-using Persistence;
 
 namespace Application.User
 {
@@ -22,13 +19,13 @@ namespace Application.User
         public class Handler : IRequestHandler<CurrentUserQuery, User>
         {
             private readonly UserManager<AppUser> _userManager;
-            private readonly IJwtGenerator _jwtGenertor;
+            private readonly IJwtGenerator _jwtGenerator;
             private readonly IUserAccessor _userAccessor;
 
-            public Handler(UserManager<AppUser> userManager, IJwtGenerator jwtGenertor, IUserAccessor userAccessor)
+            public Handler(UserManager<AppUser> userManager, IJwtGenerator jwtGenerator, IUserAccessor userAccessor)
             {
                 _userManager = userManager;
-                _jwtGenertor = jwtGenertor;
+                _jwtGenerator = jwtGenerator;
                 _userAccessor = userAccessor;
             }
 
@@ -38,8 +35,8 @@ namespace Application.User
                return new User {
                    DisplayName = user.DisplayName,
                    Id = user.Id,
-                   RefreshToken = _jwtGenertor.GenerateRefreshToken(),
-                   Token = _jwtGenertor.CreateToken(user),
+                   RefreshToken = _jwtGenerator.GenerateRefreshToken(),
+                   Token = _jwtGenerator.CreateToken(user),
                    Image = user.Photos.FirstOrDefault(x => x.IsMain)?.Url
                };
             }

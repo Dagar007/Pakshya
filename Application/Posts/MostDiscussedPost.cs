@@ -10,12 +10,12 @@ namespace Application.Posts
 {
     public class MostDiscussedPost
     {
-        public class Query : IRequest<List<MostDisscussedPostDto>>
+        public class Query : IRequest<List<MostDiscussedPostDto>>
         {
 
         }
 
-        public class Handler : IRequestHandler<Query, List<MostDisscussedPostDto>>
+        public class Handler : IRequestHandler<Query, List<MostDiscussedPostDto>>
         {
             private readonly DataContext _context;
             public Handler(DataContext context)
@@ -23,16 +23,16 @@ namespace Application.Posts
                 _context = context;
             }
 
-            public async Task<List<MostDisscussedPostDto>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<List<MostDiscussedPostDto>> Handle(Query request, CancellationToken cancellationToken)
             {
                 var post = await _context.Posts.OrderByDescending(x => x.Comments.Count)
                                 .Take(5)
-                               .Select(s => new MostDisscussedPostDto
+                               .Select(s => new MostDiscussedPostDto
                                {
                                    PostId = s.Id,
                                    Heading = s.Heading.Length < 25? s.Heading: $"{s.Heading.Substring(0, 25)}...",
                                    NoOfComments = s.Comments.Count
-                               }).ToListAsync();
+                               }).ToListAsync(cancellationToken: cancellationToken);
                 return post;
             }
 

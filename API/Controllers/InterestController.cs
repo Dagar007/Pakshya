@@ -22,7 +22,7 @@ namespace API.Controllers
         }
 
         [HttpGet("{id}/user")]
-        public async Task<ActionResult<List<Guid>>> UserIntrests(string id)
+        public async Task<ActionResult<List<Guid>>> UserInterests(string id)
         {
             return await Mediator.Send(new ListUserInterests.UserInterestsQuery{Id= id});
         }

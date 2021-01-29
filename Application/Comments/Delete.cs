@@ -29,7 +29,7 @@ namespace Application.Comments
                 if (comment == null)
                     throw new RestException(HttpStatusCode.NotFound, new { comment = "Not found" });
                 _context.Remove(comment);
-                var success = await _context.SaveChangesAsync() > 0;
+                var success = await _context.SaveChangesAsync(cancellationToken) > 0;
                 if (success) return Unit.Value;
 
                 throw new Exception("problem deleting comment.");

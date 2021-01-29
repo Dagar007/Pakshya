@@ -2,7 +2,7 @@ using System;
 
 namespace Application.Posts
 {
-    public class MostDisscussedPostDto
+    public class MostDiscussedPostDto
     {
         public Guid PostId { get; set; }
         public string Heading { get; set; }

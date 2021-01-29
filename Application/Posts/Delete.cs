@@ -1,11 +1,9 @@
 using System;
-using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Errors;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using Persistence;
 
 namespace Application.Posts
@@ -31,14 +29,8 @@ namespace Application.Posts
                 if (post == null)
                     throw new RestException(HttpStatusCode.NotFound, new { post = "Not found" });
                 _context.Remove(post);
-                
-                // var comments = await _context.Comments.Where(c => c.PostId == post.Id).ToListAsync();
-                // foreach(var comment in comments)
-                // {
-                //     comment.IsActive = false;
-                // }
-                // post.IsActive = false;
-                var success = await _context.SaveChangesAsync() > 0;
+
+                var success = await _context.SaveChangesAsync(cancellationToken) > 0;
                 if (success) return Unit.Value;
 
                 throw new Exception("problem saving new post.");

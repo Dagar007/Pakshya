@@ -1,6 +1,6 @@
 namespace Application.Profiles
 {
-    public class FollowingUsersDTO
+    public class FollowingUsersDto
     {
         public string Id { get; set; }
         public string DisplayName { get; set; }

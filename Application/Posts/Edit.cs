@@ -8,7 +8,6 @@ using Domain;
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Http;
-using Newtonsoft.Json;
 using Persistence;
 
 namespace Application.Posts
@@ -85,7 +84,7 @@ namespace Application.Posts
                     }
                 }
 
-                var success = await _context.SaveChangesAsync() > 0;
+                var success = await _context.SaveChangesAsync(cancellationToken) > 0;
                 if (success) return Unit.Value;
 
                 throw new Exception($"Problem saving {request.Id} post");

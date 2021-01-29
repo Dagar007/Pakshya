@@ -28,8 +28,8 @@ namespace Application.Profiles
             var user = await _context.Users.SingleOrDefaultAsync(u => u.Id == id);
             if (user == null)
                 throw new RestException(HttpStatusCode.NotFound, new { User = "User not found." });
-            var userPosts = await _context.UserPostLikes.Where(u => u.AppUser.Email == user.Email && u.IsAuthor == true).Take(5).ToListAsync();
-            var userComments = await _context.UserCommentLikes.Where(u => u.AppUser.Email == user.Email && u.IsAuthor == true).Take(5).ToListAsync();
+            var userPosts = await _context.UserPostLikes.Where(u => u.AppUser.Email == user.Email && u.IsAuthor).Take(5).ToListAsync();
+            var userComments = await _context.UserCommentLikes.Where(u => u.AppUser.Email == user.Email && u.IsAuthor).Take(5).ToListAsync();
             var currentUser = await _context.Users.SingleOrDefaultAsync(u => u.Email == _userAccessor.GetEmail());
 
             
@@ -45,7 +45,7 @@ namespace Application.Profiles
                 Work = user.Work,
                 FollowersCount = user.Followers.Count(),
                 FollowingCount = user.Followings.Count(),
-                Interests = _mapper.Map<ICollection<UserInterest>,ICollection<InterestDTO>>(user.UserInterests),
+                Interests = _mapper.Map<ICollection<UserInterest>,ICollection<InterestDto>>(user.UserInterests),
                 Views = userPosts.Sum(u => u.Post.Views),
                 Posts = _mapper.Map<List<UserPostLike>, List<PostPostedByUserDto>>(userPosts),
                 Comments = _mapper.Map<List<UserCommentLike>, List<CommentPostedByUserDto>>(userComments),
@@ -57,12 +57,12 @@ namespace Application.Profiles
             return profile;
 
         }
-        private async Task<List<FollowingUsersDTO>> GetFollowingList(string id, string predicate)
+        private async Task<List<FollowingUsersDto>> GetFollowingList(string id, string predicate)
         {
             var queryable = _context.Followings.AsQueryable();
 
-            var userFollowing = new List<UserFollowing>();
-            var profiles = new List<FollowingUsersDTO>();
+            List<UserFollowing> userFollowing;
+            var profiles = new List<FollowingUsersDto>();
 
             switch (predicate)
             {
@@ -76,7 +76,7 @@ namespace Application.Profiles
                         {
                             profiles.Add
                             (
-                                new FollowingUsersDTO {
+                                new FollowingUsersDto {
                                     Id = follower.Observer.Id,
                                     DisplayName = follower .Observer.DisplayName,
                                     Url = follower.Observer.Photos?.FirstOrDefault(x => x.IsMain)?.Url
@@ -94,7 +94,7 @@ namespace Application.Profiles
                         {
                             profiles.Add
                             (
-                            new FollowingUsersDTO {
+                            new FollowingUsersDto {
                                     Id = follower.Target.Id,
                                     DisplayName = follower.Target.DisplayName,
                                     Url = follower.Target.Photos?.FirstOrDefault(x => x.IsMain)?.Url

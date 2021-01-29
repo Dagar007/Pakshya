@@ -4,7 +4,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Application.Errors;
 using Application.Interfaces;
-using Domain;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
@@ -32,9 +31,9 @@ namespace Application.Posts
                 var post = await _context.Posts.FindAsync(request.Id);
                 if (post == null)
                     throw new RestException(HttpStatusCode.NotFound, new { Post = "Cann't find post." });
-                var user = await _context.Users.SingleOrDefaultAsync(x => x.Email == _userAccessor.GetEmail());
+                var user = await _context.Users.SingleOrDefaultAsync(x => x.Email == _userAccessor.GetEmail(), cancellationToken: cancellationToken);
 
-                var userPostOrLike = await _context.UserPostLikes.SingleOrDefaultAsync(x => x.PostId == post.Id && x.AppUserId == user.Id);
+                var userPostOrLike = await _context.UserPostLikes.SingleOrDefaultAsync(x => x.PostId == post.Id && x.AppUserId == user.Id, cancellationToken: cancellationToken);
 
 
                 if (userPostOrLike == null || !userPostOrLike.IsLiked )
@@ -44,10 +43,10 @@ namespace Application.Posts
                 else
                     userPostOrLike.IsLiked = false;
 
-                var success = await _context.SaveChangesAsync() > 0;
+                var success = await _context.SaveChangesAsync(cancellationToken) > 0;
                 if (success) return Unit.Value;
 
-                throw new Exception("problem unliking new post.");
+                throw new Exception("Problem un-liking new post.");
             }
         }
     }

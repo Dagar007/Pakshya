@@ -19,11 +19,11 @@ namespace API.Controllers
         [HttpGet(Name = "ConfirmEmail")]
         public async Task<IActionResult> ConfirmEmail(string user, string token)
         {
-            var userFromDB = await _userManager.FindByIdAsync(user);
-            if (userFromDB == null)
+            var userFromDb = await _userManager.FindByIdAsync(user);
+            if (userFromDb == null)
                 return View("Error");
 
-            var result = await _userManager.ConfirmEmailAsync(userFromDB, token);
+            var result = await _userManager.ConfirmEmailAsync(userFromDb, token);
             return View(result.Succeeded ? nameof(ConfirmEmail) : "Error");
         }
     }

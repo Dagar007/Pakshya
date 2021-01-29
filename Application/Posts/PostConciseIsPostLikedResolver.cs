@@ -7,12 +7,12 @@ using Persistence;
 
 namespace Application.Posts
 {
-    public class PostConsiceIsPostLikedResolver : IValueResolver<Post, PostConcise, bool>
+    public class PostConciseIsPostLikedResolver : IValueResolver<Post, PostConcise, bool>
     {
         private readonly DataContext _context;
         private readonly IUserAccessor _userAccessor;
 
-        public PostConsiceIsPostLikedResolver(DataContext context, IUserAccessor userAccessor)
+        public PostConciseIsPostLikedResolver(DataContext context, IUserAccessor userAccessor)
         {
             _userAccessor = userAccessor;
             _context = context;
@@ -23,14 +23,7 @@ namespace Application.Posts
         {
             var currentUser = _context.Users
                 .SingleOrDefaultAsync(u => u.Email == _userAccessor.GetEmail()).Result;
-            if (currentUser == null)
-                return false;
-            if (source.UserPostLikes.Any(p => p.AppUser.Email == currentUser.Email && p.IsLiked == true))
-            {
-                return true;
-            }
-            return false;
-
+            return currentUser != null && source.UserPostLikes.Any(p => p.AppUser.Email == currentUser.Email && p.IsLiked);
         }
     }
 }

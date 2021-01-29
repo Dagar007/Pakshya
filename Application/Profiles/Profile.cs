@@ -24,12 +24,12 @@ namespace Application.Profiles
 
         // Stats Section
         public int Views { get; set; }
-        public ICollection<InterestDTO> Interests { get; set; }
+        public ICollection<InterestDto> Interests { get; set; }
         public ICollection<PostPostedByUserDto> Posts { get; set; }
         public ICollection<CommentPostedByUserDto> Comments { get; set; }
 
-        public ICollection<FollowingUsersDTO> Followings { get; set; }
-        public ICollection<FollowingUsersDTO> Followers { get; set; }
+        public ICollection<FollowingUsersDto> Followings { get; set; }
+        public ICollection<FollowingUsersDto> Followers { get; set; }
         
     }
 }

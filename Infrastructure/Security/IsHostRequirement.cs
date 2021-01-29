@@ -27,7 +27,7 @@ namespace Infrastructure.Security
             .User?.Claims?.SingleOrDefault(x => x.Type == ClaimTypes.Email)?.Value;
 
             var postId = Guid.Parse(_httpContextAccessor.HttpContext.Request.RouteValues
-                .SingleOrDefault(x => x.Key == "id").Value.ToString());
+                .SingleOrDefault(x => x.Key == "id").Value.ToString() ?? string.Empty);
 
             var post = _context.Posts.FindAsync(postId).Result;
             var host = post.UserPostLikes.FirstOrDefault(x => x.IsAuthor);

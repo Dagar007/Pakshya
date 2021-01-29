@@ -8,7 +8,6 @@ namespace Application.Comments
     {
         public MappingProfile()
         {
-             //CreateMap<Comment,CommentDto>();
             CreateMap<Comment, CommentDto>()
                 .ForMember(d => d.AuthorEmail, o => o.MapFrom(s => s.Author.UserName))
                 .ForMember(d => d.AuthorDisplayName, o => o.MapFrom(s => s.Author.DisplayName))

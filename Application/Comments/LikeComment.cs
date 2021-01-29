@@ -31,10 +31,10 @@ namespace Application.Comments
             {
                 var comment = await _context.Comments.FindAsync(request.Id);
                 if(comment == null)
-                    throw new RestException(HttpStatusCode.NotFound, new {Comment = "Cann't find comment."});
-                var user = await _context.Users.SingleOrDefaultAsync( x=> x.Email == _userAccessor.GetEmail());
+                    throw new RestException(HttpStatusCode.NotFound, new {Comment = "Can't find comment."});
+                var user = await _context.Users.SingleOrDefaultAsync( x=> x.Email == _userAccessor.GetEmail(), cancellationToken: cancellationToken);
 
-                var userLikeOrComment = await _context.UserCommentLikes.SingleOrDefaultAsync(x => x.CommentId == comment.Id && x.AppUserId == user.Id);
+                var userLikeOrComment = await _context.UserCommentLikes.SingleOrDefaultAsync(x => x.CommentId == comment.Id && x.AppUserId == user.Id, cancellationToken: cancellationToken);
 
                 if (userLikeOrComment?.IsLiked == true)
                     throw new RestException(HttpStatusCode.BadRequest, new { Attendence = "Already Liked." });
@@ -50,14 +50,14 @@ namespace Application.Comments
                     
                 };
 
-                _context.UserCommentLikes.Add(newLike);
+                await _context.UserCommentLikes.AddAsync(newLike, cancellationToken);
                 }
                
 
-                var success = await _context.SaveChangesAsync() > 0;
+                var success = await _context.SaveChangesAsync(cancellationToken) > 0;
                 if (success) return Unit.Value;
 
-                throw new Exception("problem liking comment.");
+                throw new Exception("Problem liking comment.");
             }
         }
     }

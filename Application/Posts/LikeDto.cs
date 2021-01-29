@@ -6,6 +6,5 @@ namespace Application.Posts
         public string DisplayName { get; set; }
         public string Image { get; set; }
         public bool IsAuthor { get; set; }
-        // public bool Following { get; set; }
     }
 }

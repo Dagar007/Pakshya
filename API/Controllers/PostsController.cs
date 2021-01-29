@@ -5,7 +5,6 @@ using Application.Helpers;
 using Application.Posts;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -57,7 +56,7 @@ namespace API.Controllers
     }
     [AllowAnonymous]
     [HttpGet("stats")]
-    public async Task<ActionResult<List<MostDisscussedPostDto>>> Stats()
+    public async Task<ActionResult<List<MostDiscussedPostDto>>> Stats()
     {
       return await Mediator.Send(new MostDiscussedPost.Query() );
     }

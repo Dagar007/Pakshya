@@ -310,19 +310,19 @@ namespace Persistence
 
             if(!context.Categories.Any())
             {
-            context.Categories.Add(new Category { Id = Guid.NewGuid(), Value = "Politics", IsActive= true });
-              context.Categories.Add(new Category { Id = Guid.NewGuid(), Value = "Economics", IsActive= true });
-              context.Categories.Add(new Category { Id = Guid.NewGuid(), Value = "India", IsActive= true });
-              context.Categories.Add(new Category { Id = Guid.NewGuid(), Value = "World", IsActive= true });
-              context.Categories.Add(new Category { Id = Guid.NewGuid(), Value = "Sports", IsActive= true });
-              context.Categories.Add(new Category { Id = Guid.NewGuid(), Value = "Random", IsActive= true });
-              context.Categories.Add(new Category { Id = Guid.NewGuid(), Value = "Entertainment", IsActive= true });
-              context.Categories.Add(new Category { Id = Guid.NewGuid(), Value = "Good Life", IsActive= true });
-              context.Categories.Add(new Category { Id = Guid.NewGuid(), Value = "Fashion And Style", IsActive= true });
-              context.Categories.Add(new Category { Id = Guid.NewGuid(), Value = "Writing", IsActive= true });
-              context.Categories.Add(new Category { Id = Guid.NewGuid(), Value = "Computers", IsActive= true });
-              context.Categories.Add(new Category { Id = Guid.NewGuid(), Value = "Philosophy", IsActive= true });
-            await context.SaveChangesAsync();
+                context.Categories.Add(new Category { Id = Guid.NewGuid(), Value = "Politics", IsActive= true });
+                context.Categories.Add(new Category { Id = Guid.NewGuid(), Value = "Economics", IsActive= true });
+                context.Categories.Add(new Category { Id = Guid.NewGuid(), Value = "India", IsActive= true });
+                context.Categories.Add(new Category { Id = Guid.NewGuid(), Value = "World", IsActive= true });
+                context.Categories.Add(new Category { Id = Guid.NewGuid(), Value = "Sports", IsActive= true });
+                context.Categories.Add(new Category { Id = Guid.NewGuid(), Value = "Random", IsActive= true });
+                context.Categories.Add(new Category { Id = Guid.NewGuid(), Value = "Entertainment", IsActive= true });
+                context.Categories.Add(new Category { Id = Guid.NewGuid(), Value = "Good Life", IsActive= true });
+                context.Categories.Add(new Category { Id = Guid.NewGuid(), Value = "Fashion And Style", IsActive= true });
+                context.Categories.Add(new Category { Id = Guid.NewGuid(), Value = "Writing", IsActive= true });
+                context.Categories.Add(new Category { Id = Guid.NewGuid(), Value = "Computers", IsActive= true });
+                context.Categories.Add(new Category { Id = Guid.NewGuid(), Value = "Philosophy", IsActive= true });
+                await context.SaveChangesAsync();
                 
             }
         }

@@ -7,12 +7,12 @@ using Persistence;
 
 namespace Application.Posts
 {
-    public class PostConsiceAuthorResolver : IValueResolver<Post, PostConcise, bool>
+    public class PostConciseAuthorResolver : IValueResolver<Post, PostConcise, bool>
     {
         private readonly DataContext _context;
         private readonly IUserAccessor _userAccessor;
 
-        public PostConsiceAuthorResolver(DataContext context, IUserAccessor userAccessor)
+        public PostConciseAuthorResolver(DataContext context, IUserAccessor userAccessor)
         {
             _context = context;
             _userAccessor = userAccessor;
@@ -22,13 +22,7 @@ namespace Application.Posts
         {
             var currentUser = _context.Users
             .SingleOrDefaultAsync(u => u.Email == _userAccessor.GetEmail()).Result;
-            if(currentUser == null)
-                return false;
-            if (source.UserPostLikes.Any(p => p.AppUser.Email == currentUser.Email && p.IsAuthor == true))
-            {
-                return true;
-            }
-            return false;
+            return currentUser != null && source.UserPostLikes.Any(p => p.AppUser.Email == currentUser.Email && p.IsAuthor);
         }
     }
 }

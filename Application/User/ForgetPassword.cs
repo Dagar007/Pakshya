@@ -1,4 +1,3 @@
-using System;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -34,24 +33,21 @@ namespace Application.User
         public class Handler : IRequestHandler<ForgetPasswordQuery, Unit>
         {
             private readonly UserManager<AppUser> _userManager;
-            private readonly SignInManager<AppUser> _signInManager;
             private readonly IUrlHelperFactory _urlHelperFactory;
             private readonly IActionContextAccessor _actionContextAccessor;
             private readonly IHttpContextAccessor _contextAccessor;
             private readonly IConfiguration _configuration;
             private readonly IEmailService _emailService;
             public Handler(UserManager<AppUser> userManager, 
-            SignInManager<AppUser> signInManager, 
-            IUrlHelperFactory urlHelperFactory,
-            IActionContextAccessor actionContextAccessor,
-            IHttpContextAccessor contextAccessor,
-            IConfiguration configuration,
-            IEmailService emailService)
+                IUrlHelperFactory urlHelperFactory,
+                IActionContextAccessor actionContextAccessor,
+                IHttpContextAccessor contextAccessor,
+                IConfiguration configuration,
+                IEmailService emailService)
             {
                 _contextAccessor = contextAccessor;
                 _configuration = configuration;
                 _userManager = userManager;
-                _signInManager = signInManager;
                 _urlHelperFactory = urlHelperFactory;
                 _actionContextAccessor = actionContextAccessor;
                 _emailService = emailService;
@@ -66,7 +62,7 @@ namespace Application.User
                  var urlHelper =
                     _urlHelperFactory.GetUrlHelper(_actionContextAccessor.ActionContext);
                 var passwordResetLink = urlHelper.Action("ResetPassword", "ForgetPassword",
-                    new { user = user.Id, token = token }, _contextAccessor.HttpContext.Request.Scheme);
+                    new { user = user.Id, token }, _contextAccessor.HttpContext.Request.Scheme);
                 var email = new EmailDto
                 {
                     SenderAddress = _configuration["SenderAddress"],

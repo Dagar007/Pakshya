@@ -41,13 +41,13 @@ namespace Application.Profiles
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
                 var user = await _context.Users
-                    .FirstOrDefaultAsync(u => u.Email == _userAccessor.GetEmail());
+                    .FirstOrDefaultAsync(u => u.Email == _userAccessor.GetEmail(), cancellationToken: cancellationToken);
                 user.Bio = request.Bio ?? user.Bio;
                 user.DisplayName = request.DisplayName ?? user.DisplayName;
                 user.Education = request.Education ?? user.Education;
                 user.Work = request.Work ?? user.Work;
 
-                var success = await _context.SaveChangesAsync() > 0;
+                var success = await _context.SaveChangesAsync(cancellationToken) > 0;
                 if (success) return Unit.Value;
 
                 throw new Exception($"Problem saving profile.");

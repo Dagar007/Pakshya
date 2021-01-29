@@ -135,10 +135,9 @@ namespace API
             services.AddScoped<IPhotoS3Accessor, PhotoAccessorS3>();
             services.AddScoped<IProfileReader, ProfileReader>();
             services.AddScoped<IFacebookAccessor, FacebookAccessor>();
-            services.AddScoped<IEmailService, EmailServiceAWS>();
+            services.AddScoped<IEmailService, EmailServiceAws>();
             services.AddAWSService<IAmazonS3>();
             services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
-            services.Configure<CloudinarySettings>(Configuration.GetSection("Cloudinary"));
             services.Configure<AwsSettings>(this.Configuration.GetSection("Aws"));
             services.Configure<FacebookAppSettings>(Configuration.GetSection("Authentication:Facebook"));
 
@@ -150,7 +149,6 @@ namespace API
             app.UseMiddleware<ErrorHandlingMiddleware>();
             if (env.IsDevelopment())
             {
-                // app.UseDeveloperExceptionPage();
                 app.UseMiddleware<ErrorHandlingMiddleware>();
             }
             else
@@ -167,7 +165,7 @@ namespace API
             app.UseCors("CorsPolicy");
             app.UseAuthentication();
             app.UseAuthorization();
-            app.UseSwaggerDocumention();
+            app.UseSwaggerDocumentation();
             app.UseEndpoints(endpoints =>
             {
 

@@ -34,7 +34,7 @@ namespace Application.Photos
             public async Task<Photo> Handle(Command request, CancellationToken cancellationToken)
             {
                 var photoUploadResult = await _photoAccessor.UploadFileAsync("pakshya.bucket",request.File);
-                var user = await _context.Users.SingleOrDefaultAsync(x=> x.Email == _userAccessor.GetEmail());
+                var user = await _context.Users.SingleOrDefaultAsync(x=> x.Email == _userAccessor.GetEmail(), cancellationToken: cancellationToken);
 
                 var photo = new Photo
                 {
@@ -47,7 +47,7 @@ namespace Application.Photos
                 
                 user.Photos.Add(photo);
 
-                var success = await _context.SaveChangesAsync() > 0;
+                var success = await _context.SaveChangesAsync(cancellationToken) > 0;
                 if (success) return photo;
 
                 throw new Exception("Error saving changes");

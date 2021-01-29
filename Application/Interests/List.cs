@@ -27,7 +27,7 @@ namespace Application.Interests
 
             public async Task<List<UserInterestDto>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var allInterests = await _context.Categories.Where(x => x.IsActive).ToListAsync();
+                var allInterests = await _context.Categories.Where(x => x.IsActive).ToListAsync(cancellationToken: cancellationToken);
                 return _mapper.Map<List<Category>, List<UserInterestDto>>(allInterests);  
             }
         }

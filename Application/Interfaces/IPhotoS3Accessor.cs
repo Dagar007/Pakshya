@@ -8,6 +8,6 @@ namespace Application.Interfaces
     {
          Task<S3Response> UploadFileAsync(string bucketName, IFormFile file);
          Task GetObjectFromS3(string filename);
-         Task DeletePhoto(string Key, string bucket);
+         Task DeletePhoto(string key, string bucket);
     }
 }

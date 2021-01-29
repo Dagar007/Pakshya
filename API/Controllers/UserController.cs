@@ -5,7 +5,6 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using Application.User;
-using Domain;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -30,7 +29,7 @@ namespace API.Controllers
         }
         [AllowAnonymous]
         [HttpPost("register")]
-        public async Task<ActionResult<Unit>> Resiter(Register.RegisterCommand command)
+        public async Task<ActionResult<Unit>> Register(Register.RegisterCommand command)
         {
             return await Mediator.Send(command);
         }

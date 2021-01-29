@@ -3,7 +3,6 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Errors;
-using Application.Interfaces;
 using AutoMapper;
 using Domain;
 using FluentValidation;
@@ -36,12 +35,10 @@ namespace Application.Comments
         public class Handler : IRequestHandler<CommentCreateCommand, CommentDto>
         {
             private readonly DataContext _context;
-            private readonly IUserAccessor _userAccessor;
             private readonly IMapper _mapper;
-            public Handler(DataContext context, IUserAccessor userAccessor, IMapper mapper)
+            public Handler(DataContext context, IMapper mapper)
             {
                 _mapper = mapper;
-                _userAccessor = userAccessor;
                 _context = context;
             }
 
@@ -55,7 +52,7 @@ namespace Application.Comments
                 
                 if(post == null)
                     throw new RestException(HttpStatusCode.NotFound, new {Post = "Not Found"});
-                var user = await _context.Users.SingleOrDefaultAsync(u => u.Email == request.Email);
+                var user = await _context.Users.SingleOrDefaultAsync(u => u.Email == request.Email, cancellationToken: cancellationToken);
 
                 var comment = new Comment 
                 {
@@ -77,12 +74,12 @@ namespace Application.Comments
                     IsAuthor = true,
                     IsLiked = false
                 };
-                _context.UserCommentLikes.Add(isCommentAuthor);
+                await _context.UserCommentLikes.AddAsync(isCommentAuthor, cancellationToken);
 
-                var success = await _context.SaveChangesAsync() > 0;
+                var success = await _context.SaveChangesAsync(cancellationToken) > 0;
                 if (success) return _mapper.Map<CommentDto>(comment);
 
-                throw new Exception("problem saving new comment.");
+                throw new Exception("Problem saving new comment.");
             }
         }
     }

@@ -30,10 +30,10 @@ namespace Application.Comments
             {
                 var comment = await _context.Comments.FindAsync(request.Id);
                 if (comment == null)
-                    throw new RestException(HttpStatusCode.NotFound, new { Comment = "Cann't find comment." });
-                var user = await _context.Users.SingleOrDefaultAsync(x => x.Email == _userAccessor.GetEmail());
+                    throw new RestException(HttpStatusCode.NotFound, new { Comment = "Can't find comment." });
+                var user = await _context.Users.SingleOrDefaultAsync(x => x.Email == _userAccessor.GetEmail(), cancellationToken: cancellationToken);
 
-                var userCommentOrLike = await _context.UserCommentLikes.SingleOrDefaultAsync(x => x.CommentId == comment.Id && x.AppUserId == user.Id);
+                var userCommentOrLike = await _context.UserCommentLikes.SingleOrDefaultAsync(x => x.CommentId == comment.Id && x.AppUserId == user.Id, cancellationToken: cancellationToken);
 
 
                 if (userCommentOrLike == null || !userCommentOrLike.IsLiked)
@@ -44,10 +44,10 @@ namespace Application.Comments
                     userCommentOrLike.IsLiked = false;
 
 
-                var success = await _context.SaveChangesAsync() > 0;
+                var success = await _context.SaveChangesAsync(cancellationToken) > 0;
                 if (success) return Unit.Value;
 
-                throw new Exception("problem unliking comment.");
+                throw new Exception("problem un-liking comment.");
             }
         }
     }

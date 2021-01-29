@@ -25,9 +25,6 @@ namespace Infrastructure.Security
             var claims = new List<Claim> {
                 new Claim(JwtRegisteredClaimNames.Email, user.Email)
             };
-
-            // gererate signincredendials
-           // var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("Super secret key"));
             var creds = new SigningCredentials(_key, SecurityAlgorithms.HmacSha512Signature);
             var tokenDescriptor = new SecurityTokenDescriptor
             {

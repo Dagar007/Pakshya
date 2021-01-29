@@ -10,7 +10,6 @@ using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
 using Persistence;
 
 namespace Application.Posts
@@ -49,7 +48,6 @@ namespace Application.Posts
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-                //var jsonPostDeseroalized = JsonConvert.DeserializeObject<JsonPostDeseroalized>(request.JsonPost);
                 var category = await _context.Categories.FindAsync(request.CategoryId);
                 if (category == null)
                     throw new RestException(HttpStatusCode.NotFound, new { Category = "Not found" });
@@ -76,8 +74,8 @@ namespace Application.Posts
                     };
                     post.Photos.Add(photo);
                 }
-                _context.Posts.Add(post);
-                var user = await _context.Users.SingleOrDefaultAsync(x => x.Email == _userAccessor.GetEmail());
+                await _context.Posts.AddAsync(post, cancellationToken);
+                var user = await _context.Users.SingleOrDefaultAsync(x => x.Email == _userAccessor.GetEmail(), cancellationToken: cancellationToken);
 
                 var isHost = new UserPostLike
                 {
@@ -86,9 +84,9 @@ namespace Application.Posts
                     IsAuthor = true,
                     IsLiked = false
                 };
-                _context.UserPostLikes.Add(isHost);
+                await _context.UserPostLikes.AddAsync(isHost, cancellationToken);
 
-                var success = await _context.SaveChangesAsync() > 0;
+                var success = await _context.SaveChangesAsync(cancellationToken) > 0;
                 if (success) return Unit.Value;
 
                 throw new Exception("problem saving new post.");

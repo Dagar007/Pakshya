@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Diagnostics;
+using API.Helper;
 using Domain;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -7,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Persistence;
+using Serilog;
 
 namespace API
 {
@@ -14,6 +17,7 @@ namespace API
     {
         public static void Main(string[] args)
         {
+            Activity.DefaultIdFormat = ActivityIdFormat.W3C;
             var host = CreateHostBuilder(args).Build();
             using(var scope = host.Services.CreateScope()) 
             {
@@ -39,6 +43,6 @@ namespace API
             Host.CreateDefaultBuilder(args).ConfigureWebHostDefaults(webBuilder => 
             {
                 webBuilder.UseStartup<Startup>();
-            });             
+            }).UseSerilog(Logging.ConfigureLogger);             
     }
 }

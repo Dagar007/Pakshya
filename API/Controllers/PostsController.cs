@@ -6,11 +6,21 @@ using Application.Posts;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using Microsoft.OpenApi.Writers;
+using Serilog.Core;
 
 namespace API.Controllers
 {
   public class PostsController : BaseController
   {
+      private readonly ILogger<PostsController> _logger;
+
+      public PostsController(ILogger<PostsController> logger)
+      {
+          _logger = logger;
+      }
+
     [AllowAnonymous]
     [HttpGet]
     public async Task<ActionResult<List<PostConcise>>> List([FromQuery]Params postParams)
@@ -20,6 +30,7 @@ namespace API.Controllers
     [HttpGet("{id}")]
     public async Task<ActionResult<PostConcise>> Details(Guid id)
     {
+        using var scope = _logger.BeginScope("Loading Post {PostId}", id);
       return await Mediator.Send(new Details.Query { Id = id });
     }
     [HttpPost]

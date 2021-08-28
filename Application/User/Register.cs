@@ -72,7 +72,7 @@ namespace Application.User
 
             public async Task<Unit> Handle(RegisterCommand request, CancellationToken cancellationToken)
             {
-                if (await _context.Users.Where(x => x.Email.ToLower() == request.Email.ToLower()).AnyAsync())
+                if (await _context.Users.Where(x => x.Email.ToLower() == request.Email.ToLower()).AnyAsync(cancellationToken: cancellationToken))
                 {
                     throw new RestException(HttpStatusCode.BadRequest, new { Email = "Email already exists" });
                 }

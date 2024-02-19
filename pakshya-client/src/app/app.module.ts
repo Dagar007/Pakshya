@@ -6,7 +6,7 @@ import { JwtModule } from '@auth0/angular-jwt';
 
 import {
   SocialLoginModule,
-  AuthServiceConfig,
+  SocialAuthServiceConfig,
   FacebookLoginProvider,
 } from 'angularx-social-login';
 
@@ -27,15 +27,11 @@ export function tokenGetter() {
   return localStorage.getItem('token');
 }
 
-const config = new AuthServiceConfig([
- {
-    id: FacebookLoginProvider.PROVIDER_ID,
-    provider: new FacebookLoginProvider('536520493877013')
+declare module "@angular/core" {
+  interface ModuleWithProviders<T = any> {
+    ngModule: Type<T>;
+    providers?: Provider[];
   }
-]);
-
-export function provideConfig() {
-  return config;
 }
 
 @NgModule({
@@ -66,7 +62,21 @@ export function provideConfig() {
     CommentResolver,
     ErrorInterceptorProvider,
     { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true },
-    { provide: AuthServiceConfig, useFactory: provideConfig },
+    {
+      provide: 'SocialAuthServiceConfig',
+      useValue: {
+        autoLogin: false,
+        providers: [
+          {
+            id: FacebookLoginProvider.PROVIDER_ID,
+            provider: new FacebookLoginProvider('536520493877013')
+          }
+        ],
+        onError: (err) => {
+          console.error(err);
+        }
+      } as SocialAuthServiceConfig,
+    },
   ],
   entryComponents: [LoginPopupComponent],
   bootstrap: [AppComponent]

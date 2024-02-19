@@ -4,14 +4,15 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { MaterialModule } from '../material.module';
-import { TimeAgoPipe } from 'time-ago-pipe';
+
 import { LoginPopupComponent } from './components/login-popup/login-popup.component';
 import { TextInputComponent } from './components/text-input/text-input.component';
+import { NgPipesModule } from 'ngx-pipes';
 
 
 
 @NgModule({
-  declarations: [TimeAgoPipe, LoginPopupComponent, TextInputComponent],
+  declarations: [LoginPopupComponent, TextInputComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -19,6 +20,7 @@ import { TextInputComponent } from './components/text-input/text-input.component
     RouterModule,
     InfiniteScrollModule,
     MaterialModule,
+    NgPipesModule
 
   ],
   exports: [
@@ -26,7 +28,7 @@ import { TextInputComponent } from './components/text-input/text-input.component
     FormsModule,
     RouterModule,
     MaterialModule,
-    TimeAgoPipe,
+    NgPipesModule,
     InfiniteScrollModule,
     LoginPopupComponent,
     TextInputComponent

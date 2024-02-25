@@ -4,8 +4,9 @@ mat-toolbar {
     top:0;
     z-index: 20;
     box-shadow:  0 .1rem .6rem rgba(0,0,0, .3);
-    width: 100%;
+    height: 80px;
   }
+
   .navbar{
     width: 100%;
     display: flex;
@@ -15,10 +16,12 @@ mat-toolbar {
     &__logo-button{
       font-size: inherit;
     }
+
     &__logo-button--wrapper {
       display: flex;
       align-items: center;
     }
+
     &__logo {
       display: flex;
       justify-content: center;
@@ -36,6 +39,7 @@ mat-toolbar {
       border-radius: 4px;
       box-sizing: content-box;
     }
+
     .nav-right{
         font-size: .9rem;
         font-weight: 500;
@@ -56,6 +60,7 @@ mat-toolbar {
         }
     }
   }
+
   .select-wrapper {
     font-size: .8rem;
     width: 100%;

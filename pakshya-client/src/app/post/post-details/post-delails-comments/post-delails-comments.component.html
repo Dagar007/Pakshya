@@ -3,12 +3,11 @@
     <form class="form">
       <mat-form-field
         class="form__textbox"
-        style="width: 100%;"
         hintLabel="Not more than 1000 words."
       >
         <textarea
           matInput
-          placeholder="Comment"
+          placeholder="What you think about it?"
           [(ngModel)]="comment"
           name="comment"
           value="comment"
@@ -30,8 +29,8 @@
             [(ngModel)]="type"
             [ngModelOptions]="{ standalone: true }"
           >
-            <mat-radio-button value="support">For</mat-radio-button>
-            <mat-radio-button value="against">Against</mat-radio-button>
+            <mat-radio-button value="support">Agree</mat-radio-button>
+            <mat-radio-button value="against">Don't agree</mat-radio-button>
           </mat-radio-group>
           <button
             mat-raised-button

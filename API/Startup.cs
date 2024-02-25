@@ -10,6 +10,7 @@ using Application.Posts;
 using Application.Profiles;
 using AutoMapper;
 using Domain;
+using FluentValidation;
 using FluentValidation.AspNetCore;
 using Infrastructure.Photos;
 using Infrastructure.Security;
@@ -63,12 +64,16 @@ namespace API
             {
                 var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
                 opt.Filters.Add(new AuthorizeFilter(policy));
-                
-            })
-            .AddFluentValidation(cfg =>
-            {
-                cfg.RegisterValidatorsFromAssemblyContaining<Create>();
+
             });
+            services.AddFluentValidationAutoValidation();
+            services.AddFluentValidationClientsideAdapters();
+            services.AddValidatorsFromAssemblyContaining<Create>();
+            //    .AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters()
+            //.AddFluentValidation(cfg =>
+            //{
+            //    cfg.RegisterValidatorsFromAssemblyContaining<Create>();
+            //});
             services.AddMvc();
 
             var builder = services.AddIdentityCore<AppUser>(opt => 

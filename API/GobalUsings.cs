@@ -1,0 +1,27 @@
+global using System;
+global using System.Diagnostics;
+
+global using Microsoft.AspNetCore.Identity;
+global using Microsoft.EntityFrameworkCore;
+global using Microsoft.Extensions.DependencyInjection;
+global using Microsoft.AspNetCore.Builder;
+global using Amazon.S3;
+global using Microsoft.AspNetCore.Authentication.JwtBearer;
+global using Microsoft.AspNetCore.Authorization;
+global using Microsoft.AspNetCore.Mvc.Authorization;
+global using Microsoft.AspNetCore.Mvc.Infrastructure;
+global using Microsoft.IdentityModel.Tokens;
+global using System.Text;
+global using FluentValidation.AspNetCore;
+global using FluentValidation;
+global using API.Extensions;
+global using MediatR;
+global using System.Threading.Tasks;
+global using Microsoft.Extensions.Configuration;
+global using API.SignalR;
+global using Microsoft.Extensions.Hosting;
+global using API.Middleware;
+global using Microsoft.AspNetCore.Http;
+global using Microsoft.Extensions.Logging;
+global using Serilog;
+global using API.Helper;

@@ -4,11 +4,10 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { JwtModule } from '@auth0/angular-jwt';
 
+import { SocialLoginModule, SocialAuthServiceConfig } from '@abacritt/angularx-social-login';
 import {
-  SocialLoginModule,
-  SocialAuthServiceConfig,
-  FacebookLoginProvider,
-} from 'angularx-social-login';
+  FacebookLoginProvider
+} from '@abacritt/angularx-social-login';
 
 import { AppRoutingModule } from './app-routing.module';
 
@@ -18,21 +17,18 @@ import { ErrorInterceptorProvider } from './core/interceptors/error.interceptor'
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { LoadingInterceptor } from './core/interceptors/loading.interceptors';
 import { CoreModule } from './core/core.module';
-import { CommentResolver } from './shared/_resolvers/comments.resolver';
-import { PostResolver } from './shared/_resolvers/_post.resolver';
-import { LoginPopupComponent } from './shared/components/login-popup/login-popup.component';
 
 
 export function tokenGetter() {
   return localStorage.getItem('token');
 }
 
-declare module "@angular/core" {
-  interface ModuleWithProviders<T = any> {
-    ngModule: Type<T>;
-    providers?: Provider[];
-  }
-}
+// declare module "@angular/core" {
+//   interface ModuleWithProviders<T = any> {
+//     ngModule: Type<T>;
+//     providers?: Provider[];
+//   }
+// }
 
 @NgModule({
   declarations: [
@@ -47,8 +43,8 @@ declare module "@angular/core" {
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,
-        whitelistedDomains: ['localhost:5000'],
-        blacklistedRoutes: [
+        allowedDomains: ['localhost:5000'],
+        disallowedRoutes: [
           'localhost:5000/api/user/login',
           'localhost:5000/api/user/register'
         ]
@@ -58,8 +54,12 @@ declare module "@angular/core" {
     NgxSpinnerModule
   ],
   providers: [
-    PostResolver,
-    CommentResolver,
+    // provideRouter([
+    //   {
+    //     component: PostDelailsCommentsComponent,
+    //     resolve: {comment: CommentResolver},
+    //   },
+    // ]),
     ErrorInterceptorProvider,
     { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true },
     {
@@ -78,7 +78,7 @@ declare module "@angular/core" {
       } as SocialAuthServiceConfig,
     },
   ],
-  entryComponents: [LoginPopupComponent],
+  //entryComponents: [LoginPopupComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

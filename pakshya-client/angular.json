@@ -145,5 +145,8 @@
       }
     }
   },
-  "defaultProject": "pakshya-client"
+  "defaultProject": "pakshya-client",
+  "cli": {
+    "analytics": false
+  }
 }

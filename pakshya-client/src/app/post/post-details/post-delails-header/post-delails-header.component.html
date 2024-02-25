@@ -5,7 +5,7 @@
   class="avatar" />
   <div class="user-info-box">
     {{post.hostDisplayName}}
-    <span>{{ post.date | timeAgo}}</span>
+    <span>{{ post.date | timeago}}</span>
   </div>
   <mat-chip-list aria-label="category" *ngIf="post.category">
     <mat-chip>{{ post.category.value }}</mat-chip>

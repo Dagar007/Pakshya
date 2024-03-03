@@ -12,7 +12,7 @@ using System.IO;
 
 namespace Infrastructure.Photos
 {
-    public class PhotoAccessorS3 : IPhotoS3Accessor
+    public class PhotoAccessorS3 : IImageService
     {
         private readonly IAmazonS3 _client;
         private const string BucketName = "pakshya.bucket";

@@ -5,6 +5,7 @@ using Application.Interfaces;
 using Application.Profiles;
 using Persistence;
 using Application.Posts;
+using Azure.Storage.Blobs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -102,7 +103,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 builder.Services.AddScoped<IJwtGenerator, JwtGenerator>();
 builder.Services.AddScoped<IUserAccessor, UserAccessor>();
-builder.Services.AddScoped<IPhotoS3Accessor, PhotoAccessorS3>();
+builder.Services.AddScoped<IImageService, PhotoAccessorS3>();
 builder.Services.AddScoped<IProfileReader, ProfileReader>();
 builder.Services.AddScoped<IFacebookAccessor, FacebookAccessor>();
 builder.Services.AddScoped<IEmailService, EmailServiceAws>();
@@ -111,6 +112,8 @@ builder.Services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
 builder.Services.Configure<AwsSettings>(builder.Configuration.GetSection("Aws"));
 builder.Services.Configure<FacebookAppSettings>(builder.Configuration.GetSection("Authentication:Facebook"));
 builder.Host.UseSerilog(Logging.ConfigureLogger);
+builder.Services.AddSingleton(x => new BlobServiceClient(builder.Configuration["AZURE_STORAGE_CONNECTION_STRING"]));
+builder.Services.AddSingleton<IBlobService, BlobService>();
 // configure http request pipeline 
 
 

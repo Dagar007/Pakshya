@@ -37,8 +37,8 @@ namespace Application.Posts
         public class Handler : IRequestHandler<Command, Unit>
         {
             private readonly DataContext _context;
-            private readonly IPhotoS3Accessor _photoAccessor;
-            public Handler(DataContext context, IPhotoS3Accessor photoAccessor)
+            private readonly IImageService _photoAccessor;
+            public Handler(DataContext context, IImageService photoAccessor)
             {
                 _photoAccessor = photoAccessor;
                 _context = context;

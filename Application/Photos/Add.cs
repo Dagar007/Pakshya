@@ -23,8 +23,8 @@ namespace Application.Photos
         {
             private readonly DataContext _context;
             private readonly IUserAccessor _userAccessor;
-            private readonly IPhotoS3Accessor _photoAccessor;
-            public Handler(DataContext context, IUserAccessor userAccessor, IPhotoS3Accessor photoAccessor)
+            private readonly IImageService _photoAccessor;
+            public Handler(DataContext context, IUserAccessor userAccessor, IImageService photoAccessor)
             {
                 _photoAccessor = photoAccessor;
                 _userAccessor = userAccessor;

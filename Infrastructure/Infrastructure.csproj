@@ -3,6 +3,7 @@
     <ProjectReference Include="..\Application\Application.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Azure.Storage.Blobs" Version="12.19.1" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.3.1" />
     <PackageReference Include="CloudinaryDotNet" Version="1.25.1" />
     <PackageReference Include="AWSSDK.SimpleEmail" Version="3.7.300.52" />

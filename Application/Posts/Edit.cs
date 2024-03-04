@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -37,10 +38,10 @@ namespace Application.Posts
         public class Handler : IRequestHandler<Command, Unit>
         {
             private readonly DataContext _context;
-            private readonly IImageService _photoAccessor;
-            public Handler(DataContext context, IImageService photoAccessor)
+            private readonly IBlobService _blobService;
+            public Handler(DataContext context, IBlobService blobService)
             {
-                _photoAccessor = photoAccessor;
+                _blobService = blobService;
                 _context = context;
             }
 
@@ -67,18 +68,18 @@ namespace Application.Posts
                     var photos = post.Photos;
                     foreach (var ph in photos)
                     {
-                        await _photoAccessor.DeletePhoto(ph.Id, "pakshya.bucket");
+                        await _blobService.DeleteBlobAsync(ph.Url.Split("/").Last());
                     }
                     _context.Photos.RemoveRange(photos);
 
-                    if (request.File != null && request.File.Length > 0)
+                    if (request.File is { Length: > 0 })
                     {
                         // Start fresh upload
-                        var photoUploadResult = await _photoAccessor.UploadFileAsync("pakshya.bucket", request.File);
+                        var photoUploadResult = await _blobService.UploadContentBlobAsync(request.File, request.File.FileName);
                         var photo = new Photo
                         {
                             Url = photoUploadResult.Url,
-                            Id = photoUploadResult.Key
+                            Id = photoUploadResult.Id
                         };
                         post.Photos.Add(photo);
                     }

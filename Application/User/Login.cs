@@ -56,22 +56,20 @@ namespace Application.User
                 }
                     
                 var result = await _signInManager.CheckPasswordSignInAsync(user,request.Password, false);
-                
-                if(result.Succeeded)
+
+                if (!result.Succeeded) throw new RestException(HttpStatusCode.Unauthorized);
+
+                user.RefreshToken = _jwtGenerator.GenerateRefreshToken();
+                user.RefreshTokenExpiry = DateTime.Now.AddDays(30);
+                await _userManager.UpdateAsync(user);
+                return new User 
                 {
-                    user.RefreshToken = _jwtGenerator.GenerateRefreshToken();
-                    user.RefreshTokenExpiry = DateTime.Now.AddDays(30);
-                    await _userManager.UpdateAsync(user);
-                    return new User 
-                    {
-                        DisplayName = user.DisplayName,
-                        Token = _jwtGenerator.CreateToken(user),
-                        RefreshToken = user.RefreshToken,
-                        Id = user.Id,
-                        Image = user.Photos.FirstOrDefault(x => x.IsMain)?.Url
-                    };
-                }
-                throw new RestException(HttpStatusCode.Unauthorized);
+                    DisplayName = user.DisplayName,
+                    Token = _jwtGenerator.CreateToken(user),
+                    RefreshToken = user.RefreshToken,
+                    Id = user.Id,
+                    Image = user.Photos.FirstOrDefault(x => x.IsMain)?.Url
+                };
             }
         }
     }

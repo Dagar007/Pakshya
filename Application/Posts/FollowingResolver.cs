@@ -21,11 +21,7 @@ namespace Application.Posts
         {
             var currentUser = _context.Users
                 .SingleOrDefaultAsync(u => u.Email == _userAccessor.GetEmail()).Result;
-            if(currentUser.Followings.Any(c => c.TargetId == source.AppUser.Id))
-            {
-                return true;
-            }
-            return false;
+            return currentUser != null && currentUser.Followings.Any(c => c.TargetId == source.AppUser.Id);
         }
     }
 }

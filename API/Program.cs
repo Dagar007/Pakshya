@@ -5,6 +5,7 @@ using Application.Interfaces;
 using Application.Profiles;
 using Persistence;
 using Application.Posts;
+using Azure.Storage.Blobs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,7 +14,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<DataContext>(opt =>
 {
     opt.UseLazyLoadingProxies();
-    opt.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
+    opt.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
 builder.Services.AddCors(opt =>
@@ -70,7 +71,7 @@ builder.Services.AddAuthorization(opt =>
 builder.Services.AddTransient<IAuthorizationHandler, IsHostRequirementHandler>();
 builder.Services.AddTransient<IAuthorizationHandler, IsHostRequirementHandlerComment>();
 
-var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["TokenKey"]));
+var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["TokenKey"]!));
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 .AddJwtBearer(opt =>
@@ -102,7 +103,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 builder.Services.AddScoped<IJwtGenerator, JwtGenerator>();
 builder.Services.AddScoped<IUserAccessor, UserAccessor>();
-builder.Services.AddScoped<IPhotoS3Accessor, PhotoAccessorS3>();
+builder.Services.AddScoped<IImageService, PhotoAccessorS3>();
 builder.Services.AddScoped<IProfileReader, ProfileReader>();
 builder.Services.AddScoped<IFacebookAccessor, FacebookAccessor>();
 builder.Services.AddScoped<IEmailService, EmailServiceAws>();
@@ -111,9 +112,11 @@ builder.Services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
 builder.Services.Configure<AwsSettings>(builder.Configuration.GetSection("Aws"));
 builder.Services.Configure<FacebookAppSettings>(builder.Configuration.GetSection("Authentication:Facebook"));
 builder.Host.UseSerilog(Logging.ConfigureLogger);
+builder.Services.AddSingleton(x => new BlobServiceClient(builder.Configuration["AZURE_STORAGE_CONNECTION_STRING"]));
+builder.Services.AddSingleton<IBlobService, BlobService>();
 // configure http request pipeline 
 
-
+//AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 var app = builder.Build();
 app.UseMiddleware<ErrorHandlingMiddleware>();
 if (app.Environment.IsDevelopment())
@@ -129,13 +132,16 @@ else
 }
 
 // app.UseHttpsRedirection();
-app.UseDefaultFiles();
-app.UseStaticFiles();
+
+
 
 app.UseCors("CorsPolicy");
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseSwaggerDocumentation();
+
+app.UseDefaultFiles();
+app.UseStaticFiles();
 
 app.MapControllers();
 app.MapHub<ChatHub>("/chat");
@@ -149,10 +155,10 @@ var services = scope.ServiceProvider;
 try
 {
     var context = services.GetRequiredService<DataContext>();
+    await context.Database.MigrateAsync();
     var userManager = services.GetRequiredService<UserManager<AppUser>>();
     var roleManager = services.GetRequiredService<RoleManager<Role>>();
-    context.Database.Migrate();
-    Seed.SeedData(context,userManager,roleManager).Wait();
+    await Seed.SeedData(context,userManager,roleManager);
 }
 catch(Exception ex)
 {

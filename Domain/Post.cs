@@ -13,9 +13,9 @@ namespace Domain
         public int For { get; set; }
         public int Against { get; set; }
         public int Views { get; set; }
-        public virtual ICollection<Photo> Photos { get; set; }
-        public virtual ICollection<UserPostLike> UserPostLikes { get; set; }
-        public virtual ICollection<Comment> Comments { get; set; }
+        public virtual ICollection<Photo> Photos { get; set; } = new List<Photo>();
+        public virtual ICollection<UserPostLike> UserPostLikes { get; set; } = new List<UserPostLike>();
+        public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();
         public bool IsActive { get; set; }
        
     }

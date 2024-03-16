@@ -23,11 +23,11 @@ namespace Infrastructure.Security
 
         protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, IsHostRequirement requirement)
         {
-            var currentUserEmail = _httpContextAccessor.HttpContext
-            .User?.Claims?.SingleOrDefault(x => x.Type == ClaimTypes.Email)?.Value;
+            var currentUserEmail = _httpContextAccessor.HttpContext?
+            .User.Claims.SingleOrDefault(x => x.Type == ClaimTypes.Email)?.Value;
 
-            var postId = Guid.Parse(_httpContextAccessor.HttpContext.Request.RouteValues
-                .SingleOrDefault(x => x.Key == "id").Value.ToString() ?? string.Empty);
+            var postId = Guid.Parse(_httpContextAccessor.HttpContext?.Request.RouteValues
+                .SingleOrDefault(x => x.Key == "id").Value?.ToString() ?? string.Empty);
 
             var post = _context.Posts.FindAsync(postId).Result;
             var host = post.UserPostLikes.FirstOrDefault(x => x.IsAuthor);

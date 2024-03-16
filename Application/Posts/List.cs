@@ -21,7 +21,7 @@ namespace Application.Posts
         {
             public Query(Params postParams)
             {
-                this.PostParams = postParams;
+                PostParams = postParams;
             }
             public Params PostParams { get; set; }
         }
@@ -45,7 +45,7 @@ namespace Application.Posts
             public async Task<List<PostConcise>> Handle(Query request, CancellationToken cancellationToken)
             {
                 _logger.LogDebug("Received a request for list of post with {Request}",request.PostParams.GetLoggingData(_userAccessor.GetEmail()));
-                //throw new Exception("test exeception");
+                //throw new Exception("test exception");
                 var queryable = _context.Posts.Where(x => x.IsActive)
                     .OrderByDescending(d => d.Date)
                 .AsQueryable();
@@ -56,7 +56,7 @@ namespace Application.Posts
                 }
 
                 var posts = await PagedList<Post>.CreateAsync(queryable, request.PostParams.PageNumber, request.PostParams.PageSize);
-                _httpContext.HttpContext.Response.AddPagination(posts.CurrentPage, posts.PageSize,posts.TotalCount, posts.TotalPages);
+                _httpContext.HttpContext?.Response.AddPagination(posts.CurrentPage, posts.PageSize,posts.TotalCount, posts.TotalPages);
                 var postsToReturn =  _mapper.Map<List<Post>, List<PostConcise>>(posts);
 
                 _logger.LogDebug("Found {PostCount} posts in database", postsToReturn.Count);

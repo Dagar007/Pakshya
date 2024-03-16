@@ -24,15 +24,16 @@
         <mat-icon>chat</mat-icon>
       </button>
 
-      <button mat-button [matMenuTriggerFor]="menu" *ngIf="(loggedInUser$ | async) as currentUser"> 
-        <!-- <img [src]="authService.currentUser1?.image? authService.currentUser1?.image : '../assets/user.png'" onerror="this.src ='../assets/user.png'" [alt]="authService.currentUser1?.username" class="avatar"> -->
-        <img src={{currentUser.image}} 
+      <button class="btn-profile" mat-button [matMenuTriggerFor]="menu" *ngIf="(loggedInUser$ | async) as currentUser"> 
+        <mat-icon aria-hidden="true" role="img" class="mat-icon notranslate material-icons mat-icon-no-color">arrow_drop_down</mat-icon>
+        <div class="user-details">
+          <img src={{currentUser.image}} 
           onerror="this.src ='../assets/user.png'" 
           [alt]="currentUser.displayName" class="avatar">
-        {{ currentUser.displayName | titlecase}}
-       
-      <mat-icon aria-hidden="true" role="img" class="mat-icon notranslate material-icons mat-icon-no-color">arrow_drop_down</mat-icon>
+          <span>{{ currentUser.displayName | titlecase}}</span>
+        </div>
       </button>
+      
       <mat-menu #menu="matMenu">
         <ng-container *ngIf="(loggedInUser$ | async) as currentUser">
           <button mat-menu-item [routerLink]="['/profile', currentUser.id]">

@@ -4,6 +4,7 @@ import { PostDetailsComponent } from './post-details/post-details.component';
 import { CreateComponent } from './create/create.component';
 import { PostComponent } from './post.component';
 import { AuthGuard } from '../core/guards/auth.guard';
+import { TimeagoModule } from 'ngx-timeago';
 
 
 const routes: Routes = [
@@ -16,7 +17,8 @@ const routes: Routes = [
 @NgModule({
   declarations: [],
   imports: [
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
+    TimeagoModule.forChild()
   ],
   exports: [
     RouterModule

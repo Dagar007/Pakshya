@@ -52,7 +52,7 @@ namespace Application.Profiles
                 Followers = await GetFollowingList(user.Id, "followers"),
                 Followings = await GetFollowingList(user.Id, "following")
             };
-            if (currentUser.Followings.Any(x => x.TargetId == user.Id))
+            if (currentUser != null && currentUser.Followings.Any(x => x.TargetId == user.Id))
                 profile.IsFollowed = true;
             return profile;
 

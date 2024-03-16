@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Domain;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace Persistence
 {
@@ -24,7 +25,7 @@ namespace Persistence
 
                 foreach(var role in roles)
                 {
-                    roleManager.CreateAsync(role).Wait();
+                    await roleManager.CreateAsync(role);
                      
                 }
                 var users = new List<AppUser>
@@ -36,7 +37,7 @@ namespace Persistence
                         Email = "bob@test.com",
                         UserName = "bob@test.com",
                         EmailConfirmed = true,
-                        Birthday = DateTime.Now.AddYears(-18),
+                        Birthday = DateTime.UtcNow.AddYears(-18),
                         Gender = "male",
                         IsActive = true
                     },
@@ -47,7 +48,7 @@ namespace Persistence
                         Email = "tom@test.com",
                         UserName= "tom@test.com",
                         EmailConfirmed = true,
-                        Birthday = DateTime.Now.AddYears(-20),
+                        Birthday = DateTime.UtcNow.AddYears(-20),
                         Gender = "male",
                         IsActive = true
                     },
@@ -58,7 +59,7 @@ namespace Persistence
                         Email = "jane@test.com",
                         UserName = "jane@test.com",
                         EmailConfirmed = true,
-                        Birthday = DateTime.Now.AddYears(-22),
+                        Birthday = DateTime.UtcNow.AddYears(-22),
                         Gender = "female",
                         IsActive = true
                     },
@@ -66,11 +67,11 @@ namespace Persistence
                 };
                 foreach(var user in users)
                 {
-                    userManager.CreateAsync(user, "Pa$$w0rd").Wait();
+                    await userManager.CreateAsync(user, "Pa$$w0rd");
                 }
-                foreach(var user in userManager.Users)
+                foreach(var user in await userManager.Users.ToListAsync())
                 {
-                    userManager.AddToRolesAsync(user, new[] {"User"}).Wait();
+                    await userManager.AddToRolesAsync(user, new[] {"User"});
                 }
                
 
@@ -84,10 +85,10 @@ namespace Persistence
                     IsActive = true
                 };
 
-                var result = userManager.CreateAsync(adminUser, "Pa$$w0rd").Result;
+                var result = await userManager.CreateAsync(adminUser, "Pa$$w0rd");
                 if(result.Succeeded) 
                 {
-                    var admin = userManager.FindByEmailAsync("admin@test.com").Result;
+                    var admin = await userManager.FindByEmailAsync("admin@test.com");
                     await userManager.AddToRolesAsync(admin, new[] {"Admin"});
                 }
 
@@ -100,7 +101,7 @@ namespace Persistence
                     new Post
                         {
                             Heading = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus magna erat, malesuada in felis at, tincidunt fringilla augue.",
-                            Date = DateTime.Now.AddMonths(-7),
+                            Date = DateTime.UtcNow.AddMonths(-7),
                             Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus magna erat, malesuada in felis at, tincidunt fringilla augue. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Etiam maximus tortor vitae ex ultrices, nec maximus arcu gravida. Sed orci odio, suscipit non feugiat sit amet, viverra eget tellus. Ut vestibulum vitae tellus et sollicitudin. Aenean augue leo, dignissim eu libero in, mollis auctor nibh. Quisque lobortis tempor lorem id bibendum. Sed mattis nisl maximus fringilla pretium. Curabitur et leo enim. Morbi sapien leo, malesuada vel neque vel, lobortis porttitor magna.",
                             
                             
@@ -114,7 +115,7 @@ namespace Persistence
                                 {
                                     AppUserId = "a",
                                     IsAuthor = true,
-                                    DateLiked = DateTime.Now.AddMonths(-2)
+                                    DateLiked = DateTime.UtcNow.AddMonths(-2)
                                 }
                             }
                             
@@ -122,7 +123,7 @@ namespace Persistence
                     new Post
                     {
                         Heading = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus magna erat, malesuada in felis at, tincidunt fringilla augue.",
-                        Date = DateTime.Now.AddMonths(-6),
+                        Date = DateTime.UtcNow.AddMonths(-6),
                         Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus magna erat, malesuada in felis at, tincidunt fringilla augue. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Etiam maximus tortor vitae ex ultrices, nec maximus arcu gravida. Sed orci odio, suscipit non feugiat sit amet, viverra eget tellus. Ut vestibulum vitae tellus et sollicitudin. Aenean augue leo, dignissim eu libero in, mollis auctor nibh. Quisque lobortis tempor lorem id bibendum. Sed mattis nisl maximus fringilla pretium. Curabitur et leo enim. Morbi sapien leo, malesuada vel neque vel, lobortis porttitor magna.",
                          
                         //Url = "https://dummyimage.com/640x4:3",
@@ -135,21 +136,21 @@ namespace Persistence
                                 {
                                     AppUserId = "b",
                                     IsAuthor = true,
-                                    DateLiked = DateTime.Now.AddMonths(-2)
+                                    DateLiked = DateTime.UtcNow.AddMonths(-2)
                                 },
                                 new UserPostLike 
                                 {
                                     AppUserId = "c",
                                     IsAuthor = false,
                                      IsLiked = true,
-                                    DateLiked = DateTime.Now.AddMonths(-2)
+                                    DateLiked = DateTime.UtcNow.AddMonths(-2)
                                 },
                             }
                     },
                     new Post
                     {
                         Heading = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus magna erat, malesuada in felis at, tincidunt fringilla augue.",
-                        Date = DateTime.Now.AddMonths(-5),
+                        Date = DateTime.UtcNow.AddMonths(-5),
                         Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus magna erat, malesuada in felis at, tincidunt fringilla augue. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Etiam maximus tortor vitae ex ultrices, nec maximus arcu gravida. Sed orci odio, suscipit non feugiat sit amet, viverra eget tellus. Ut vestibulum vitae tellus et sollicitudin. Aenean augue leo, dignissim eu libero in, mollis auctor nibh. Quisque lobortis tempor lorem id bibendum. Sed mattis nisl maximus fringilla pretium. Curabitur et leo enim. Morbi sapien leo, malesuada vel neque vel, lobortis porttitor magna.",
                       
                         //Url = "https://dummyimage.com/640x4:3",
@@ -162,21 +163,21 @@ namespace Persistence
                                 {
                                     AppUserId = "a",
                                     IsAuthor = true,
-                                    DateLiked = DateTime.Now.AddMonths(-2)
+                                    DateLiked = DateTime.UtcNow.AddMonths(-2)
                                 },
                                 new UserPostLike 
                                 {
                                     AppUserId = "c",
                                     IsAuthor = false,
                                      IsLiked = true,
-                                    DateLiked = DateTime.Now.AddMonths(-2)
+                                    DateLiked = DateTime.UtcNow.AddMonths(-2)
                                 },
                             }
                     },
                     new Post
                     {
                         Heading = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus magna erat, malesuada in felis at, tincidunt fringilla augue.",
-                        Date = DateTime.Now.AddMonths(-4),
+                        Date = DateTime.UtcNow.AddMonths(-4),
                         Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus magna erat, malesuada in felis at, tincidunt fringilla augue. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Etiam maximus tortor vitae ex ultrices, nec maximus arcu gravida. Sed orci odio, suscipit non feugiat sit amet, viverra eget tellus. Ut vestibulum vitae tellus et sollicitudin. Aenean augue leo, dignissim eu libero in, mollis auctor nibh. Quisque lobortis tempor lorem id bibendum. Sed mattis nisl maximus fringilla pretium. Curabitur et leo enim. Morbi sapien leo, malesuada vel neque vel, lobortis porttitor magna.",
                         
                         //Url = "https://dummyimage.com/200x200/000/fff",
@@ -189,21 +190,21 @@ namespace Persistence
                                 {
                                     AppUserId = "c",
                                     IsAuthor = true,
-                                    DateLiked = DateTime.Now.AddMonths(-2)
+                                    DateLiked = DateTime.UtcNow.AddMonths(-2)
                                 },
                                 new UserPostLike 
                                 {
                                     AppUserId = "a",
                                     IsAuthor = false,
                                      IsLiked = true,
-                                    DateLiked = DateTime.Now.AddMonths(-2)
+                                    DateLiked = DateTime.UtcNow.AddMonths(-2)
                                 },
                             }
                     },
                     new Post
                     {
                         Heading = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus magna erat, malesuada in felis at, tincidunt fringilla augue.",
-                        Date = DateTime.Now.AddMonths(-3),
+                        Date = DateTime.UtcNow.AddMonths(-3),
                         Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus magna erat, malesuada in felis at, tincidunt fringilla augue. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Etiam maximus tortor vitae ex ultrices, nec maximus arcu gravida. Sed orci odio, suscipit non feugiat sit amet, viverra eget tellus. Ut vestibulum vitae tellus et sollicitudin. Aenean augue leo, dignissim eu libero in, mollis auctor nibh. Quisque lobortis tempor lorem id bibendum. Sed mattis nisl maximus fringilla pretium. Curabitur et leo enim. Morbi sapien leo, malesuada vel neque vel, lobortis porttitor magna.",
                          
                         //Url = null,
@@ -216,21 +217,21 @@ namespace Persistence
                                 {
                                     AppUserId = "b",
                                     IsAuthor = true,
-                                    DateLiked = DateTime.Now.AddMonths(-2)
+                                    DateLiked = DateTime.UtcNow.AddMonths(-2)
                                 },
                                 new UserPostLike 
                                 {
                                     AppUserId = "c",
                                     IsAuthor = false,
                                      IsLiked = true,
-                                    DateLiked = DateTime.Now.AddMonths(-2)
+                                    DateLiked = DateTime.UtcNow.AddMonths(-2)
                                 },
                             }
                     },
                     new Post
                     {
                         Heading = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus magna erat, malesuada in felis at, tincidunt fringilla augue.",
-                        Date = DateTime.Now.AddMonths(-2),
+                        Date = DateTime.UtcNow.AddMonths(-2),
                         Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus magna erat, malesuada in felis at, tincidunt fringilla augue. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Etiam maximus tortor vitae ex ultrices, nec maximus arcu gravida. Sed orci odio, suscipit non feugiat sit amet, viverra eget tellus. Ut vestibulum vitae tellus et sollicitudin. Aenean augue leo, dignissim eu libero in, mollis auctor nibh. Quisque lobortis tempor lorem id bibendum. Sed mattis nisl maximus fringilla pretium. Curabitur et leo enim. Morbi sapien leo, malesuada vel neque vel, lobortis porttitor magna.",
                          
                         //Url = "https://dummyimage.com/200x200/000/fff",
@@ -243,21 +244,21 @@ namespace Persistence
                                 {
                                     AppUserId = "b",
                                     IsAuthor = true,
-                                    DateLiked = DateTime.Now.AddMonths(-2)
+                                    DateLiked = DateTime.UtcNow.AddMonths(-2)
                                 },
                                 new UserPostLike 
                                 {
                                     AppUserId = "c",
                                     IsAuthor = false,
                                     IsLiked = true,
-                                    DateLiked = DateTime.Now.AddMonths(-2)
+                                    DateLiked = DateTime.UtcNow.AddMonths(-2)
                                 },
                             }
                     },
                     new Post
                     {
                         Heading = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus magna erat, malesuada in felis at, tincidunt fringilla augue.",
-                        Date = DateTime.Now.AddMonths(-2),
+                        Date = DateTime.UtcNow.AddMonths(-2),
                         Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus magna erat, malesuada in felis at, tincidunt fringilla augue. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Etiam maximus tortor vitae ex ultrices, nec maximus arcu gravida. Sed orci odio, suscipit non feugiat sit amet, viverra eget tellus. Ut vestibulum vitae tellus et sollicitudin. Aenean augue leo, dignissim eu libero in, mollis auctor nibh. Quisque lobortis tempor lorem id bibendum. Sed mattis nisl maximus fringilla pretium. Curabitur et leo enim. Morbi sapien leo, malesuada vel neque vel, lobortis porttitor magna.",
                          
                         //Url = "https://dummyimage.com/200x200/000/fff",
@@ -270,21 +271,21 @@ namespace Persistence
                                 {
                                     AppUserId = "a",
                                     IsAuthor = true,
-                                    DateLiked = DateTime.Now.AddMonths(-2)
+                                    DateLiked = DateTime.UtcNow.AddMonths(-2)
                                 },
                                 new UserPostLike 
                                 {
                                     AppUserId = "b",
                                     IsAuthor = false,
                                     IsLiked = true,
-                                    DateLiked = DateTime.Now.AddMonths(-2)
+                                    DateLiked = DateTime.UtcNow.AddMonths(-2)
                                 },
                             }
                     },
                     new Post
                     {
                         Heading = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus magna erat, malesuada in felis at, tincidunt fringilla augue.",
-                        Date = DateTime.Now,
+                        Date = DateTime.UtcNow,
                         Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus magna erat, malesuada in felis at, tincidunt fringilla augue. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Etiam maximus tortor vitae ex ultrices, nec maximus arcu gravida. Sed orci odio, suscipit non feugiat sit amet, viverra eget tellus. Ut vestibulum vitae tellus et sollicitudin. Aenean augue leo, dignissim eu libero in, mollis auctor nibh. Quisque lobortis tempor lorem id bibendum. Sed mattis nisl maximus fringilla pretium. Curabitur et leo enim. Morbi sapien leo, malesuada vel neque vel, lobortis porttitor magna.",
                         IsActive = true,
                        // Url = "https://dummyimage.com/200x200/000/fff",
@@ -296,7 +297,7 @@ namespace Persistence
                                 {
                                     AppUserId = "a",
                                     IsAuthor = true,
-                                    DateLiked = DateTime.Now.AddMonths(-2)
+                                    DateLiked = DateTime.UtcNow.AddMonths(-2)
                                 },
                                
                             }
@@ -305,7 +306,7 @@ namespace Persistence
 
                 };
                 context.Posts.AddRange(posts);
-                context.SaveChanges();
+                await context.SaveChangesAsync();
             }
 
             if(!context.Categories.Any())

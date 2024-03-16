@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace Application.Interfaces
 {
-    public interface IPhotoS3Accessor
+    public interface IImageService
     {
          Task<S3Response> UploadFileAsync(string bucketName, IFormFile file);
          Task GetObjectFromS3(string filename);

@@ -36,21 +36,27 @@ namespace Application.Posts
 
                 var userLikeOrPost = await _context.UserPostLikes.SingleOrDefaultAsync(x => x.PostId == post.Id && x.AppUserId == user.Id, cancellationToken: cancellationToken);
 
-                if (userLikeOrPost?.IsLiked == true)
-                    throw new RestException(HttpStatusCode.BadRequest, new { Attendence = "Already Liked." });
-                else if (userLikeOrPost?.IsLiked == false)
-                    userLikeOrPost.IsLiked = true;
-                else
+                switch (userLikeOrPost?.IsLiked)
                 {
-                    var newLike = new UserPostLike
+                    case true:
+                        throw new RestException(HttpStatusCode.BadRequest, new { Attendence = "Already Liked." });
+                    case false:
+                        userLikeOrPost.IsLiked = true;
+                        break;
+                    default:
                     {
-                        Post = post,
-                        AppUser = user,
-                        IsAuthor = false,
-                        IsLiked = true
-                    };
-                    await _context.UserPostLikes.AddAsync(newLike, cancellationToken);
+                        var newLike = new UserPostLike
+                        {
+                            Post = post,
+                            AppUser = user,
+                            IsAuthor = false,
+                            IsLiked = true
+                        };
+                        await _context.UserPostLikes.AddAsync(newLike, cancellationToken);
+                        break;
+                    }
                 }
+
                 var success = await _context.SaveChangesAsync(cancellationToken) > 0;
                 if (success) return Unit.Value;
 

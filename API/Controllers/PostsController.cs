@@ -1,14 +1,7 @@
-using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using Application.Helpers;
 using Application.Posts;
-using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using Microsoft.OpenApi.Writers;
-using Serilog.Core;
 
 namespace API.Controllers
 {

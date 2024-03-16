@@ -39,7 +39,7 @@ namespace Application.User
                 RuleFor(x => x.DisplayName).NotEmpty();
                 RuleFor(x => x.Email).NotEmpty().EmailAddress();
                 RuleFor(x => x.Password).Password();
-                RuleFor(x => x.Birthday.Year).LessThan(DateTime.Now.Year - 17);
+                RuleFor(x => x.Birthday.Year).LessThan(DateTime.UtcNow.Year - 17);
                 RuleFor(x => x.Gender).NotEmpty();
             }
         }

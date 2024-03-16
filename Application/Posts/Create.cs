@@ -38,10 +38,10 @@ namespace Application.Posts
         {
             private readonly DataContext _context;
             private readonly IUserAccessor _userAccessor;
-            private readonly IPhotoS3Accessor _photoAccessor;
-            public Handler(DataContext context, IUserAccessor userAccessor, IPhotoS3Accessor photoAccessor)
+            private readonly IBlobService _blobService;
+            public Handler(DataContext context, IUserAccessor userAccessor, IBlobService blobService)
             {
-                _photoAccessor = photoAccessor;
+                _blobService = blobService;
                 _userAccessor = userAccessor;
                 _context = context;
             }
@@ -57,20 +57,20 @@ namespace Application.Posts
                     Heading = request.Heading,
                     Description = request.Description,
                     Category = category,
-                    Date = DateTime.Now,
+                    Date = DateTime.UtcNow,
                     For = 0,
                     Against = 0,
                     Photos = new List<Photo>(),
                     IsActive = true,
                     
                 };
-                if (request.File != null && request.File.Length > 0)
+                if (request.File is { Length: > 0 })
                 {
-                    var photoUploadResult = await _photoAccessor.UploadFileAsync("pakshya.bucket",request.File);
+                    var photoUploadResult = await _blobService.UploadContentBlobAsync(request.File,request.File.FileName);
                     var photo = new Photo
                     {
                         Url = photoUploadResult.Url,
-                        Id = photoUploadResult.Key
+                        Id = photoUploadResult.Id
                     };
                     post.Photos.Add(photo);
                 }

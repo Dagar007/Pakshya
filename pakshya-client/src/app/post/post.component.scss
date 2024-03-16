@@ -1,13 +1,15 @@
 .post-wrapper {
-  display: grid;
-  grid-template-columns:1fr 4fr 250px;
-  grid-column-gap: .7rem;
+  display: flex;
+  gap: 3rem;
+  margin-top: 100px;
+
 }
-.sidebar{
-  grid-column: 1 / 2;
+.sidebar {
+  flex: 2
 }
+
 .post {
-  grid-column: 2 / 3;
+  flex: 10;
 
   // &__image {
   //   height: 20rem;
@@ -21,7 +23,6 @@
   background-size: cover;
 }
 
-
 .right-sidebar{
-  grid-column: 3 / 4;
+  flex: 2;
 }

@@ -33,12 +33,12 @@ namespace Application.User
             public async Task<User> Handle(RefreshTokenQuery request, CancellationToken cancellationToken)
             {
                 var user = await _userManager.FindByNameAsync(request.Username);
-                if (user == null || user.RefreshToken != request.RefreshToken || user.RefreshTokenExpiry < DateTime.Now)
+                if (user == null || user.RefreshToken != request.RefreshToken || user.RefreshTokenExpiry < DateTime.UtcNow)
                 {
                     throw new RestException(HttpStatusCode.Unauthorized);
                 }
                 user.RefreshToken = _jwtGenerator.GenerateRefreshToken();
-                user.RefreshTokenExpiry = DateTime.Now.AddDays(30);
+                user.RefreshTokenExpiry = DateTime.UtcNow.AddDays(30);
                 await _userManager.UpdateAsync(user);
 
                 return new User 

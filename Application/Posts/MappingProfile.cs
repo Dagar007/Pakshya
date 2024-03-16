@@ -28,9 +28,6 @@ namespace Application.Posts
                .ForMember(d => d.IsPostLiked, o => o.MapFrom<PostConciseIsPostLikedResolver>());
 
             CreateMap<Category, PostCategoryDto>();
-
-
-
         }
     }
 }

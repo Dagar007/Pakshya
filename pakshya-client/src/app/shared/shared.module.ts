@@ -8,6 +8,7 @@ import { MaterialModule } from '../material.module';
 import { LoginPopupComponent } from './components/login-popup/login-popup.component';
 import { TextInputComponent } from './components/text-input/text-input.component';
 import { NgPipesModule } from 'ngx-pipes';
+import { TimeagoModule } from "ngx-timeago";
 
 
 
@@ -20,7 +21,8 @@ import { NgPipesModule } from 'ngx-pipes';
     RouterModule,
     InfiniteScrollModule,
     MaterialModule,
-    NgPipesModule
+    NgPipesModule,
+    TimeagoModule
 
   ],
   exports: [
@@ -31,7 +33,8 @@ import { NgPipesModule } from 'ngx-pipes';
     NgPipesModule,
     InfiniteScrollModule,
     LoginPopupComponent,
-    TextInputComponent
+    TextInputComponent,
+    TimeagoModule
   ]
 })
 export class SharedModule { }

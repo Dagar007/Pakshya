@@ -6,36 +6,34 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Persistence;
 
-namespace Infrastructure.Security
+namespace Infrastructure.Security;
+
+public class IsHostRequirementForComment : IAuthorizationRequirement
 {
-    public class IsHostRequirementForComment : IAuthorizationRequirement
-    {
-    }
-
-    public class IsHostRequirementHandlerComment : AuthorizationHandler<IsHostRequirementForComment>
-    {
-        private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly DataContext _context;
-        public IsHostRequirementHandlerComment(IHttpContextAccessor httpContextAccessor, DataContext context)
-        {
-            _context = context;
-            _httpContextAccessor = httpContextAccessor;
-        }
-
-        protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, IsHostRequirementForComment requirement)
-        {
-            var currentEmail = _httpContextAccessor.HttpContext
-            .User?.Claims?.SingleOrDefault(x => x.Type == ClaimTypes.Email)?.Value;
-
-            var commentId = Guid.Parse(_httpContextAccessor.HttpContext.Request.RouteValues
-                .SingleOrDefault(x => x.Key == "id").Value.ToString() ?? string.Empty);
-
-            var comment = _context.Comments.FindAsync(commentId).Result;
-            var host = comment?.Author.Email;
-            if (host == currentEmail)
-                context.Succeed(requirement);
-            return Task.CompletedTask;
-        }
-    }
 }
 
+public class IsHostRequirementHandlerComment : AuthorizationHandler<IsHostRequirementForComment>
+{
+    private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly DataContext _context;
+    public IsHostRequirementHandlerComment(IHttpContextAccessor httpContextAccessor, DataContext context)
+    {
+        _context = context;
+        _httpContextAccessor = httpContextAccessor;
+    }
+
+    protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, IsHostRequirementForComment requirement)
+    {
+        var currentEmail = _httpContextAccessor.HttpContext?
+            .User.Claims.SingleOrDefault(x => x.Type == ClaimTypes.Email)?.Value;
+
+        var commentId = Guid.Parse(_httpContextAccessor.HttpContext?.Request.RouteValues
+            .SingleOrDefault(x => x.Key == "id").Value?.ToString() ?? string.Empty);
+
+        var comment = _context.Comments.FindAsync(commentId).Result;
+        var host = comment?.Author.Email;
+        if (host == currentEmail)
+            context.Succeed(requirement);
+        return Task.CompletedTask;
+    }
+}

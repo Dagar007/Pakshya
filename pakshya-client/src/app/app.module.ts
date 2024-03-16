@@ -17,6 +17,7 @@ import { ErrorInterceptorProvider } from './core/interceptors/error.interceptor'
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { LoadingInterceptor } from './core/interceptors/loading.interceptors';
 import { CoreModule } from './core/core.module';
+import { environment } from 'src/environments/environment';
 
 
 export function tokenGetter() {
@@ -43,10 +44,10 @@ export function tokenGetter() {
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,
-        allowedDomains: ['localhost:5000'],
+        allowedDomains: [environment.apiUrl],
         disallowedRoutes: [
-          'localhost:5000/api/user/login',
-          'localhost:5000/api/user/register'
+          environment.apiUrl + 'user/login',
+          environment.apiUrl + 'user/register'
         ]
       }
     }),

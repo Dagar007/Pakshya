@@ -59,7 +59,7 @@ namespace Application.Comments
                     Author = user,
                     Post = post,
                     Body = request.Body,
-                    Date = DateTime.Now,
+                    Date = DateTime.UtcNow,
                     Support = request.Support,
                     Against = request.Against,
                     IsActive = true,

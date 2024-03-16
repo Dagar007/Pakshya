@@ -48,7 +48,7 @@ namespace Application.User
                         Email =  userInfo.Email,
                         UserName = "fb_"+ userInfo.Id,
                         RefreshToken = _jwtGenerator.GenerateRefreshToken(),
-                        RefreshTokenExpiry = DateTime.Now.AddDays(30)
+                        RefreshTokenExpiry = DateTime.UtcNow.AddDays(30)
                     };
                     var photo = new Photo 
                     {

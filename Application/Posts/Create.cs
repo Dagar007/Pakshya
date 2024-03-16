@@ -57,7 +57,7 @@ namespace Application.Posts
                     Heading = request.Heading,
                     Description = request.Description,
                     Category = category,
-                    Date = DateTime.Now,
+                    Date = DateTime.UtcNow,
                     For = 0,
                     Against = 0,
                     Photos = new List<Photo>(),

@@ -60,7 +60,7 @@ namespace Application.User
                 if (!result.Succeeded) throw new RestException(HttpStatusCode.Unauthorized);
 
                 user.RefreshToken = _jwtGenerator.GenerateRefreshToken();
-                user.RefreshTokenExpiry = DateTime.Now.AddDays(30);
+                user.RefreshTokenExpiry = DateTime.UtcNow.AddDays(30);
                 await _userManager.UpdateAsync(user);
                 return new User 
                 {

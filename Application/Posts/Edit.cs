@@ -60,7 +60,7 @@ namespace Application.Posts
                 post.Heading = request.Heading ?? post.Heading;
                 post.Description = request.Description ?? post.Description;
                 post.IsActive = true;
-                post.Date = DateTime.Now;
+                post.Date = DateTime.UtcNow;
 
                 // Remove all posts photos
                 if (request.IsImageEdited == "y")

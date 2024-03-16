@@ -8,8 +8,6 @@ appsettings.json
 *.db
 wwwroot
 publish
-Dockerfile
-.dockerignore
 
 
 .vs/Pakshya/v16/Server/sqlite3/storage.ide
